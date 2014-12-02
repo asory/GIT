@@ -2,7 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentListener;
+
 
 import vista.VentanaMenuP;
 
@@ -15,20 +15,22 @@ public class ControladorMenuP implements ActionListener {
 		this.ventanaMenuP = new VentanaMenuP();
 		this.ventanaMenuP.setLocationRelativeTo(null);
 		this.ventanaMenuP.setVisible(true);	
-		this.ventanaMenuP.addComponentListener(null);
+		this.ventanaMenuP.addListener(this);
 		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String actionCommand = e.getActionCommand();
-		if (actionCommand.equals("Salir")) {
+		String actionC = e.getActionCommand();
+		if (actionC.equals("Salir")) {
 			System.exit(0);
 		}		
-		else if (actionCommand.equals("Cargar")) {
+		else if (actionC.equals("COOPERATIVA")) 
+		{		new ControladorVentanaCoop();}
+		else if (actionC.equals("VIAJES"))
 			new ControladorVentanaViaje();
-		}
+			}
 		
 	}
 
-}
+

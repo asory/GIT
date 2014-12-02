@@ -1,6 +1,6 @@
 package vista;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,11 +12,17 @@ import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import vista.VentanaCoop;
 
 public class VentanaMenuP extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JMenuItem mnCargar;
+	private JMenuItem mnConsultar;
+	private JMenuItem mnAsignar;
 
 	/**
 	 * Launch the application.
@@ -38,6 +44,7 @@ public class VentanaMenuP extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaMenuP() {
+		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -57,6 +64,7 @@ public class VentanaMenuP extends JFrame {
 		
 		JMenuItem mpCooperativa = new JMenuItem("COOPERATIVA");
 		mpCooperativa.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent arg0) {
 				;
 				
@@ -99,5 +107,9 @@ public class VentanaMenuP extends JFrame {
 		JMenuItem mnAsignar = new JMenuItem("ASIGNAR");
 		menuBar.add(mnAsignar);
 	}
-
+public void addListener(ActionListener actionListener){
+	mnCargar.addActionListener(actionListener);
+	mnAsignar.addActionListener(actionListener);
+	mnConsultar.addActionListener(actionListener);
+	}
 }
