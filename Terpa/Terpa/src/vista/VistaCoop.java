@@ -46,7 +46,7 @@ public class VistaCoop extends JFrame {
 	public VistaCoop() {
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 475, 422);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -54,83 +54,53 @@ public class VistaCoop extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 0, 429, 262);
+		panel.setBounds(0, 0, 459, 384);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		textRif = new JTextField();
-		textRif.setBounds(87, 96, 86, 20);
+		textRif.setFont(new Font("Dialog", Font.BOLD, 12));
+		textRif.setBounds(66, 159, 102, 20);
 		panel.add(textRif);
 		textRif.setColumns(10);
 
 		textNombreCoop = new JTextField();
-		textNombreCoop.setBounds(282, 96, 86, 20);
+		textNombreCoop.setFont(new Font("Dialog", Font.BOLD, 12));
+		textNombreCoop.setBounds(320, 159, 102, 20);
 		panel.add(textNombreCoop);
 		textNombreCoop.setColumns(10);
- 
-		JButton btnCargarArchivo = new JButton("Cargar Archivo");
-		btnCargarArchivo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				  leer();
-
-			}
-		});
-		btnCargarArchivo.setBounds(41, 189, 105, 23);
-		panel.add(btnCargarArchivo);
 
 		JButton btnAgregar = new JButton("Agregar ");
-		btnAgregar.setBounds(170, 189, 89, 23);
+		btnAgregar.setForeground(Color.WHITE);
+		btnAgregar.setBackground(new Color(102, 204, 51));
+		btnAgregar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnAgregar.setBounds(116, 294, 89, 23);
 		panel.add(btnAgregar);
 
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.setForeground(Color.WHITE);
+		btnSalir.setBackground(new Color(102, 204, 51));
+		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				;
 			}
 		});
-		btnSalir.setBounds(291, 189, 89, 23);
+		btnSalir.setBounds(257, 294, 89, 23);
 		panel.add(btnSalir);
-		JLabel lblAsignarViaje = new JLabel("Cooperativa");
-		lblAsignarViaje.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblAsignarViaje.setBounds(157, 11, 86, 50);
+		JLabel lblAsignarViaje = new JLabel("CARGAR COOPERATIVA");
+		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblAsignarViaje.setBounds(157, 11, 140, 50);
 		panel.add(lblAsignarViaje);
 
-		JLabel lblRif = new JLabel("RIF");
-		lblRif.setBounds(41, 81, 128, 50);
+		JLabel lblRif = new JLabel("Rif :");
+		lblRif.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblRif.setBounds(33, 161, 32, 17);
 		panel.add(lblRif);
 
-		JLabel lblNombre = new JLabel("NOMBRE:");
-		lblNombre.setBounds(225, 81, 68, 50);
+		JLabel lblNombre = new JLabel("Nombre :");
+		lblNombre.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblNombre.setBounds(257, 159, 61, 20);
 		panel.add(lblNombre);
-	}
-
-	public String leer()
-
-	{
-		File f;
-		javax.swing.JFileChooser j = new javax.swing.JFileChooser();
-		j.showOpenDialog(j);
-
-		try {
-			String path = j.getSelectedFile().getAbsolutePath();
-			String lectura = "";
-			f = new File(path);
-			try {
-				FileReader fr = new FileReader(f);
-				BufferedReader br = new BufferedReader(fr);
-				String aux;
-				while ((aux = br.readLine()) != null)
-					lectura = lectura + aux + "n";
-				br.close();
-			} catch (IOException e) {
-			}
-
-			return lectura;
-		} catch (NullPointerException e) {
-			javax.swing.JOptionPane.showMessageDialog(j,
-					"Has seleccionado cerrar programa, saliendo...");
-				}
-		return null;
-
 	}
 }

@@ -4,44 +4,34 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import modelo.Chofer;
-import modelo.Unidad;
-import modelo.Multa;
-
 public class Viaje {
 
 	private Date fecha_salida;
 	private Date fecha_retorno;
 	private Unidad vehiculo;
 	private Chofer chofer;
-	private Float costo ;
-	private String Destino;
-	private String Status ;// 1-Salio, 2-No salio 3- Multado(viaje en los no salio por estar multado)
+	private Float costo;
+	private Ruta ruta;
+	private String Status;// 1-Salio, 2-No salio 3- Multado(viaje en los no
+							// salio por estar multado)
 	private ArrayList<Feriado> lFeriado;
-	
-	public Viaje(){
-		
+
+	public Viaje() {
+
 	}
 
-	public Viaje(Date fecha_salida, Date fecha_retorno, Unidad vehiculo,
-			Chofer chofer, ArrayList<Feriado> lFeriado, ArrayList<Multa> lMulta) {
+	public Viaje(Date fecha_salida, Date fecha_retorno,
+			Unidad vehiculo, Chofer chofer, ArrayList<Feriado> lFeriado,
+			ArrayList<Multa> lMulta) {
 		super();
 		this.fecha_salida = fecha_salida;
 		this.fecha_retorno = fecha_retorno;
 		this.vehiculo = vehiculo;
 		this.chofer = chofer;
 		this.lFeriado = lFeriado;
+
+	}
 	
-	}
-
-	public Date getFecha_salida() {
-		return fecha_salida;
-	}
-
-	public Date getFecha_retorno() {
-		return fecha_retorno;
-	}
-
 	public Unidad getVehiculo() {
 		return vehiculo;
 	}
@@ -54,7 +44,21 @@ public class Viaje {
 		return lFeriado;
 	}
 
+	public Float getCosto() {
+		return costo;
+	}
 
+	public Ruta getRuta() {
+		return ruta;
+	}
+
+	public Date getFecha_salida() {
+		return fecha_salida;
+	}
+
+	public Date getFecha_retorno() {
+		return fecha_retorno;
+	}
 
 	public void setFecha_salida(Date fecha_salida) {
 		this.fecha_salida = fecha_salida;
@@ -62,6 +66,22 @@ public class Viaje {
 
 	public void setFecha_retorno(Date fecha_retorno) {
 		this.fecha_retorno = fecha_retorno;
+	}
+
+	public void setRuta(Ruta ruta) {
+		this.ruta = ruta;
+	}
+
+	public String getStatus() {
+		return Status;
+	}
+
+	public void setCosto(Float costo) {
+		this.costo = costo;
+	}
+
+	public void setStatus(String status) {
+		this.Status = status;
 	}
 
 	public void setVehiculo(Unidad vehiculo) {
@@ -76,6 +96,7 @@ public class Viaje {
 		this.lFeriado = lFeriado;
 	}
 
+	// *************************************************************************
 	public void agregarFeriado(Feriado feriado) {
 		this.lFeriado.add(feriado);
 	}
@@ -88,31 +109,43 @@ public class Viaje {
 			return null;
 	}
 
-	// ///**********verifica  si el viaje debe ser multado  ***************
- public boolean multar(Calendar pferiado){
+	public float CalSeguro(float monto) {
+		float seguro = 0;
+		int tipo = vehiculo.getTipo();
+		switch (tipo) {
+		case 1:
+			seguro = monto * 5;
+			break;
+		case 2:
+			seguro = monto * 7;
+			break;
+		case 3:
+			seguro = monto * 10;
+			break;
+		case 4:
+			seguro = monto * 25;
+			break;
+		case 5:
+			seguro = monto * 32;
+			break;
+		case 6:
+			seguro = monto * 60;
+			break;
+		case 7:
+			seguro = monto * 80;
+			break;
+		}
 
-	for (int i = 0; i < lFeriado.size(); i++) {
-		Feriado feriado = lFeriado.get(i) ;
-		int df= feriado.getDia();
-		int mf= feriado.getMes();
-		if((df==pferiado.get(Calendar.DAY_OF_MONTH)) && (mf==pferiado.get(Calendar.MONTH)))
-		{
-			if( Status=="2") {
-				return true;
-			}
-					}
-				}
-	return false ;
- }
-/// *************	Decide aleatoriamente si el viaje salio o no **********
- public void randomStatusV() {
-		int random = 0;
-
-		random = (int) Math.floor(Math.random() *2);
-		String ran = Integer.toString(random);
-        
-		Status=ran;
+		return seguro;
 
 	}
-
+//******************Asignar Retorno ****************//
+	public void asignarRetorno() {
+		if(ruta.getTipo() == 1)  // 1 nacional
+			fecha_retorno = fecha_salida + 1 Calendar.DAY_OF_MONTH; // en un dia
+		else  // 2 regional
+			fecha_retorno = fecha_salida + 2 Calendar.HOUR; // en 2 horas
+			
+	}
+	
 }

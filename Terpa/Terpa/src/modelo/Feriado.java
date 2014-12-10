@@ -6,14 +6,14 @@ public class Feriado {
 
 	private int dia;
 	private int mes;
-	private String Descripcion ; 
+	private String descripcion ; 
 
 	public Feriado() {	}
 	public Feriado(int dia, int mes, String descripcion) {
 		super();
 		this.dia = dia;
 		this.mes = mes;
-		Descripcion = descripcion;
+		this.descripcion = descripcion;
 	}
 	public int getDia() {
 		return dia;
@@ -31,10 +31,10 @@ public class Feriado {
 		this.mes = mes;
 	}
 	public String getDescripcion() {
-		return Descripcion;
+		return descripcion;
 	}
 	public void setDescripcion(String descripcion) {
-		Descripcion = descripcion;
+		this.descripcion = descripcion;
 	}
 
 

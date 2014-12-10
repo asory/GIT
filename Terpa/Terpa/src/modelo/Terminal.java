@@ -2,31 +2,28 @@ package modelo;
 
 import java.util.ArrayList;
 
+
 public class Terminal {
 
 	private ArrayList<Ruta> lRutat;
-	private ArrayList<Viaje> lviaje;
+	private ArrayList<Cooperativa> lCoop;
 
 	public ArrayList<Ruta> getlRutat() {
 		return lRutat;
 	}
 
-	public ArrayList<Viaje> getLviaje() {
-		return lviaje;
-	}
-
 	public void setlRutat(ArrayList<Ruta> lRutat) {
 		this.lRutat = lRutat;
 	}
-
-	public void setLviaje(ArrayList<Viaje> lviaje) {
-		this.lviaje = lviaje;
+	
+	public ArrayList<Cooperativa> getlCoop() {
+		return lCoop;
 	}
 
-	public void agregarRuta(Ruta ruta) {
-		this.lRutat.add(ruta);
+	public void setLviaje(ArrayList<Cooperativa> lCoop) {
+		this.lCoop = lCoop;
 	}
-
+//******************* Retirar  ********************//
 	public Ruta retirarRuta(int ptr) {
 		if (this.lRutat.size() > ptr) {
 			Ruta ruta = (Ruta) this.lRutat.remove(ptr);
@@ -35,23 +32,30 @@ public class Terminal {
 			return null;
 	}
 
-	public void agregarViaje(Viaje viaje) {
-		this.lviaje.add(viaje);
-	}
-
-	public Viaje retirarViaje(int ptr) {
-		if (this.lviaje.size() > ptr) {
-			Viaje viaje = (Viaje) this.lviaje.remove(ptr);
-			return viaje;
+	public Cooperativa retirarCoop(int ptr) {
+		if (this.lCoop.size() > ptr) {
+			Cooperativa coop = (Cooperativa) this.lCoop.remove(ptr);
+			return coop;
 		} else
 			return null;
 	}
-	
-	public String randomStatusVi() {
-		int random = 0;
-
-		random = (int) Math.floor(Math.random() * 2);
-		String ran= Integer.toString(random);//// CONVIERTE DE ENTERO  A STRING
-		return ran;}
-
+//******************* Agregar  ********************//
+	public void AgregarCooperativa(Cooperativa cooperativa){
+			this.lCoop.add(cooperativa);
+	}
+	public void AgregarRuta(Ruta ruta) {
+		this.lRutat.add(ruta);
+	}
+				
+//***********   Buscar   **************//
+	public Cooperativa BuscarCoop(String rif)
+	{
+				
+		Cooperativa v = new Cooperativa();
+			
+		for(int i=0; i<lCoop.size(); i++)
+		if(rif == lCoop.get(i).getRif() )
+			v = lCoop.get(i);
+			return v;		
+	}
 }

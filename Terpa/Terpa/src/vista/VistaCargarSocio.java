@@ -12,6 +12,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class VistaCargarSocio extends JFrame {
 
@@ -45,96 +47,99 @@ public class VistaCargarSocio extends JFrame {
 	public VistaCargarSocio() {
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 475, 422);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 261);
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(0, 0, 459, 384);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JLabel lblCargarSocio = new JLabel("CARGAR SOCIO");
-		lblCargarSocio.setBounds(213, 11, 86, 14);
+		lblCargarSocio.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblCargarSocio.setBounds(187, 32, 104, 14);
 		panel.add(lblCargarSocio);
 
 		JLabel lblRifCoop = new JLabel("Rif Cooperativa :");
-		lblRifCoop.setBounds(13, 51, 86, 14);
+		lblRifCoop.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblRifCoop.setBounds(10, 82, 104, 14);
 		panel.add(lblRifCoop);
 
 		textRifCoop = new JTextField();
+		textRifCoop.setFont(new Font("Dialog", Font.BOLD, 12));
 		textRifCoop.setColumns(10);
-		textRifCoop.setBounds(98, 48, 86, 20);
+		textRifCoop.setBounds(112, 79, 102, 20);
 		panel.add(textRifCoop);
 
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setForeground(Color.WHITE);
+		btnBuscar.setBackground(new Color(102, 204, 51));
+		btnBuscar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnBuscar.setBounds(194, 47, 65, 23);
+		btnBuscar.setBounds(224, 78, 87, 23);
 		panel.add(btnBuscar);
 
 		textCoop = new JTextField();
+		textCoop.setFont(new Font("Dialog", Font.BOLD, 12));
 		textCoop.setColumns(10);
-		textCoop.setBounds(299, 48, 86, 20);
+		textCoop.setBounds(332, 79, 102, 20);
 		panel.add(textCoop);
 
 		JLabel lblNombreS = new JLabel("Nombre :");
-		lblNombreS.setBounds(45, 103, 54, 14);
+		lblNombreS.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblNombreS.setBounds(45, 172, 54, 14);
 		panel.add(lblNombreS);
 
 		textNombreS = new JTextField();
+		textNombreS.setFont(new Font("Dialog", Font.BOLD, 12));
 		textNombreS.setColumns(10);
-		textNombreS.setBounds(98, 100, 86, 20);
+		textNombreS.setBounds(98, 169, 104, 20);
 		panel.add(textNombreS);
 
 		JLabel lblCiS = new JLabel("Cedula :");
-		lblCiS.setBounds(253, 103, 46, 14);
+		lblCiS.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblCiS.setBounds(243, 172, 56, 14);
 		panel.add(lblCiS);
 
 		textCiS = new JTextField();
+		textCiS.setFont(new Font("Dialog", Font.BOLD, 12));
 		textCiS.setColumns(10);
-		textCiS.setBounds(299, 100, 86, 20);
+		textCiS.setBounds(299, 169, 104, 20);
 		panel.add(textCiS);
 
 		JLabel lblCargoS = new JLabel("Cargo :");
-		lblCargoS.setBounds(55, 137, 56, 14);
+		lblCargoS.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblCargoS.setBounds(45, 215, 46, 18);
 		panel.add(lblCargoS);
 
 		textCargoS = new JTextField();
+		textCargoS.setFont(new Font("Dialog", Font.BOLD, 12));
 		textCargoS.setColumns(10);
-		textCargoS.setBounds(98, 134, 86, 20);
+		textCargoS.setBounds(98, 213, 104, 20);
 		panel.add(textCargoS);
 
 		JLabel lblTalefonoS = new JLabel("Telefono :");
-		lblTalefonoS.setBounds(243, 134, 56, 14);
+		lblTalefonoS.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblTalefonoS.setBounds(243, 215, 56, 18);
 		panel.add(lblTalefonoS);
 
 		textTelefonoS = new JTextField();
+		textTelefonoS.setFont(new Font("Dialog", Font.BOLD, 12));
 		textTelefonoS.setColumns(10);
-		textTelefonoS.setBounds(299, 131, 86, 20);
+		textTelefonoS.setBounds(299, 213, 104, 21);
 		panel.add(textTelefonoS);
 
-		JButton btnCargarTxtS = new JButton("Cargar por Archivo txt");
-		btnCargarTxtS.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCargarTxtS.setBounds(10, 178, 141, 23);
-		panel.add(btnCargarTxtS);
-
-		JButton btnAgregarOtroS = new JButton("Agregar Otro");
-		btnAgregarOtroS.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnAgregarOtroS.setBounds(194, 178, 97, 23);
-		panel.add(btnAgregarOtroS);
-
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.setForeground(Color.WHITE);
+		btnSalir.setBackground(new Color(102, 204, 51));
+		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				{
@@ -145,10 +150,12 @@ public class VistaCargarSocio extends JFrame {
 		});
 
 		JButton btnGuardarS = new JButton("Guardar");
-		btnGuardarS.setBounds(338, 178, 89, 23);
+		btnGuardarS.setForeground(Color.WHITE);
+		btnGuardarS.setBackground(new Color(102, 204, 51));
+		btnGuardarS.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnGuardarS.setBounds(116, 294, 89, 23);
 		panel.add(btnGuardarS);
-		btnSalir.setBounds(202, 212, 89, 23);
+		btnSalir.setBounds(257, 294, 89, 23);
 		panel.add(btnSalir);
 	}
-
 }

@@ -3,7 +3,10 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
+import java.util.Calendar;
 import java.util.Date;
+
+import org.omg.CORBA.SystemException;
 
 import vista.VistaViaje;
 import modelo.*;
@@ -11,9 +14,8 @@ import modelo.*;
 public class ControladorVistaViaje implements ActionListener {
 
 	private VistaViaje vviaje;
-	private Chofer ch;
-	private Unidad uni;
 	private Cooperativa coop;
+	Viaje viaje = new Viaje();
 
 	public ControladorVistaViaje() {
 		super();
@@ -29,54 +31,65 @@ public class ControladorVistaViaje implements ActionListener {
 
 	}
 
-	public void CargarViajes() {
-		String Rif = vviaje.getRif();
+	private void AsignarViajes() {
+		
+		coop= term.BuscarCoop(vviaje.g)
+		vviaje.
 		int Fila;
-		Viaje viaje = new Viaje();
+		
 
 		for (Fila = 0; Fila < coop.getlViaje().size(); Fila++)
 
 		{
-			paciente = coop.getlChofer().get(Fila);
+			Viaje viaje = coop.getlViaje().get(Fila);
 
+			viaje.getjTableViajes().setValueAt(
+					viaje.agregarFeriado(feriado);getCi(), Fila, 0);
 			ConsultaPaciente.getjTablePacientes().setValueAt(
-					paciente.getCedula(), Fila, 0);
-			ConsultaPaciente.getjTablePacientes().setValueAt(
-					paciente.getNombre(), Fila, 1);
+					chofer.getNombre(), Fila, 1);
 		}
 
 	}
-//*****************Verificar **********************
-	public boolean VerificarUnidad(Unidad uni) {
-		for (int i = 0; i < coop.getlViaje().size(); i++) {
-			Viaje viaje = coop.getlViaje().get(i);
-			Date fechai = vviaje.getFechaI();
 
-			if ((viaje.getVehiculo().equals(uni))
-					&& (viaje.getFecha_retorno().after(fechai))) {
-				if (uni.getstatus() == "2")
-					return false;
+	// ///**********cambia el estatus del chofer y la unidad a multado
+	public void multar(Calendar pferiado) {
 
+		for (int i = 0; i < viaje.getlFeriado().size(); i++) {
+			Feriado feriado = viaje.getlFeriado().get(i);
+			int df = feriado.getDia();
+			int mf = feriado.getMes();
+			if ((df == pferiado.get(Calendar.DAY_OF_MONTH))
+					&& (mf == pferiado.get(Calendar.MONTH))) {
+				if (viaje.getStatus() == "2") {
+					viaje.getChofer().setStatus("2");
+					viaje.getVehiculo().setStatus("2");
+
+				}
 			}
-			
 		}
-		return true;
+
 	}
 
+	// ****************** Suma/resta los días/horas recibidos a la fecha
+	public Date modificarDias(Date fecha, int dias) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(fecha); // Configuramos la fecha que se recibe
+		calendar.add(Calendar.DAY_OF_YEAR, dias); // numero de días a añadir, o
+													// restar en caso de días<0
 
-public boolean VerificarChofer(Chofer cho)  {
-	for (int i = 0; i < coop.getlViaje().size(); i++) {
-		Viaje viaje = coop.getlViaje().get(i);
-		Date fechai = vviaje.getFechaI();
-
-		if ((viaje.getChofer().equals(cho))
-				&& (viaje.getFecha_retorno().after(fechai))) {
-			if (cho.getStatus() == "2")
-				return false;
-
-		}
-		
+		return calendar.getTime();
+		// Devuelve el objeto Date con los nuevos días añadidos
 	}
-	return true;
+
+	public Date modificarHoras(Date fecha, int dias) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(fecha); // Configuramos la fecha que se recibe
+		calendar.add(Calendar.DAY_OF_YEAR, dias); //
+		return calendar.getTime(); // Devuelve el objeto Date con la nueva hora
+
+	}
+
+	// *********************Verificar Status********************************
+	
 }
-}
+
