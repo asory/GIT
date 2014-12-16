@@ -20,7 +20,7 @@ public class Terminal {
 		return lCoop;
 	}
 
-	public void setLviaje(ArrayList<Cooperativa> lCoop) {
+	public void setlCoop(ArrayList<Cooperativa> lCoop) {
 		this.lCoop = lCoop;
 	}
 //******************* Retirar  ********************//
@@ -40,10 +40,10 @@ public class Terminal {
 			return null;
 	}
 //******************* Agregar  ********************//
-	public void AgregarCooperativa(Cooperativa cooperativa){
+	public void agregarCooperativa(Cooperativa cooperativa){
 			this.lCoop.add(cooperativa);
 	}
-	public void AgregarRuta(Ruta ruta) {
+	public void agregarRuta(Ruta ruta) {
 		this.lRutat.add(ruta);
 	}
 				

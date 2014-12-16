@@ -26,7 +26,7 @@ public class Ruta {
 		this.codigo = codigo;
 	}
 
-	public void setDestinon(String destino) {
+	public void setDestino(String destino) {
 		this.destino = destino;
 	}
 

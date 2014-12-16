@@ -1,13 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
-import modelo.Socio;
-import modelo.Chofer;
-import modelo.Ruta;
-import modelo.Viaje;
-import modelo.Multa;
-import java.util.Calendar;
-import java.util.Random;
+;
 
 public class Cooperativa {
 

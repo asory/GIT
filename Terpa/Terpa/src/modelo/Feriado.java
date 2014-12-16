@@ -1,7 +1,5 @@
 package modelo;
 
-import java.util.Date;
-
 public class Feriado {
 
 	private int dia;

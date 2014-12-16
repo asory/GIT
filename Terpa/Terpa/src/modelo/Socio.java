@@ -53,5 +53,12 @@ public Socio() {super();
 			public void agregarUnidad (Unidad unidad){
 					this.lUnidad.add(unidad);
 			}
-
+////***************Remover unidad****************
+			public Unidad retirarRuta(int ptr) {
+				if (this.lUnidad.size() > ptr) {
+					Unidad uni = (Unidad) this.lUnidad.remove(ptr);
+					return uni;
+				} else
+					return null;
+			}
 }

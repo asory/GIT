@@ -25,6 +25,7 @@ import java.awt.event.ComponentListener;
 import javax.swing.Action;
 
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Vector;
 
 import bean.JTextFieldValidator;
@@ -38,25 +39,10 @@ public class VistaViaje extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaViaje frame = new VistaViaje();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JTextFieldValidator txtvRif;
+	private JDateChooser dateChooser;
+	private JButton btnAsignar;
 
-	/**
-	 * Create the frame.
-	 */
 	public VistaViaje() {
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -113,13 +99,6 @@ public class VistaViaje extends JFrame {
 		TextvRif.setBounds(100, 59, 89, 20);
 		panel.add(TextvRif);
 		 
-	
-		
-		
-		
-		
-		
-		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.addActionListener(new ActionListener() {
@@ -133,26 +112,21 @@ public class VistaViaje extends JFrame {
 		panel.add(btnSalir);
 
 		table = new JTable();
+		table.setBackground(Color.BLACK);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
 		table.setShowGrid(true);
 		table.setRowSelectionAllowed(false);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
-		table.setModel(new DefaultTableModel(getFilas(),getColumnas()
-			/*new Object[][] {
-				{null, null, null, null, null, null, null, null},
-			}*/
-			
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, Object.class, Object.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+		table.setModel(new DefaultTableModel(
+				new Object[][]{
+						
+				},
+			new String[] {
+				"ID Viaje", "Destino", "Unidad", "Chofer", "Salida", "Retorno", "Status"
 			}
-		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(41);
+		));
 		;
 		table.setBounds(661, 465, -621, -248);
 		panel.add(table);
@@ -180,7 +154,37 @@ public class VistaViaje extends JFrame {
 	public void actionPerformed(ActionEvent e) {
 	}
 	
-	  
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public JDateChooser getDateChooser() {
+		return dateChooser;
+	}
+
+	public String getRif() {
+		return txtvRif.getText();
+	}
+
+	public Date getFechaI() {
+		return dateChooser.getDate();
+	}
+
+
+	public JButton getBtnAsignar() {
+		return btnAsignar;
+	}
+
+
+	public void setBtnAsignar(JButton btnAsignar) {
+		this.btnAsignar = btnAsignar;
+	}
+
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
 	    }
 	
 

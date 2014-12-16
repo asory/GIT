@@ -1,11 +1,10 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class Viaje {
-
+    private String idviaje;
 	private Date fecha_salida;
 	private Date fecha_retorno;
 	private Unidad vehiculo;
@@ -58,6 +57,14 @@ public class Viaje {
 
 	public Date getFecha_retorno() {
 		return fecha_retorno;
+	}
+
+	public String getIdviaje() {
+		return idviaje;
+	}
+
+	public void setIdviaje(String idviaje) {
+		this.idviaje = idviaje;
 	}
 
 	public void setFecha_salida(Date fecha_salida) {
@@ -139,13 +146,6 @@ public class Viaje {
 		return seguro;
 
 	}
-//******************Asignar Retorno ****************//
-	public void asignarRetorno() {
-		if(ruta.getTipo() == 1)  // 1 nacional
-			fecha_retorno = fecha_salida + 1 Calendar.DAY_OF_MONTH; // en un dia
-		else  // 2 regional
-			fecha_retorno = fecha_salida + 2 Calendar.HOUR; // en 2 horas
-			
-	}
+
 	
 }

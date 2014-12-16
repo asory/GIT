@@ -28,21 +28,13 @@ public class VistaCargarSocio extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaCargarSocio frame = new VistaCargarSocio();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { VistaCoop frame = new VistaCoop();
+	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } }
+	 * }); }
+	 * 
+	 * /** Create the frame.
 	 */
 	public VistaCargarSocio() {
 		setTitle("TERPA");
@@ -143,8 +135,7 @@ public class VistaCargarSocio extends JFrame {
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				{
-					VistaCargarSocio v = new VistaCargarSocio();
-					v.dispose();
+					System.exit(DISPOSE_ON_CLOSE);
 				}
 			}
 		});

@@ -1,2 +1,12 @@
-02|2001|blanca|azul|bmx|
-|02|2000|azul|verde|mw
+1|Juan|Ruiz|2307|0251|C1|
+|1|Angel|Perez|2641|0251|C2|
+|2|Rosa|2199|2|0251|S1|
+|2|Ana|3324|1|0251|S2|
+|3|S1|2|wt05|
+|3|S1|3|st12|
+|4|R1|Duaca|2|
+|4|R2|Acarigua|1|
+|5|ViajeFeliz|J1234|
+|5|CoopPaYaVoy|J0897|
+|6|25|12|Navidad|
+|6|1|1|AñoNuevo|
