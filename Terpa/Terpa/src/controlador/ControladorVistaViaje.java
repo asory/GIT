@@ -3,8 +3,10 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import javax.swing.JTable;
 
@@ -52,13 +54,13 @@ public class ControladorVistaViaje implements ActionListener {
 			Date fs = vviaje.getFechaI();
 			Ruta ruta = coop.randomRuta();
 			Date fr = asignarRetorno(ruta, fs);
-			Unidad uni = coop.ramdomSocio().randomUnidad();// asigana unidad
+			Unidad uni = coop.ramdomSocio().randomUnidad();// asigna unidad
 															// aleatoria
 			uni = VerificarUnidad(uni);// / verifica la unidad y retorna una q
 										// este disponible
 			Chofer cho = coop.randomChofer();
 			cho = VerificarChofer(cho);
-			float costo = (float) Math.random();// buscar max y min
+			 float costo = asignarCosto();// 
 
 			String Stats = coop.randomStatusVi();// decide si el viaje salio o
 													// no
@@ -189,6 +191,17 @@ public class ControladorVistaViaje implements ActionListener {
 														// f_retorno;
 		return f_retorno;
 	}
+	
+	//*******************************Asignar Costo********************** //
+	public float asignarCosto ()
+	{  float max =1200;
+	   float min= 520;
+		
+		float costo = min + new Random().nextFloat() * (max - min);//// genera un costo aleatorio entre el max y el minimo
+		BigDecimal precio = new BigDecimal(costo).setScale(2,BigDecimal.ROUND_HALF_UP);/// redondea el valor a 2 decimales 
+		costo=  precio.floatValue();/// convierte el el bigdecimal (costo redondeado ) en float
+		return costo;
+	}
 
 	// *********************Verificar ********************************
 
@@ -232,4 +245,6 @@ public class ControladorVistaViaje implements ActionListener {
 
 		// ************************************
 	}
+	
+	
 }

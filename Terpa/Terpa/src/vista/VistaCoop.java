@@ -1,48 +1,31 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import java.awt.Color;
+
 
 import javax.swing.JLabel;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.io.*;
 
+import bean.JTextFieldValidator;
+
+@SuppressWarnings("serial")
 public class VistaCoop extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textRif;
-	private JTextField textNombreCoop;
+	private JTextFieldValidator textRif;
+	private JTextFieldValidator texNombreC;
+	JButton btnAgregar;
+	JButton btnAgregarSocio;
+	JButton btnSalir;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaCoop frame = new VistaCoop();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public VistaCoop() {
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -58,23 +41,11 @@ public class VistaCoop extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		textRif = new JTextField();
-		textRif.setFont(new Font("Dialog", Font.BOLD, 12));
-		textRif.setBounds(66, 159, 102, 20);
-		panel.add(textRif);
-		textRif.setColumns(10);
-
-		textNombreCoop = new JTextField();
-		textNombreCoop.setFont(new Font("Dialog", Font.BOLD, 12));
-		textNombreCoop.setBounds(320, 159, 102, 20);
-		panel.add(textNombreCoop);
-		textNombreCoop.setColumns(10);
-
 		JButton btnAgregar = new JButton("Agregar ");
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setBackground(new Color(102, 204, 51));
 		btnAgregar.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnAgregar.setBounds(116, 294, 89, 23);
+		btnAgregar.setBounds(113, 264, 89, 23);
 		panel.add(btnAgregar);
 
 		JButton btnSalir = new JButton("Salir");
@@ -83,14 +54,14 @@ public class VistaCoop extends JFrame {
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				;
+				dispose();
 			}
 		});
-		btnSalir.setBounds(257, 294, 89, 23);
+		btnSalir.setBounds(257, 264, 89, 23);
 		panel.add(btnSalir);
-		JLabel lblAsignarViaje = new JLabel("CARGAR COOPERATIVA");
+		JLabel lblAsignarViaje = new JLabel(" AGREGAR COOPERATIVA");
 		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblAsignarViaje.setBounds(157, 11, 140, 50);
+		lblAsignarViaje.setBounds(157, 11, 189, 52);
 		panel.add(lblAsignarViaje);
 
 		JLabel lblRif = new JLabel("Rif :");
@@ -102,5 +73,72 @@ public class VistaCoop extends JFrame {
 		lblNombre.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblNombre.setBounds(257, 159, 61, 20);
 		panel.add(lblNombre);
+
+		JTextFieldValidator textRif = new JTextFieldValidator();
+		textRif.setFont(new Font("Dialog", Font.BOLD, 12));
+		textRif.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_Y_NUMEROS);
+		textRif.setMaximaLongitud(10);
+		textRif.setBounds(75, 160, 101, 20);
+		panel.add(textRif);
+
+		JTextFieldValidator textNombreC = new JTextFieldValidator();
+		textNombreC.setFont(new Font("Dialog", Font.BOLD, 12));
+		textNombreC
+				.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_ESPACIOS_Y_NUMEROS);
+		textNombreC.setMaximaLongitud(30);
+		textNombreC.setBounds(328, 160, 101, 20);
+		panel.add(textNombreC);
+
+		JButton btnAgregarSocio = new JButton("Agregar Socios");
+		btnAgregarSocio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnAgregarSocio.setForeground(Color.WHITE);
+		btnAgregarSocio.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnAgregarSocio.setBackground(new Color(102, 204, 51));
+		btnAgregarSocio.setBounds(173, 312, 121, 25);
+		btnAgregarSocio.setVisible(false);
+		panel.add(btnAgregarSocio);
+	}
+
+	public void Limpiar() {
+		textRif.setText("");
+		texNombreC.setText("");
+	}
+
+	public JTextFieldValidator getTextRif() {
+		return textRif;
+	}
+
+	public JTextFieldValidator getTexNombreC() {
+		return texNombreC;
+	}
+
+	public JButton getBtnAgregar() {
+		return btnAgregar;
+	}
+
+	public JButton getBtnAgregarSocio() {
+		return btnAgregarSocio;
+	}
+
+	public JButton getBtnSalir() {
+		return btnSalir;
+	}
+
+	public void setBtnAgregarSocio(JButton btnAgregarSocio) {
+		this.btnAgregarSocio = btnAgregarSocio;
+	}
+
+	public void setBtnAgregar(JButton btnAgregar) {
+		this.btnAgregar = btnAgregar;
+	}
+
+	public void agregarListener(ActionListener e) {
+		this.btnAgregar.addActionListener(e);
+		this.btnAgregarSocio.addActionListener(e);
+		this.btnSalir.addActionListener(e);
+		
 	}
 }

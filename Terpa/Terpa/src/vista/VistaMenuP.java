@@ -1,7 +1,5 @@
 package vista;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,24 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 
-import java.awt.Dialog.ModalExclusionType;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.awt.Toolkit;
-import javax.swing.JEditorPane;
+import controlador.*;
 
 public class VistaMenuP extends JFrame {
 
@@ -39,27 +27,13 @@ public class VistaMenuP extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
+	JMenuItem mpCoop ;
+	
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaMenuP frame = new VistaMenuP();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public VistaMenuP() {
 		super();
 		setTitle("TERPA");
@@ -98,9 +72,7 @@ public class VistaMenuP extends JFrame {
 				String actionC = e.getActionCommand();
 				if (actionC.equals("SOCIO")) {
 					{
-						VistaCargarSocio v = new VistaCargarSocio();
-						v.setVisible(true);
-						v.setLocationRelativeTo(rootPane);
+						new VistaCargarSocio();
 					}
 				}
 			}
@@ -163,14 +135,12 @@ public class VistaMenuP extends JFrame {
 		JMenuItem mpViajes = new JMenuItem("VIAJES");
 		mpViajes.setBackground(new Color(153, 204, 102));
 		mpViajes.setFont(new Font("Dialog", Font.BOLD, 12));
-		mpViajes.addActionListener(new ActionListener() {
+		mpViajes.addActionListener (new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String actionC = e.getActionCommand();
 				if (actionC.equals("VIAJES")) {
 					{
-						VistaViaje v = new VistaViaje();
-						v.setVisible(true);
-						v.setLocationRelativeTo(rootPane);
+						new ControladorVistaViaje();
 					}
 				}
 			}
@@ -186,13 +156,11 @@ public class VistaMenuP extends JFrame {
 				String actionC = e.getActionCommand();
 				if (actionC.equals("COOPERATIVA")) {
 					{
-						VistaCoop vcoop = new VistaCoop();
-						vcoop.setVisible(true);
-						vcoop.setLocationRelativeTo(rootPane);
+					  new ControladorVistaCoop();
 					}
 				}
 			}
-		});
+		});  
 		mnCargar.add(mpCoop);
 		
 				JMenuItem mnAsignar_1 = new JMenuItem("ASIGNAR");
@@ -202,7 +170,7 @@ public class VistaMenuP extends JFrame {
 
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.setBackground(new Color(102, 204, 51));
-		btnSalir.addActionListener(new ActionListener() {
+	/*	btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String actionC = e.getActionCommand();
 				if (actionC.equals("Salir")) {
@@ -210,39 +178,26 @@ public class VistaMenuP extends JFrame {
 				}
 			}
 		});
-
+*/
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.setBounds(257, 294, 89, 23);
 		panel.add(btnSalir);
 	}
-
-	public  String leer()
-	{
-		File f;
-		javax.swing.JFileChooser j = new javax.swing.JFileChooser();
-		j.showOpenDialog(j);
-
-		try {
-			String path = j.getSelectedFile().getAbsolutePath();
-			String lectura = "";
-			f = new File(path);
-			try {
-				FileReader fr = new FileReader(f);
-				BufferedReader br = new BufferedReader(fr);
-				String aux;
-				while ((aux = br.readLine()) != null)
-					lectura = lectura + aux + "n";
-				br.close();
-			} catch (IOException e) {
-			}
-
-			return lectura;
-		} catch (NullPointerException e) {
-			javax.swing.JOptionPane.showMessageDialog(j,
-					"Has seleccionado cerrar programa, saliendo...");
-		}
-		return null;
-
+	 public void agregarListener (java.awt.event.ActionEvent e){
+		 this.mpCoop.addActionListener((ActionListener) e);
+		 
+	
+	 }
+	 
+	 
+	public JMenuItem getMpCoop() {
+		return mpCoop;
 	}
+
+	
+	
+	
+	
+
 }
