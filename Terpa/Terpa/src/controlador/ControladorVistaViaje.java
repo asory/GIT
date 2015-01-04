@@ -60,7 +60,7 @@ public class ControladorVistaViaje implements ActionListener {
 
 				do {
 					// obtenemos condiciones del viaje
-					String rif=vviaje.getRif();
+					String rif = vviaje.getRif();
 					coop = ter.BuscarCoop(rif);
 					Date fs = vviaje.getFechaI();
 					Ruta ruta = coop.randomRuta();
@@ -153,19 +153,26 @@ public class ControladorVistaViaje implements ActionListener {
 
 	// *******************Quitar Multa *************
 	public void quitarmulta() {
+		Multa multa = new Multa();
+		int i = 0;
+		if (coop.getlMulta().isEmpty()== false) {
+			for (int j = 0; j < coop.getlViaje().size(); j++) {
+				do {
+					// for (int i = 0; i < coop.getlMulta().size(); i++) {
 
-		for (int j = 0; j < coop.getlViaje().size(); j++) {
-			viaje = coop.getlViaje().get(j);
-			for (int i = 0; i < coop.getlMulta().size(); i++) {
-				Multa multa = coop.getlMulta().get(i);
+					viaje = coop.getlViaje().get(j);
+					multa = coop.getlMulta().get(i);
 
-				if (viaje.getFecha_salida().before(multa.getFecha_in())
-						|| viaje.getFecha_salida().after(multa.getFecha_fin())) {
-					viaje.getChofer().setStatus("1");
-					viaje.getVehiculo().setStatus("2");
-				}
+					if (viaje.getFecha_salida().before(multa.getFecha_in())
+							|| viaje.getFecha_salida().after(
+									multa.getFecha_fin())) {
+						viaje.getChofer().setStatus("1");
+						viaje.getVehiculo().setStatus("2");
+					}
+					i++;
+				} while (i < coop.getlMulta().size());
+
 			}
-
 		}
 	}
 

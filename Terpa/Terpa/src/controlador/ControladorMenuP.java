@@ -177,6 +177,7 @@ public class ControladorMenuP implements ActionListener {
 				uni.setId_socio(atributos[k + 2]);
 				uni.setTipo(Integer.parseInt(atributos[k + 3]));
 				uni.setPlaca(atributos[k + 4]);
+				uni.setStatus("0");
 				coop= ter.BuscarCoop(atributos[k + 5]);
 				soc=coop.BuscarSocio(atributos[k + 2]);
 				soc.agregarUnidad(uni);

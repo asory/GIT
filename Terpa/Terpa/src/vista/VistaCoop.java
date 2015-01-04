@@ -16,7 +16,6 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import bean.JTextFieldValidator;
 import javax.swing.JFormattedTextField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
