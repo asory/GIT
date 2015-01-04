@@ -1,8 +1,5 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,9 +7,6 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
 
-import bean.JTextFieldValidator;
-
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
@@ -21,26 +15,23 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
+import java.awt.event.ActionListener;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+@SuppressWarnings("serial")
 public class VistaReporte extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textFiltrar;
-	JComboBox comboFiltro;
-	/**
-	 * Launch the application.
-	 */
-	/**
-	 * Create the frame.
-	 */
+	private JComboBox comboFiltro;
+
 	public VistaReporte() {
 		setTitle("TERPA");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -69,7 +60,7 @@ public class VistaReporte extends JFrame {
 		contentPane.add(textFiltrar);
 		textFiltrar.setColumns(10);
 		
-		JComboBox comboFiltro = new JComboBox();
+		comboFiltro = new JComboBox();
 		comboFiltro.setModel(new DefaultComboBoxModel(new String[] {"Seleccione", "Cooperativa", "Destino", "Unidad", "Chofer","Multa"}));
 		comboFiltro.setBounds(72, 61, 79, 20);
 		contentPane.add(comboFiltro);
@@ -105,6 +96,12 @@ public class VistaReporte extends JFrame {
 	public JComboBox getComboFiltro() {
 		return comboFiltro;
 	}
+	
+	public void activarListener(ActionListener e) {
+		comboFiltro.addActionListener(e);
+		
+	}
 	   }
+
 
 

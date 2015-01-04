@@ -13,7 +13,7 @@ public class Viaje {
 	private Ruta ruta;
 	private String Status;// 1-Salio, 2-No salio 3- Multado(viaje en los no
 							// salio por estar multado)
-	private ArrayList<Feriado> lFeriado;
+	
 
 	public Viaje() {
 
@@ -27,8 +27,7 @@ public class Viaje {
 		this.fecha_retorno = fecha_retorno;
 		this.vehiculo = vehiculo;
 		this.chofer = chofer;
-		this.lFeriado = lFeriado;
-
+		
 	}
 	
 	public Unidad getVehiculo() {
@@ -39,9 +38,6 @@ public class Viaje {
 		return chofer;
 	}
 
-	public ArrayList<Feriado> getlFeriado() {
-		return lFeriado;
-	}
 
 	public Float getCosto() {
 		return costo;
@@ -99,22 +95,8 @@ public class Viaje {
 		this.chofer = chofer;
 	}
 
-	public void setlFeriado(ArrayList<Feriado> lFeriado) {
-		this.lFeriado = lFeriado;
-	}
-
 	// *************************************************************************
-	public void agregarFeriado(Feriado feriado) {
-		this.lFeriado.add(feriado);
-	}
 
-	public Feriado eliminarferiado(int ptr) {
-		if (this.lFeriado.size() > ptr) {
-			Feriado feriado = (Feriado) this.lFeriado.remove(ptr);
-			return feriado;
-		} else
-			return null;
-	}
 
 	public float CalSeguro(float monto) {
 		float seguro = 0;

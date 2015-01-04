@@ -2,15 +2,13 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentListener;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
-
-import org.omg.CORBA.SystemException;
 
 import vista.VistaViaje;
 import modelo.*;
@@ -19,91 +17,114 @@ public class ControladorVistaViaje implements ActionListener {
 
 	private VistaViaje vviaje;
 	private Cooperativa coop;
-	private static ControladorVistaViaje instancia;
+	private Terminal ter;
 	Viaje viaje = new Viaje();
-	Terminal ter = new Terminal();
 
-	public ControladorVistaViaje() {
+	public ControladorVistaViaje(Terminal terminal) {
 
-	}
-
-	public void iniciar() {
-
-		this.vviaje = new VistaViaje();
-		this.vviaje.setLocation(480, 210);
-		this.vviaje.setVisible(true);
-		this.vviaje.addComponentListener((ComponentListener) this);
-
+		vviaje = new VistaViaje();
+		vviaje.setVisible(true);
+		vviaje.activarListener(this);
+		coop = new Cooperativa();
+		this.ter = terminal;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(
-				vviaje.getBtnAsignar().getActionListeners().equals("Asignar")))
+		try {
+			
+			if (e.getSource().equals(vviaje.getBtnGenerar()))
 
-			asignarViajes();
+				asignarViajes(ter);
+			
+			else if (e.getActionCommand().equals("SALIR")) {
+
+				vviaje.dispose();
+
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+
+		}
 
 	}
 
-	private void asignarViajes() {
+	private void asignarViajes(Terminal ter) {
 
-		int i = 0;
-		do {
-			// obtenemos condiciones del viaje
-			coop = ter.BuscarCoop(vviaje.getRif());
-			Date fs = vviaje.getFechaI();
-			Ruta ruta = coop.randomRuta();
-			Date fr = asignarRetorno(ruta, fs);
-			Unidad uni = coop.ramdomSocio().randomUnidad();// asigna unidad
-															// aleatoria
-			uni = VerificarUnidad(uni);// / verifica la unidad y retorna una q
-										// este disponible
-			Chofer cho = coop.randomChofer();
-			cho = VerificarChofer(cho);
-			 float costo = asignarCosto();// 
+		try {
+			if (vviaje.getRif()=="" )
+				JOptionPane.showMessageDialog(vviaje,
+						"Debe llenar todos los campos");
+				else {
+					int i = 0;
 
-			String Stats = coop.randomStatusVi();// decide si el viaje salio o
-													// no
+			do {
+				// obtenemos condiciones del viaje
+				coop = ter.BuscarCoop(vviaje.getRif());
+				Date fs = vviaje.getFechaI();
+				Ruta ruta = coop.randomRuta();
+				Date fr = asignarRetorno(ruta, fs);
+				Unidad uni = coop.ramdomSocio().randomUnidad();// asigna unidad
+																// aleatoria
+				uni = VerificarUnidad(uni);// / verifica la unidad y retorna una
+											// q
+											// este disponible
+				Chofer cho = coop.randomChofer();
+				cho = VerificarChofer(cho);
+				float costo = asignarCosto();//
 
-			// // se asignan las variables al viaje
+				String Stats = coop.randomStatusVi();// decide si el viaje salio
+														// o
+														// no
 
-			Viaje viaje = new Viaje();
-			viaje.setFecha_salida(fs);
-			viaje.setFecha_retorno(fr);
-			viaje.setVehiculo(uni);
-			viaje.setChofer(cho);
-			viaje.setCosto(costo);
-			viaje.setRuta(ruta);
-			viaje.setStatus(Stats);
-			coop.agregarViaje(viaje);
-			multar(fs);
+				// // se asignan las variables al viaje
 
-			i++;
-		} while (i < 10);
+				Viaje viaje = new Viaje();
+				viaje.setFecha_salida(fs);
+				viaje.setFecha_retorno(fr);
+				viaje.setVehiculo(uni);
+				viaje.setChofer(cho);
+				viaje.setCosto(costo);
+				viaje.setRuta(ruta);
+				viaje.setStatus(Stats);
+				coop.agregarViaje(viaje);
+				multar(fs);
 
-		quitarmulta();
-		cancelarViaje();
-		llenarTabla();
+				i++;
+			} while (i < 10);
+
+			quitarmulta();
+			cancelarViaje();
+			llenarTabla();
+				}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public void llenarTabla()
 
 	{
-		for (int i = 0; i < coop.getlViaje().size(); i++) {
-			viaje = coop.getlViaje().get(i);
-			JTable model = vviaje.getTable();
-			model.setValueAt(viaje.getIdviaje(), i, 0);
-			model.setValueAt(viaje.getRuta().getDestino(), i, 1);
-			model.setValueAt(viaje.getVehiculo(), i, 2);
-			model.setValueAt(viaje.getChofer(), i, 3);
-			model.setValueAt(viaje.getFecha_salida(), i, 4);
-			model.setValueAt(viaje.getFecha_retorno(), i, 5);
-			model.setValueAt(viaje.getCosto(), i, 6);
-			model.setValueAt(viaje.CalSeguro(viaje.getCosto()), i, 7);
-			model.setValueAt(viaje.getStatus(), i, 8);
+		try {
+			for (int i = 0; i < coop.getlViaje().size(); i++) {
+				viaje = coop.getlViaje().get(i);
+				JTable model = vviaje.getTable();
+				model.setValueAt(viaje.getIdviaje(), i, 0);
+				model.setValueAt(viaje.getRuta().getDestino(), i, 1);
+				model.setValueAt(viaje.getVehiculo(), i, 2);
+				model.setValueAt(viaje.getChofer(), i, 3);
+				model.setValueAt(viaje.getFecha_salida(), i, 4);
+				model.setValueAt(viaje.getFecha_retorno(), i, 5);
+				model.setValueAt(viaje.getCosto(), i, 6);
+				model.setValueAt(viaje.CalSeguro(viaje.getCosto()), i, 7);
+				model.setValueAt(viaje.getStatus(), i, 8);
 
-			vviaje.setTable(model);
+				vviaje.setTable(model);
 
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -111,8 +132,8 @@ public class ControladorVistaViaje implements ActionListener {
 	public void multar(Date pferiado) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(pferiado);
-		for (int i = 0; i < viaje.getlFeriado().size(); i++) {
-			Feriado feriado = viaje.getlFeriado().get(i);
+		for (int i = 0; i < ter.getlFeriado().size(); i++) {
+			Feriado feriado = ter.getlFeriado().get(i);
 			int df = feriado.getDia();
 			int mf = feriado.getMes();
 			if ((df == calendar.get(Calendar.DAY_OF_MONTH))
@@ -191,15 +212,18 @@ public class ControladorVistaViaje implements ActionListener {
 														// f_retorno;
 		return f_retorno;
 	}
-	
-	//*******************************Asignar Costo********************** //
-	public float asignarCosto ()
-	{  float max =1200;
-	   float min= 520;
-		
-		float costo = min + new Random().nextFloat() * (max - min);//// genera un costo aleatorio entre el max y el minimo
-		BigDecimal precio = new BigDecimal(costo).setScale(2,BigDecimal.ROUND_HALF_UP);/// redondea el valor a 2 decimales 
-		costo=  precio.floatValue();/// convierte el el bigdecimal (costo redondeado ) en float
+
+	// *******************************Asignar Costo********************** //
+	public float asignarCosto() {
+		float max = 1200;
+		float min = 520;
+
+		float costo = min + new Random().nextFloat() * (max - min);// // genera
+										// minimo
+		BigDecimal precio = new BigDecimal(costo).setScale(2,
+				BigDecimal.ROUND_HALF_UP);// / redondea el valor a 2 decimales
+		costo = precio.floatValue();// / convierte el el bigdecimal (costo
+									// redondeado ) en float
 		return costo;
 	}
 
@@ -245,6 +269,5 @@ public class ControladorVistaViaje implements ActionListener {
 
 		// ************************************
 	}
-	
-	
+
 }

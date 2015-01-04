@@ -1,11 +1,13 @@
 package vista;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 
 import java.awt.Color;
+
 
 
 import javax.swing.JLabel;
@@ -20,11 +22,11 @@ import bean.JTextFieldValidator;
 public class VistaCoop extends JFrame {
 
 	private JPanel contentPane;
-	private JTextFieldValidator textRif;
-	private JTextFieldValidator texNombreC;
+	JTextFieldValidator textRif;
+	JTextFieldValidator textNombreC;
 	JButton btnAgregar;
 	JButton btnAgregarSocio;
-	JButton btnSalir;
+    JButton btnSalir;
 
 	public VistaCoop() {
 		setTitle("TERPA");
@@ -41,24 +43,21 @@ public class VistaCoop extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JButton btnAgregar = new JButton("Agregar ");
+		btnAgregar = new JButton("AGREGAR");
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setBackground(new Color(102, 204, 51));
 		btnAgregar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnAgregar.setBounds(113, 264, 89, 23);
 		panel.add(btnAgregar);
 
-		JButton btnSalir = new JButton("Salir");
+		btnSalir = new JButton("SALIR");
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(new Color(102, 204, 51));
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-		});
 		btnSalir.setBounds(257, 264, 89, 23);
 		panel.add(btnSalir);
+		
+		
 		JLabel lblAsignarViaje = new JLabel(" AGREGAR COOPERATIVA");
 		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblAsignarViaje.setBounds(157, 11, 189, 52);
@@ -74,26 +73,22 @@ public class VistaCoop extends JFrame {
 		lblNombre.setBounds(257, 159, 61, 20);
 		panel.add(lblNombre);
 
-		JTextFieldValidator textRif = new JTextFieldValidator();
+		textRif = new JTextFieldValidator();
 		textRif.setFont(new Font("Dialog", Font.BOLD, 12));
 		textRif.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_Y_NUMEROS);
 		textRif.setMaximaLongitud(10);
 		textRif.setBounds(75, 160, 101, 20);
 		panel.add(textRif);
 
-		JTextFieldValidator textNombreC = new JTextFieldValidator();
+		textNombreC = new JTextFieldValidator();
 		textNombreC.setFont(new Font("Dialog", Font.BOLD, 12));
 		textNombreC
 				.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_ESPACIOS_Y_NUMEROS);
-		textNombreC.setMaximaLongitud(30);
+		textNombreC.setMaximaLongitud(10);
 		textNombreC.setBounds(328, 160, 101, 20);
 		panel.add(textNombreC);
 
-		JButton btnAgregarSocio = new JButton("Agregar Socios");
-		btnAgregarSocio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		btnAgregarSocio = new JButton("Agregar Socios");
 		btnAgregarSocio.setForeground(Color.WHITE);
 		btnAgregarSocio.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnAgregarSocio.setBackground(new Color(102, 204, 51));
@@ -102,9 +97,15 @@ public class VistaCoop extends JFrame {
 		panel.add(btnAgregarSocio);
 	}
 
+	public void activarListener(ActionListener accion) {
+		btnAgregar.addActionListener(accion);
+		btnAgregarSocio.addActionListener(accion);
+		btnSalir.addActionListener(accion);
+		
+	}
 	public void Limpiar() {
 		textRif.setText("");
-		texNombreC.setText("");
+		textNombreC.setText("");
 	}
 
 	public JTextFieldValidator getTextRif() {
@@ -112,7 +113,7 @@ public class VistaCoop extends JFrame {
 	}
 
 	public JTextFieldValidator getTexNombreC() {
-		return texNombreC;
+		return textNombreC;
 	}
 
 	public JButton getBtnAgregar() {
@@ -127,18 +128,8 @@ public class VistaCoop extends JFrame {
 		return btnSalir;
 	}
 
-	public void setBtnAgregarSocio(JButton btnAgregarSocio) {
-		this.btnAgregarSocio = btnAgregarSocio;
+	public void mostrarMensaje(String mensaje){
+		JOptionPane.showMessageDialog(this, mensaje);
 	}
-
-	public void setBtnAgregar(JButton btnAgregar) {
-		this.btnAgregar = btnAgregar;
-	}
-
-	public void agregarListener(ActionListener e) {
-		this.btnAgregar.addActionListener(e);
-		this.btnAgregarSocio.addActionListener(e);
-		this.btnSalir.addActionListener(e);
-		
-	}
+	
 }

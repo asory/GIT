@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+
 ;
 
 public class Cooperativa {
@@ -14,6 +15,8 @@ public class Cooperativa {
 	private ArrayList<Multa> lMulta;
 
 	public Cooperativa() {
+		nombre = null;
+		rif = null;
 		this.lSocio = new ArrayList<Socio>();
 		this.lChofer = new ArrayList<Chofer>();
 		this.lRuta = new ArrayList<Ruta>();
@@ -24,7 +27,7 @@ public class Cooperativa {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -32,31 +35,31 @@ public class Cooperativa {
 	public void setRif(String rif) {
 		this.rif = rif;
 	}
-	
+
 	public String getRif() {
 		return rif;
 	}
-	
+
 	public void setlSocio(ArrayList<Socio> lSocio) {
 		this.lSocio = lSocio;
 	}
-	
+
 	public ArrayList<Socio> getlSocio() {
 		return lSocio;
 	}
-	
+
 	public void setlChofer(ArrayList<Chofer> lChofer) {
 		this.lChofer = lChofer;
 	}
-	
+
 	public ArrayList<Chofer> getlChofer() {
 		return lChofer;
 	}
-	
+
 	public void setlRuta(ArrayList<Ruta> lRuta) {
 		this.lRuta = lRuta;
 	}
-	
+
 	public ArrayList<Ruta> getlRuta() {
 		return lRuta;
 	}
@@ -68,7 +71,7 @@ public class Cooperativa {
 	public ArrayList<Viaje> getlViaje() {
 		return lViaje;
 	}
-	
+
 	public void setlMulta(ArrayList<Multa> lMulta) {
 		this.lMulta = lMulta;
 	}
@@ -76,15 +79,17 @@ public class Cooperativa {
 	public ArrayList<Multa> getlMulta() {
 		return lMulta;
 	}
+
 	// *************AGREGAR A LISTAS *****************
 	public void agregarChofer(Chofer chofer) {
 		this.lChofer.add(chofer);
 	}
-	
+
 	public void agregarSocio(Socio socio) {
 		this.lSocio.add(socio);
 	}
-	            // Agrega una ruta a la Cooperativa , public void agregarRuta(Ruta ruta)
+
+	// Agrega una ruta a la Cooperativa , public void agregarRuta(Ruta ruta)
 	public void agregarRuta(Ruta ruta) {
 		this.lRuta.add(ruta);
 	}
@@ -113,7 +118,7 @@ public class Cooperativa {
 		} else
 			return null;
 	}
-	
+
 	public Ruta retirarRuta(int ptr) {
 		if (this.lRuta.size() > ptr) {
 			Ruta ruta = (Ruta) this.lRuta.remove(ptr);
@@ -121,7 +126,7 @@ public class Cooperativa {
 		} else
 			return null;
 	}
-	
+
 	public Viaje retirarViaje(int ptr) {
 		if (this.lViaje.size() > ptr) {
 			Viaje viaje = (Viaje) this.lViaje.remove(ptr);
@@ -130,7 +135,7 @@ public class Cooperativa {
 			return null;
 
 	}
-	
+
 	public Multa retiraMulta(int ptr) {
 		if (this.lMulta.size() > ptr) {
 			Multa multa = (Multa) this.lMulta.remove(ptr);
@@ -168,7 +173,7 @@ public class Cooperativa {
 		Chofer cho = getlChofer().get(random);
 		return cho;
 	}
-	
+
 	public Ruta randomRuta() {
 
 		int random = 0;
@@ -176,5 +181,17 @@ public class Cooperativa {
 		random = (int) Math.floor(Math.random() * getlRuta().size());
 		Ruta ruta = getlRuta().get(random);
 		return ruta;
+	}
+	
+	//**************Buscar 
+	public Socio BuscarSocio(String idSocio)
+	{
+				
+		Socio v = new Socio();
+			
+		for(int i=0; i<lSocio.size(); i++)
+		if(rif == lSocio.get(i).getId_socio() )
+			v = lSocio.get(i);
+			return v;		
 	}
 }

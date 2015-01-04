@@ -6,9 +6,8 @@ public class Chofer extends Persona {
 	private String id_Jefe;
 
 	public Chofer() {
-		// TODO - implement Chofer.Chofer
-		super();
-	
+			super();	
+			
 }
 
 	public String getId_chofer() {

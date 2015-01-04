@@ -2,11 +2,16 @@ package modelo;
 
 import java.util.ArrayList;
 
-
 public class Terminal {
 
 	private ArrayList<Ruta> lRutat;
 	private ArrayList<Cooperativa> lCoop;
+	private ArrayList<Feriado> lFeriado;
+
+	public Terminal() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public ArrayList<Ruta> getlRutat() {
 		return lRutat;
@@ -15,7 +20,7 @@ public class Terminal {
 	public void setlRutat(ArrayList<Ruta> lRutat) {
 		this.lRutat = lRutat;
 	}
-	
+
 	public ArrayList<Cooperativa> getlCoop() {
 		return lCoop;
 	}
@@ -23,7 +28,16 @@ public class Terminal {
 	public void setlCoop(ArrayList<Cooperativa> lCoop) {
 		this.lCoop = lCoop;
 	}
-//******************* Retirar  ********************//
+
+	public ArrayList<Feriado> getlFeriado() {
+		return lFeriado;
+	}
+
+	public void setlFeriado(ArrayList<Feriado> lFeriado) {
+		this.lFeriado = lFeriado;
+	}
+
+	// ******************* Retirar ********************//
 	public Ruta retirarRuta(int ptr) {
 		if (this.lRutat.size() > ptr) {
 			Ruta ruta = (Ruta) this.lRutat.remove(ptr);
@@ -39,23 +53,47 @@ public class Terminal {
 		} else
 			return null;
 	}
-//******************* Agregar  ********************//
-	public void agregarCooperativa(Cooperativa cooperativa){
-			this.lCoop.add(cooperativa);
+
+	public Feriado eliminarferiado(int ptr) {
+		if (this.lFeriado.size() > ptr) {
+			Feriado feriado = (Feriado) this.lFeriado.remove(ptr);
+			return feriado;
+		} else
+			return null;
 	}
+
+	// ******************* Agregar ********************//
+	public void agregarCooperativa(Cooperativa cooperativa) {
+		this.lCoop.add(cooperativa);
+	}
+
 	public void agregarRuta(Ruta ruta) {
 		this.lRutat.add(ruta);
 	}
-				
-//***********   Buscar   **************//
-	public Cooperativa BuscarCoop(String rif)
-	{
-				
+
+	public void agregarFeriado(Feriado feriado) {
+		this.lFeriado.add(feriado);
+	}
+
+	// *********** Buscar **************//
+	public Cooperativa BuscarCoop(String rif) {
+
 		Cooperativa v = new Cooperativa();
-			
-		for(int i=0; i<lCoop.size(); i++)
-		if(rif == lCoop.get(i).getRif() )
-			v = lCoop.get(i);
-			return v;		
+
+		for (int i = 0; i < lCoop.size(); i++)
+			if (rif == lCoop.get(i).getRif())
+				v = lCoop.get(i);
+		return v;
+	}
+
+	public boolean VerificarCoop(String rif) {
+		boolean v = false;
+		for (int i = 0; i < lCoop.size(); i++)
+
+		{
+			if (rif == lCoop.get(i).getRif())
+				v = true;
+		}
+		return v;
 	}
 }

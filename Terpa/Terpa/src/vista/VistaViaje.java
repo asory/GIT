@@ -20,6 +20,7 @@ import bean.JTextFieldValidator;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import com.toedter.components.JSpinField;
 
 @SuppressWarnings("serial")
 public class VistaViaje extends JFrame {
@@ -27,10 +28,10 @@ public class VistaViaje extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 
-	private JTextFieldValidator txtvRif;
+	private JTextFieldValidator TextvRif;
 	private JDateChooser dateChooser;
-	private JButton btnAsignar;
-
+	private JButton btnGenerar;
+	private JButton btnSalir;
 	
 	public VistaViaje()  {
 		
@@ -48,7 +49,7 @@ public class VistaViaje extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JDateChooser dateChooser = new JDateChooser();
+		dateChooser = new JDateChooser();
 		dateChooser.getCalendarButton().setFont(
 				new Font("Dialog", Font.BOLD, 12));
 		dateChooser.getCalendarButton().setBackground(new Color(102, 204, 51));
@@ -66,13 +67,8 @@ public class VistaViaje extends JFrame {
 		label_1.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel.add(label_1);
 
-		JButton btnGenerar = new JButton("Generar");
+		btnGenerar = new JButton("GENERAR");
 		btnGenerar.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnGenerar.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		btnGenerar.setBackground(new Color(102, 204, 51));
 		btnGenerar.setForeground(Color.WHITE);
 		btnGenerar.setBounds(369, 59, 82, 23);
@@ -83,20 +79,16 @@ public class VistaViaje extends JFrame {
 		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel.add(lblAsignarViaje);
 
-		JTextFieldValidator TextvRif = new JTextFieldValidator();
+		TextvRif = new JTextFieldValidator();
 		TextvRif.setFont(new Font("Dialog", Font.BOLD, 12));
 		TextvRif.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_Y_NUMEROS);
-		TextvRif.setMaximaLongitud(10);
+		TextvRif.setMaximaLongitud(3);
 		TextvRif.setBounds(100, 59, 89, 20);
 		panel.add(TextvRif);
-
-		JButton btnSalir = new JButton("Salir");
+       
+		
+		btnSalir = new JButton("SALIR");
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-		});
 		btnSalir.setBackground(new Color(102, 204, 51));
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBounds(360, 350, 89, 23);
@@ -136,27 +128,29 @@ public class VistaViaje extends JFrame {
 		return table;
 	}
 
+	public JButton getBtnGenerar() {
+		return btnGenerar;
+	}
+
 	public JDateChooser getDateChooser() {
 		return dateChooser;
 	}
 
 	public String getRif() {
-		return txtvRif.getText();
+		return TextvRif.getText();
 	}
 
 	public Date getFechaI() {
 		return dateChooser.getDate();
 	}
 
-	public JButton getBtnAsignar() {
-		return btnAsignar;
-	}
-
-	public void setBtnAsignar(JButton btnAsignar) {
-		this.btnAsignar = btnAsignar;
-	}
 
 	public void setTable(JTable table) {
 		this.table = table;
+	}
+	public void activarListener(ActionListener accion) {
+		btnGenerar.addActionListener(accion);
+		btnSalir.addActionListener(accion);
+      
 	}
 }

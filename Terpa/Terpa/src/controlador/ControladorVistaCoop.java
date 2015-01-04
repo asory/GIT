@@ -6,60 +6,76 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import modelo.*;
-import vista.*;
+import vista.VistaCoop;
 
 public class ControladorVistaCoop implements ActionListener {
 	private VistaCoop vcoop;
 	private Terminal ter;
 	private Cooperativa coop;
 
-	public ControladorVistaCoop() {
-	
-		VistaCoop vcoop= new VistaCoop();
+	public ControladorVistaCoop(Terminal terminal) {
+
+		vcoop = new VistaCoop();
 		vcoop.setVisible(true);
+		vcoop.setLocationRelativeTo(null);
+		vcoop.activarListener(this);
 		coop = new Cooperativa();
-		ter = new Terminal();
+		this.ter = terminal;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String actionC = e.getActionCommand();
+		try {
+			// if (e.getSource().equals(vcoop.getBtnAgregar()))
+			if (actionC.equals("AGREGAR"))
+				agregarCoop();
 
-		if (e.getSource().equals(vcoop.getBtnAgregar())) {
-
-			 vcoop.getBtnAgregar().getActionCommand().equals("Agregar");
-
-			if (vcoop.getTexNombreC().getText() == ""
-					|| vcoop.getTextRif().getText() == "")
-				JOptionPane.showMessageDialog(vcoop,
-						"Debe rellenar todos los campos");
-
-			else {
-				String rif = vcoop.getTextRif().getText();
-				String nombre = vcoop.getTexNombreC().getText();
-				coop.setNombre(nombre);
-				coop.setRif(rif);
-				ter.agregarCooperativa(coop);
-				vcoop.getBtnAgregarSocio().setVisible(true);
-			}
-
-			if (e.getSource().equals(vcoop.getBtnAgregarSocio())) {
-				JOptionPane.showInternalConfirmDialog(vcoop, "Agregar Socio",
-						null, JOptionPane.YES_NO_OPTION,
+			else if  (e.getSource().equals(vcoop.getBtnAgregarSocio())) {
+				JOptionPane.showInternalConfirmDialog(vcoop,
+						"Agregar Socio", null,
+						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
+
 				/*
-				 * vcoop.getBtnAgregarSocio().
-				 * addActionListener((ActionListener) e); { String actionC =
-				 * e.getActionCommand(); if (actionC.equals("SOCIO")) { {
-				 * VistaCargarSocio v = new VistaCargarSocio();
-				 * v.setVisible(true); v.setLocationRelativeTo(vcoop); } } }; }
+				  ControladorCargarSocio v = new
+				  ControladorCargarSocio(); v.setVisible(true);
+				  v.setLocationRelativeTo(vcoop); }
 				 */
 				vcoop.Limpiar();
 			}
-
-			if (e.getSource().equals(vcoop.getBtnSalir())) {
-				vcoop.dispose();
+			
+			else if(e.getSource().equals(vcoop.getBtnSalir())) {
+				
+				vcoop.Limpiar();
+			
 			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
 
 		}
 	}
+
+	public void agregarCoop() {
+
+		if (vcoop.getTexNombreC().getText() ==" "
+				|| vcoop.getTextRif().getText()==" ")
+			vcoop.mostrarMensaje("Debe rellenar todos los campos");
+
+		else {
+			String rif = vcoop.getTextRif().getText();
+			String nombre = vcoop.getTexNombreC().getText();
+			coop.setNombre(nombre);
+			coop.setRif(rif);
+			if (ter.VerificarCoop(rif)==false) {
+				ter.agregarCooperativa(coop);
+				vcoop.getBtnAgregarSocio().setVisible(true);
+			} else
+				JOptionPane.showMessageDialog(this.vcoop,
+						"La Cooperativa ya esta registrada");
+
+		}
+	}
+
 }

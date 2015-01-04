@@ -15,16 +15,17 @@ import modelo.*;
 public class ControladorMenuP implements ActionListener {
 
 	private VistaMenuP vistaMenuP;
+	private Terminal ter;
+	private Cooperativa coop;
 
 	public ControladorMenuP() {
-		this.vistaMenuP = new VistaMenuP();
-		this.vistaMenuP.setLocationRelativeTo(vistaMenuP);
-		this.vistaMenuP.setVisible(true);
-		// cargar();
 
-		this.vistaMenuP.agregarListener(null);;
-		
-
+		vistaMenuP = new VistaMenuP();
+		vistaMenuP.setLocationRelativeTo(null);
+		vistaMenuP.setVisible(true);
+		vistaMenuP.activarListener(this);
+		ter = new Terminal();
+		//cargar(ter);
 	}
 
 	@Override
@@ -33,28 +34,40 @@ public class ControladorMenuP implements ActionListener {
 
 		try {
 
-			if (e.getSource().equals(vistaMenuP.getMpCoop())) {
-				new ControladorVistaViaje();
+			if (actionC.equals("COOPERATIVA")) {
+				new ControladorVistaCoop(ter);
+			}
+
+			else if (e.getSource().equals(vistaMenuP.getMpRuta())) {
+
+			} else if (e.getSource().equals(vistaMenuP.getMpSocio())) {
 
 			}
-			if (actionC.equals("Salir")) {
+
+			else if (e.getSource().equals(vistaMenuP.getMpUnidad())) {
+
+			}
+
+			else if (e.getSource().equals(vistaMenuP.getMpChofer())) {
+
+			}
+
+			else if (e.getSource().equals(vistaMenuP.getMpCalendario())) {
+
+			}
+
+			else if (e.getSource().equals(vistaMenuP.getMpFeriado())) {
+
+			}
+
+			else if (e.getSource().equals(vistaMenuP.getMpViajes())) {
+				new ControladorReporte(ter);
+			}
+			else if (e.getSource().equals(vistaMenuP.getBtnAsignar())) {
+				new ControladorVistaViaje(ter);
+			}
+			else if (actionC.equals("SALIR")) {
 				System.exit(0);
-				/*
-				 * } else if (actionC.equals("COOPERATIVA")) { new
-				 * ControladorVistaCoop(); VistaCoop vcoop2 = new VistaCoop();
-				 * vcoop2.setVisible(true); System.out.println("Cooperativa");
-				 * 
-				 * // cvcoop.iniciar();
-				 */
-			} else if (actionC.equals("VIAJES")) {
-
-				new ControladorVistaViaje();
-
-			}
-
-			if (actionC.equals("REPORTE")) {
-				VistaReporte frame = new VistaReporte();
-				frame.setVisible(true);
 			}
 
 		} catch (Exception ex) {
@@ -63,19 +76,17 @@ public class ControladorMenuP implements ActionListener {
 
 	}
 
-	// //////////////CARGAR //////////////////////
-	public void cargar() {
-		Chofer cho = new Chofer();
-		Socio soc = new Socio();
-		Ruta rut = new Ruta();
-		Unidad uni = new Unidad();
-		Cooperativa coop = new Cooperativa();
-		Feriado fer = new Feriado();
-		Terminal ter = new Terminal();
-		Viaje via = new Viaje();
+
+	// **********************/////////////LEER TXT	// ////////////////////***************//
+	public String leer() {
 		File f;
-		// javax.swing.JFileChooser j = new javax.swing.JFileChooser();
-		// j.showOpenDialog(j);
+
+		/*
+		 * //*********************En caso de querer seleccionar el archivo
+		 * /////////////// { // javax.swing.JFileChooser j = new
+		 * javax.swing.JFileChooser(); // j.showOpenDialog(j);}
+		 */
+
 		String lectura = "";
 
 		try {
@@ -92,74 +103,87 @@ public class ControladorMenuP implements ActionListener {
 			}
 
 		} catch (NullPointerException e) {
-			// javax.swing.JOptionPane.showMessageDialog(j,
-			// "Has seleccionado cerrar programa, saliendo...");
+
 		}
 
+		return lectura;
+	}
+
+	// **********************//////////////CARGAR
+	// ////////////////////***************//
+	public void cargar(Terminal ter) {
+		
+		String lectura = leer();
 		String[] atributos;
-		atributos = lectura.split("|");
+		atributos = lectura.split("-");
 		int k = 0;
 
 		do {
 			switch (atributos[k]) {
 
-			case "1": // chofer
+			case "4": // chofer
+				Chofer cho = new Chofer();
 				cho.setNombre(atributos[k + 1]);
 				cho.setApellido(atributos[k + 2]);
-				cho.setCi(atributos[k + 3]);
 				cho.setTelefono(atributos[k + 4]);
-				cho.setId_Jefe(atributos[k + 5]); // ///jefe////////??
+				cho.setCi(atributos[k + 3]);
+				cho.setId_chofer(atributos[k + 5]);
+				cho.setId_Jefe(atributos[k + 6]); 
+				cho.setStatus("0");
+				coop= ter.BuscarCoop(atributos[k + 7]);
 				coop.agregarChofer(cho);
-				cho = new Chofer();
-				k = k + 6;
+				k = k + 8;
 				break;
 
-			case "2": // socio
+			case "3": // socio
+				Socio soc = new Socio();
 				soc.setNombre(atributos[k + 1]);
 				soc.setCi(atributos[k + 2]);
 				soc.setCargo(Integer.parseInt(atributos[k + 3]));
 				soc.setTelefono(atributos[k + 4]);
 				soc.setId_socio(atributos[k + 5]); // //////??
+				coop= ter.BuscarCoop(atributos[k + 6]);
 				coop.agregarSocio(soc);
-				soc = new Socio();
-				k = k + 6;
+				k = k + 7;
 				break;
 
-			case "3": // unidad
+			case "5": // unidad
+				Unidad uni = new Unidad();
 				uni.setId(Integer.parseInt(atributos[k + 1]));
 				uni.setId_socio(atributos[k + 2]);
 				uni.setTipo(Integer.parseInt(atributos[k + 3]));
 				uni.setPlaca(atributos[k + 4]);
+				soc=coop.BuscarSocio(atributos[k + 2]);
 				soc.agregarUnidad(uni);
-				uni = new Unidad();
 				k = k + 5;
 				break;
 
-			case "4": // ruta
+			case "2": // ruta
+				Ruta rut = new Ruta();
 				rut.setCodigo(atributos[k + 1]);
 				rut.setDestino(atributos[k + 2]);
 				rut.setTipo(Integer.parseInt(atributos[k + 3]));
+				coop= ter.BuscarCoop(atributos[k + 4]);
 				coop.agregarRuta(rut);
 				if (!ter.getlRutat().equals(rut))
 					ter.agregarRuta(rut);
-				rut = new Ruta();
-				k = k + 4;
+				k = k + 5;
 				break;
 
-			case "5": // cooperativa
+			case "1": // cooperativa
+				Cooperativa coop = new Cooperativa();
 				coop.setNombre(atributos[k + 1]);
 				coop.setRif(atributos[k + 2]);
 				ter.agregarCooperativa(coop);
-				coop = new Cooperativa();
 				k = k + 3;
 				break;
 
 			case "6": // feriado
+				Feriado fer = new Feriado();
 				fer.setDia(Integer.parseInt(atributos[k + 1]));
 				fer.setMes(Integer.parseInt(atributos[k + 2]));
 				fer.setDescripcion(atributos[k + 3]);
-				via.agregarFeriado(fer);
-				fer = new Feriado();
+				ter.agregarFeriado(fer);
 				k = k + 4;
 				break;// / k+5 es el ultimo dato , k+6 es n
 
