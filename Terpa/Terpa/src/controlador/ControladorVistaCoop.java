@@ -11,7 +11,7 @@ import vista.VistaCoop;
 public class ControladorVistaCoop implements ActionListener {
 	private VistaCoop vcoop;
 	private Terminal ter;
-	private Cooperativa coop;
+
 
 	public ControladorVistaCoop(Terminal terminal) {
 
@@ -19,17 +19,15 @@ public class ControladorVistaCoop implements ActionListener {
 		vcoop.setVisible(true);
 		vcoop.setLocationRelativeTo(null);
 		vcoop.activarListener(this);
-		coop = new Cooperativa();
 		this.ter = terminal;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String actionC = e.getActionCommand();
+		
 		try {
-			// if (e.getSource().equals(vcoop.getBtnAgregar()))
-			if (actionC.equals("AGREGAR"))
-				agregarCoop();
+			 if (e.getSource().equals(vcoop.getBtnAgregar()))
+							agregarCoop();
 
 			else if  (e.getSource().equals(vcoop.getBtnAgregarSocio())) {
 				JOptionPane.showInternalConfirmDialog(vcoop,
@@ -41,6 +39,7 @@ public class ControladorVistaCoop implements ActionListener {
 				  ControladorCargarSocio v = new
 				  ControladorCargarSocio(); v.setVisible(true);
 				  v.setLocationRelativeTo(vcoop); }
+				  
 				 */
 				vcoop.Limpiar();
 			}
@@ -59,23 +58,25 @@ public class ControladorVistaCoop implements ActionListener {
 
 	public void agregarCoop() {
 
-		if (vcoop.getTexNombreC().getText() ==" "
-				|| vcoop.getTextRif().getText()==" ")
-			vcoop.mostrarMensaje("Debe rellenar todos los campos");
-
+		if (vcoop.getTexNombreC().isEmpty()
+				|| vcoop.getTextRif().isEmpty())
+		{	vcoop.mostrarMensaje("Debe rellenar todos los campos");
+		
+		}
 		else {
-			String rif = vcoop.getTextRif().getText();
-			String nombre = vcoop.getTexNombreC().getText();
-			coop.setNombre(nombre);
-			coop.setRif(rif);
+			String rif = vcoop.getTextRif();
+			String nombre = vcoop.getTexNombreC();
+			Cooperativa coop= new Cooperativa(nombre,rif);
 			if (ter.VerificarCoop(rif)==false) {
 				ter.agregarCooperativa(coop);
 				vcoop.getBtnAgregarSocio().setVisible(true);
+				vcoop.mostrarMensaje("Cooperativa Registrada ");
+				vcoop.Limpiar();
 			} else
-				JOptionPane.showMessageDialog(this.vcoop,
-						"La Cooperativa ya esta registrada");
+				vcoop.mostrarMensaje("La Cooperativa ya esta registrada");
 
 		}
+		vcoop.setFocusable(true);
 	}
 
 }

@@ -15,13 +15,18 @@ public class Cooperativa {
 	private ArrayList<Multa> lMulta;
 
 	public Cooperativa() {
-		nombre = null;
-		rif = null;
-		this.lSocio = new ArrayList<Socio>();
-		this.lChofer = new ArrayList<Chofer>();
-		this.lRuta = new ArrayList<Ruta>();
-		this.lViaje = new ArrayList<Viaje>();
-		this.lMulta = new ArrayList<Multa>();
+		super();
+	}
+
+	public Cooperativa(String nombre, String rif) {
+		super();
+		this.nombre = nombre;
+		this.rif = rif;
+		lSocio = new ArrayList<Socio>();
+		lChofer = new ArrayList<Chofer>();
+		lRuta = new ArrayList<Ruta>();
+		lViaje = new ArrayList<Viaje>();
+		lMulta = new ArrayList<Multa>();
 	}
 
 	public void setNombre(String nombre) {
@@ -182,16 +187,15 @@ public class Cooperativa {
 		Ruta ruta = getlRuta().get(random);
 		return ruta;
 	}
-	
-	//**************Buscar 
-	public Socio BuscarSocio(String idSocio)
-	{
-				
+
+	// **************Buscar
+	public Socio BuscarSocio(String idSocio) {
+
 		Socio v = new Socio();
-			
-		for(int i=0; i<lSocio.size(); i++)
-		if(rif == lSocio.get(i).getId_socio() )
-			v = lSocio.get(i);
-			return v;		
+
+		for (int i = 0; i < lSocio.size(); i++)
+			if (rif == lSocio.get(i).getId_socio())
+				v = lSocio.get(i);
+		return v;
 	}
 }

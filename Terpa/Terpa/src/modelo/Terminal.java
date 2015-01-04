@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Terminal {
 
-	private ArrayList<Ruta> lRutat;
-	private ArrayList<Cooperativa> lCoop;
-	private ArrayList<Feriado> lFeriado;
+	private ArrayList<Ruta> lRutat= new ArrayList<Ruta>();
+	private ArrayList<Cooperativa> lCoop = new ArrayList<Cooperativa>();
+	private ArrayList<Feriado> lFeriado = new ArrayList<Feriado>();
 
 	public Terminal() {
 		super();
@@ -87,7 +87,10 @@ public class Terminal {
 	}
 
 	public boolean VerificarCoop(String rif) {
-		boolean v = false;
+		boolean v= false;
+	 if (lCoop==null || lCoop.isEmpty())
+		 v= false;
+		else
 		for (int i = 0; i < lCoop.size(); i++)
 
 		{

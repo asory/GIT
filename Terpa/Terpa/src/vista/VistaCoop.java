@@ -17,16 +17,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import bean.JTextFieldValidator;
+import javax.swing.JFormattedTextField;
 
 @SuppressWarnings("serial")
 public class VistaCoop extends JFrame {
 
 	private JPanel contentPane;
-	JTextFieldValidator textRif;
-	JTextFieldValidator textNombreC;
-	JButton btnAgregar;
-	JButton btnAgregarSocio;
-    JButton btnSalir;
+	private JButton btnAgregar;
+	private JButton btnAgregarSocio;
+	private JButton btnSalir;
+	private JFormattedTextField textRif;
+    private JFormattedTextField textNombreC;
 
 	public VistaCoop() {
 		setTitle("TERPA");
@@ -70,23 +71,8 @@ public class VistaCoop extends JFrame {
 
 		JLabel lblNombre = new JLabel("Nombre :");
 		lblNombre.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblNombre.setBounds(257, 159, 61, 20);
+		lblNombre.setBounds(243, 159, 61, 20);
 		panel.add(lblNombre);
-
-		textRif = new JTextFieldValidator();
-		textRif.setFont(new Font("Dialog", Font.BOLD, 12));
-		textRif.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_Y_NUMEROS);
-		textRif.setMaximaLongitud(10);
-		textRif.setBounds(75, 160, 101, 20);
-		panel.add(textRif);
-
-		textNombreC = new JTextFieldValidator();
-		textNombreC.setFont(new Font("Dialog", Font.BOLD, 12));
-		textNombreC
-				.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_ESPACIOS_Y_NUMEROS);
-		textNombreC.setMaximaLongitud(10);
-		textNombreC.setBounds(328, 160, 101, 20);
-		panel.add(textNombreC);
 
 		btnAgregarSocio = new JButton("Agregar Socios");
 		btnAgregarSocio.setForeground(Color.WHITE);
@@ -95,6 +81,14 @@ public class VistaCoop extends JFrame {
 		btnAgregarSocio.setBounds(173, 312, 121, 25);
 		btnAgregarSocio.setVisible(false);
 		panel.add(btnAgregarSocio);
+		
+		textRif = new JFormattedTextField();
+		textRif.setBounds(72, 160, 101, 20);
+		panel.add(textRif);
+		
+		textNombreC = new JFormattedTextField();
+		textNombreC.setBounds(300, 160, 115, 20);
+		panel.add(textNombreC);
 	}
 
 	public void activarListener(ActionListener accion) {
@@ -108,12 +102,12 @@ public class VistaCoop extends JFrame {
 		textNombreC.setText("");
 	}
 
-	public JTextFieldValidator getTextRif() {
-		return textRif;
+	public String getTextRif() {
+		return textRif.getText();
 	}
 
-	public JTextFieldValidator getTexNombreC() {
-		return textNombreC;
+	public String getTexNombreC() {
+		return textNombreC.getText();
 	}
 
 	public JButton getBtnAgregar() {
@@ -131,5 +125,4 @@ public class VistaCoop extends JFrame {
 	public void mostrarMensaje(String mensaje){
 		JOptionPane.showMessageDialog(this, mensaje);
 	}
-	
 }
