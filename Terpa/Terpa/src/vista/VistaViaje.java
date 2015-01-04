@@ -21,20 +21,20 @@ import bean.JTextFieldValidator;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.components.JSpinField;
+import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class VistaViaje extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
-	private JTextFieldValidator TextvRif;
 	private JDateChooser dateChooser;
 	private JButton btnGenerar;
 	private JButton btnSalir;
-	
-	public VistaViaje()  {
-		
+	private JTextField TextvRif;
+
+	public VistaViaje() {
+
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 475, 422);
@@ -79,14 +79,6 @@ public class VistaViaje extends JFrame {
 		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel.add(lblAsignarViaje);
 
-		TextvRif = new JTextFieldValidator();
-		TextvRif.setFont(new Font("Dialog", Font.BOLD, 12));
-		TextvRif.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_Y_NUMEROS);
-		TextvRif.setMaximaLongitud(3);
-		TextvRif.setBounds(100, 59, 89, 20);
-		panel.add(TextvRif);
-       
-		
 		btnSalir = new JButton("SALIR");
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.setBackground(new Color(102, 204, 51));
@@ -109,6 +101,11 @@ public class VistaViaje extends JFrame {
 		;
 		table.setBounds(661, 465, -621, -248);
 		panel.add(table);
+
+		TextvRif = new JTextField();
+		TextvRif.setBounds(102, 59, 89, 20);
+		panel.add(TextvRif);
+		TextvRif.setColumns(10);
 	}
 
 	// Encabezados de la tabla
@@ -144,13 +141,13 @@ public class VistaViaje extends JFrame {
 		return dateChooser.getDate();
 	}
 
-
 	public void setTable(JTable table) {
 		this.table = table;
 	}
+
 	public void activarListener(ActionListener accion) {
 		btnGenerar.addActionListener(accion);
 		btnSalir.addActionListener(accion);
-      
+
 	}
 }

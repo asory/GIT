@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 
 import bean.JTextFieldValidator;
 import javax.swing.JFormattedTextField;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 @SuppressWarnings("serial")
 public class VistaCoop extends JFrame {
@@ -96,6 +98,7 @@ public class VistaCoop extends JFrame {
 		btnAgregarSocio.addActionListener(accion);
 		btnSalir.addActionListener(accion);
 		
+		
 	}
 	public void Limpiar() {
 		textRif.setText("");
@@ -122,7 +125,9 @@ public class VistaCoop extends JFrame {
 		return btnSalir;
 	}
 
-	public void mostrarMensaje(String mensaje){
-		JOptionPane.showMessageDialog(this, mensaje);
+	public void setTextRif(JFormattedTextField textRif) {
+		this.textRif = textRif;
 	}
+
+
 }

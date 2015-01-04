@@ -25,7 +25,7 @@ public class ControladorMenuP implements ActionListener {
 		vistaMenuP.setVisible(true);
 		vistaMenuP.activarListener(this);
 		ter = new Terminal();
-		//cargar(ter);
+		cargar(ter);
 	}
 
 	@Override
@@ -119,8 +119,42 @@ public class ControladorMenuP implements ActionListener {
 		int k = 0;
 
 		do {
-			switch (atributos[k]) {
+			switch (atributos[k]) { /////*********** NECESITA JAVA 1.7+ **********/////////
 
+			case "1": // cooperativa
+				Cooperativa coop = new Cooperativa();
+				coop.setNombre(atributos[k + 1]);
+				coop.setRif(atributos[k + 2]);
+				ter.agregarCooperativa(coop);
+				k = k + 3;
+				break;
+				
+				
+			case "2": // ruta
+				Ruta rut = new Ruta();
+				rut.setCodigo(atributos[k + 1]);
+				rut.setDestino(atributos[k + 2]);
+				rut.setTipo(Integer.parseInt(atributos[k + 3]));
+				coop= ter.BuscarCoop(atributos[k + 4]);
+				coop.agregarRuta(rut);
+				if (!ter.getlRutat().equals(rut))
+					ter.agregarRuta(rut);
+				k = k + 5;
+				break;
+
+			
+			case "3": // socio
+				Socio soc = new Socio();
+				soc.setNombre(atributos[k + 1]);
+				soc.setCi(atributos[k + 2]);
+				soc.setCargo(Integer.parseInt(atributos[k + 3]));
+				soc.setTelefono(atributos[k + 4]);
+				soc.setId_socio(atributos[k + 5]); // //////??
+				coop= ter.BuscarCoop(atributos[k + 6]);
+				coop.agregarSocio(soc);
+				k = k + 7;
+				break;
+			
 			case "4": // chofer
 				Chofer cho = new Chofer();
 				cho.setNombre(atributos[k + 1]);
@@ -135,17 +169,7 @@ public class ControladorMenuP implements ActionListener {
 				k = k + 8;
 				break;
 
-			case "3": // socio
-				Socio soc = new Socio();
-				soc.setNombre(atributos[k + 1]);
-				soc.setCi(atributos[k + 2]);
-				soc.setCargo(Integer.parseInt(atributos[k + 3]));
-				soc.setTelefono(atributos[k + 4]);
-				soc.setId_socio(atributos[k + 5]); // //////??
-				coop= ter.BuscarCoop(atributos[k + 6]);
-				coop.agregarSocio(soc);
-				k = k + 7;
-				break;
+		
 
 			case "5": // unidad
 				Unidad uni = new Unidad();
@@ -153,29 +177,10 @@ public class ControladorMenuP implements ActionListener {
 				uni.setId_socio(atributos[k + 2]);
 				uni.setTipo(Integer.parseInt(atributos[k + 3]));
 				uni.setPlaca(atributos[k + 4]);
+				coop= ter.BuscarCoop(atributos[k + 5]);
 				soc=coop.BuscarSocio(atributos[k + 2]);
 				soc.agregarUnidad(uni);
 				k = k + 5;
-				break;
-
-			case "2": // ruta
-				Ruta rut = new Ruta();
-				rut.setCodigo(atributos[k + 1]);
-				rut.setDestino(atributos[k + 2]);
-				rut.setTipo(Integer.parseInt(atributos[k + 3]));
-				coop= ter.BuscarCoop(atributos[k + 4]);
-				coop.agregarRuta(rut);
-				if (!ter.getlRutat().equals(rut))
-					ter.agregarRuta(rut);
-				k = k + 5;
-				break;
-
-			case "1": // cooperativa
-				Cooperativa coop = new Cooperativa();
-				coop.setNombre(atributos[k + 1]);
-				coop.setRif(atributos[k + 2]);
-				ter.agregarCooperativa(coop);
-				k = k + 3;
 				break;
 
 			case "6": // feriado

@@ -25,18 +25,17 @@ public class ControladorVistaViaje implements ActionListener {
 		vviaje = new VistaViaje();
 		vviaje.setVisible(true);
 		vviaje.activarListener(this);
-		coop = new Cooperativa();
 		this.ter = terminal;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			
+
 			if (e.getSource().equals(vviaje.getBtnGenerar()))
 
 				asignarViajes(ter);
-			
+
 			else if (e.getActionCommand().equals("SALIR")) {
 
 				vviaje.dispose();
@@ -53,51 +52,55 @@ public class ControladorVistaViaje implements ActionListener {
 	private void asignarViajes(Terminal ter) {
 
 		try {
-			if (vviaje.getRif()=="" )
-				JOptionPane.showMessageDialog(vviaje,
+			if (vviaje.getRif() == "")
+				JOptionPane.showMessageDialog(null,
 						"Debe llenar todos los campos");
-				else {
-					int i = 0;
+			else {
+				int i = 0;
 
-			do {
-				// obtenemos condiciones del viaje
-				coop = ter.BuscarCoop(vviaje.getRif());
-				Date fs = vviaje.getFechaI();
-				Ruta ruta = coop.randomRuta();
-				Date fr = asignarRetorno(ruta, fs);
-				Unidad uni = coop.ramdomSocio().randomUnidad();// asigna unidad
-																// aleatoria
-				uni = VerificarUnidad(uni);// / verifica la unidad y retorna una
-											// q
-											// este disponible
-				Chofer cho = coop.randomChofer();
-				cho = VerificarChofer(cho);
-				float costo = asignarCosto();//
+				do {
+					// obtenemos condiciones del viaje
+					String rif=vviaje.getRif();
+					coop = ter.BuscarCoop(rif);
+					Date fs = vviaje.getFechaI();
+					Ruta ruta = coop.randomRuta();
+					Date fr = asignarRetorno(ruta, fs);
+					Unidad uni = coop.ramdomSocio().randomUnidad();// asigna
+																	// unidad
+																	// aleatoria
+					uni = VerificarUnidad(uni);// / verifica la unidad y retorna
+												// una
+												// q
+												// este disponible
+					Chofer cho = coop.randomChofer();
+					cho = VerificarChofer(cho);
+					float costo = asignarCosto();//
 
-				String Stats = coop.randomStatusVi();// decide si el viaje salio
-														// o
-														// no
+					String Stats = coop.randomStatusVi();// decide si el viaje
+															// salio
+															// o
+															// no
 
-				// // se asignan las variables al viaje
+					// // se asignan las variables al viaje
 
-				Viaje viaje = new Viaje();
-				viaje.setFecha_salida(fs);
-				viaje.setFecha_retorno(fr);
-				viaje.setVehiculo(uni);
-				viaje.setChofer(cho);
-				viaje.setCosto(costo);
-				viaje.setRuta(ruta);
-				viaje.setStatus(Stats);
-				coop.agregarViaje(viaje);
-				multar(fs);
+					Viaje viaje = new Viaje();
+					viaje.setFecha_salida(fs);
+					viaje.setFecha_retorno(fr);
+					viaje.setVehiculo(uni);
+					viaje.setChofer(cho);
+					viaje.setCosto(costo);
+					viaje.setRuta(ruta);
+					viaje.setStatus(Stats);
+					coop.agregarViaje(viaje);
+					multar(fs);
 
-				i++;
-			} while (i < 10);
+					i++;
+				} while (i < 10);
 
-			quitarmulta();
-			cancelarViaje();
-			llenarTabla();
-				}
+				quitarmulta();
+				cancelarViaje();
+				llenarTabla();
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -219,7 +222,7 @@ public class ControladorVistaViaje implements ActionListener {
 		float min = 520;
 
 		float costo = min + new Random().nextFloat() * (max - min);// // genera
-										// minimo
+		// minimo
 		BigDecimal precio = new BigDecimal(costo).setScale(2,
 				BigDecimal.ROUND_HALF_UP);// / redondea el valor a 2 decimales
 		costo = precio.floatValue();// / convierte el el bigdecimal (costo

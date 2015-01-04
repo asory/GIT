@@ -16,6 +16,11 @@ public class Cooperativa {
 
 	public Cooperativa() {
 		super();
+		lSocio = new ArrayList<Socio>();
+		lChofer = new ArrayList<Chofer>();
+		lRuta = new ArrayList<Ruta>();
+		lViaje = new ArrayList<Viaje>();
+		lMulta = new ArrayList<Multa>();
 	}
 
 	public Cooperativa(String nombre, String rif) {
@@ -194,8 +199,10 @@ public class Cooperativa {
 		Socio v = new Socio();
 
 		for (int i = 0; i < lSocio.size(); i++)
-			if (rif == lSocio.get(i).getId_socio())
+			if (lSocio.get(i).getId_socio().equals(idSocio))
+
 				v = lSocio.get(i);
+
 		return v;
 	}
 }

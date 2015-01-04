@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Terminal {
 
-	private ArrayList<Ruta> lRutat= new ArrayList<Ruta>();
+	private ArrayList<Ruta> lRutat = new ArrayList<Ruta>();
 	private ArrayList<Cooperativa> lCoop = new ArrayList<Cooperativa>();
 	private ArrayList<Feriado> lFeriado = new ArrayList<Feriado>();
 
@@ -77,26 +77,28 @@ public class Terminal {
 
 	// *********** Buscar **************//
 	public Cooperativa BuscarCoop(String rif) {
-
 		Cooperativa v = new Cooperativa();
+		for (int i = 0; i < lCoop.size(); i++) {
 
-		for (int i = 0; i < lCoop.size(); i++)
-			if (rif == lCoop.get(i).getRif())
+			if (lCoop.get(i).getRif().equals(rif))
+
 				v = lCoop.get(i);
+
+		}
 		return v;
 	}
 
 	public boolean VerificarCoop(String rif) {
-		boolean v= false;
-	 if (lCoop==null || lCoop.isEmpty())
-		 v= false;
+		boolean v = false;
+		if (lCoop == null || lCoop.isEmpty())
+			v = false;
 		else
-		for (int i = 0; i < lCoop.size(); i++)
+			for (int i = 0; i < lCoop.size(); i++)
 
-		{
-			if (rif == lCoop.get(i).getRif())
-				v = true;
-		}
+			{
+				if (rif == lCoop.get(i).getRif())
+					v = true;
+			}
 		return v;
 	}
 }
