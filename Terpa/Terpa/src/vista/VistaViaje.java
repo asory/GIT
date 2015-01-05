@@ -35,6 +35,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.GridLayout;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
+import javax.swing.JTextPane;
+import bean.JTextFieldValidator;
 
 @SuppressWarnings("serial")
 public class VistaViaje extends JFrame {
@@ -51,7 +53,7 @@ public class VistaViaje extends JFrame {
 
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 624, 492);
+		setBounds(100, 100, 775, 497);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,12 +61,12 @@ public class VistaViaje extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 11, 598, 443);
+		panel.setBounds(10, 11, 739, 437);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(323, 62, 126, 20);
+		dateChooser.setBounds(449, 62, 126, 20);
 		dateChooser.getCalendarButton().setFont(
 				new Font("Dialog", Font.BOLD, 12));
 		dateChooser.getCalendarButton().setBackground(new Color(102, 204, 51));
@@ -72,71 +74,71 @@ public class VistaViaje extends JFrame {
 		panel.add(dateChooser);
 
 		JLabel lblCooperativaRif = new JLabel("Cooperativa Rif:");
-		lblCooperativaRif.setBounds(10, 62, 103, 17);
+		lblCooperativaRif.setBounds(96, 65, 103, 17);
 		lblCooperativaRif.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel.add(lblCooperativaRif);
 
 		JLabel label_1 = new JLabel("Fecha:");
-		label_1.setBounds(272, 62, 41, 17);
+		label_1.setBounds(379, 62, 41, 17);
 		label_1.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel.add(label_1);
 
 		btnGenerar = new JButton("GENERAR");
-		btnGenerar.setBounds(493, 59, 82, 23);
+		btnGenerar.setBounds(628, 97, 82, 23);
 		btnGenerar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnGenerar.setBackground(new Color(102, 204, 51));
 		btnGenerar.setForeground(Color.WHITE);
 		panel.add(btnGenerar);
 
 		JLabel lblAsignarViaje = new JLabel("Asignar Viaje");
-		lblAsignarViaje.setBounds(185, 11, 115, 29);
+		lblAsignarViaje.setBounds(304, 11, 115, 29);
 		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 17));
 		panel.add(lblAsignarViaje);
 
 		btnSalir = new JButton("SALIR");
-		btnSalir.setBounds(486, 409, 89, 23);
+		btnSalir.setBounds(621, 403, 89, 23);
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.setBackground(new Color(102, 204, 51));
 		btnSalir.setForeground(Color.WHITE);
 		panel.add(btnSalir);
 
 		TextvRif = new JTextField();
-		TextvRif.setBounds(107, 62, 103, 20);
+		TextvRif.setBounds(209, 62, 103, 20);
 		panel.add(TextvRif);
 		TextvRif.setColumns(10);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 131, 588, 267);
+		scrollPane.setBounds(10, 131, 700, 267);
 		panel.add(scrollPane);
-		scrollPane.setViewportView(table);
 		
-		table = new JTable();
-		table.setMaximumSize(new Dimension(10, 0));
-		table.setBounds(35, 129, 502, 251);
-		scrollPane.setViewportView(table);
-		
-		table.computeVisibleRect(getBounds());
+			
+			table = new JTable();
+			scrollPane.setViewportView(table);
+			table.setEditingColumn(0);
+			table.setEditingRow(0);
+			table.setEnabled(false);
+			table.computeVisibleRect(getBounds());
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+			table.setFont(new Font("Arial", Font.BOLD, 12));
+			table.setName("Viajes");
+			table.setSelectionBackground(Color.DARK_GRAY);
+			table.setSelectionForeground(new Color(255, 255, 255));
+			table.setGridColor(Color.BLACK);
+			table.setAutoCreateRowSorter(true);
+			table.setFillsViewportHeight(true);
+			table.setBackground(Color.LIGHT_GRAY);
+			table.setShowHorizontalLines(true);
+			table.setShowVerticalLines(true);
+			table.setShowGrid(true);
+			table.setAutoscrolls(true);// *
+			table.setColumnSelectionAllowed(true);
+			table.setCellSelectionEnabled(true);
+			table.setForeground(Color.WHITE);
 	
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		table.setFont(new Font("Arial", Font.BOLD, 12));
-		table.setName("Viajes");
-		table.setSelectionBackground(Color.DARK_GRAY);
-		table.setSelectionForeground(new Color(255, 255, 255));
-		table.setGridColor(Color.BLACK);
-		table.setAutoCreateRowSorter(true);
-		table.setFillsViewportHeight(true);
-		table.setBackground(Color.LIGHT_GRAY);
-		table.setShowHorizontalLines(true);
-		table.setShowVerticalLines(true);
-		table.setShowGrid(true);
-		table.setAutoscrolls(true);// *
-		table.setColumnSelectionAllowed(true);
-		table.setCellSelectionEnabled(true);
-		table.setForeground(Color.WHITE);
 		
 		JLabel lblViajesDeLa = new JLabel("VIAJES DE LA SEMANA");
 		lblViajesDeLa.setFont(new Font("Dialog", Font.BOLD, 13));
-		lblViajesDeLa.setBounds(202, 114, 176, 14);
+		lblViajesDeLa.setBounds(256, 116, 176, 14);
 		panel.add(lblViajesDeLa);
 		
 	
@@ -174,6 +176,5 @@ public class VistaViaje extends JFrame {
 
 	public void Limpiar() {
 		TextvRif.setText("");
-		JComponent.setDefaultLocale(getLocale());
 	}
 }

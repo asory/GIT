@@ -169,7 +169,7 @@ public class Cooperativa {
 	public String randomStatusVi() {
 		int random = 0;
 
-		random = (int) Math.floor(Math.random() * 2);
+		random = (int) Math.floor(Math.random() * 2+1);
 		String ran = Integer.toString(random);// // CONVIERTE DE ENTERO A STRING
 		return ran;
 

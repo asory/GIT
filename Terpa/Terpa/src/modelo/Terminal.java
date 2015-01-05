@@ -83,7 +83,7 @@ public class Terminal {
 			if (lCoop.get(i).getRif().equals(rif))
 
 				v = lCoop.get(i);
-
+			
 		}
 		return v;
 	}

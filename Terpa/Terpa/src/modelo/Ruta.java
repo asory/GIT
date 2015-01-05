@@ -8,12 +8,16 @@ public class Ruta {
 	
 
 	public Ruta() {
+		super();
 	}
 
-	public Ruta(String cod, String desc, int parseInt) {
-		// TODO Auto-generated constructor stub
+	public Ruta(String codigo, String destino, int tipo) {
+		super();
+		this.codigo = codigo;
+		this.destino = destino;
+		this.tipo = tipo;
 	}
-
+	
 	public String getCodigo() {
 		return codigo;
 	}

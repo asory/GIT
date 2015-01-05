@@ -3,6 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,9 +23,9 @@ public class ControladorVistaViaje implements ActionListener {
 	private Terminal ter;
 	Viaje viaje = new Viaje();
 	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
-			"Retorno", "Costo", "Seguro", "Status" };
-	DefaultTableModel model = new DefaultTableModel(null,columna);
-	
+			"Retorno", "Pasaje", "Seguro", "Status" };
+	DefaultTableModel model = new DefaultTableModel(null, columna);
+
 	public ControladorVistaViaje(Terminal terminal) {
 
 		vviaje = new VistaViaje();
@@ -69,6 +70,9 @@ public class ControladorVistaViaje implements ActionListener {
 							"La Cooperativa no esta registrada");
 					vviaje.Limpiar();
 
+				} else if (vviaje.getFechaI().before(new Date())) {
+					JOptionPane.showMessageDialog(null, "fecha invalida  ");
+
 				} else {
 					int i = 0;
 					do {
@@ -76,7 +80,7 @@ public class ControladorVistaViaje implements ActionListener {
 
 						coop = ter.BuscarCoop(rif);
 
-						Date fs = vviaje.getFechaI();
+						Date fs = randomSalida(vviaje.getFechaI());
 						Ruta ruta = coop.randomRuta();
 						Date fr = asignarRetorno(ruta, fs);
 						Unidad uni = coop.ramdomSocio().randomUnidad();// asigna
@@ -90,16 +94,18 @@ public class ControladorVistaViaje implements ActionListener {
 						Chofer cho = coop.randomChofer();
 						cho = VerificarChofer(cho);
 						float costo = asignarCosto();//
+						// decide si el viaje salio o no
+						String Stats = coop.randomStatusVi();
 
-						String Stats = coop.randomStatusVi();// decide si el
-																// viaje
-																// salio
-																// o
-																// no
+						// se asignan las variables al viaje
 
-						// // se asignan las variables al viaje
-
+						String codv = "v" + "" + i + ""
+								+ rif.substring(rif.length() - 3, rif.length());
+						// codigo esta compuesto por el numero de viaje y los 3
+						// ultimos
+						// digitos del rif de la cooperativa a la q pertenece
 						Viaje viaje = new Viaje();
+						viaje.setIdviaje(codv);
 						viaje.setFecha_salida(fs);
 						viaje.setFecha_retorno(fr);
 						viaje.setVehiculo(uni);
@@ -107,6 +113,7 @@ public class ControladorVistaViaje implements ActionListener {
 						viaje.setCosto(costo);
 						viaje.setRuta(ruta);
 						viaje.setStatus(Stats);
+
 						coop.agregarViaje(viaje);
 						multar(fs);
 
@@ -116,6 +123,7 @@ public class ControladorVistaViaje implements ActionListener {
 					quitarmulta();
 					cancelarViaje();
 					llenarTabla();
+
 				}
 			}
 		} catch (Exception ex) {
@@ -125,38 +133,25 @@ public class ControladorVistaViaje implements ActionListener {
 
 	public void llenarTabla() {
 		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+
 			ArrayList<Viaje> lViaje = coop.getlViaje();
-			
-			// (DefaultTableModel) vviaje.getTable().getModel();
-
-			Object[] fila = new Object[9];
-
-		
 			model.setNumRows(lViaje.size());
 
 			for (int i = 0; i < lViaje.size(); i++) {
 				Viaje viaje = lViaje.get(i);
 
-				/*
-				 * fila[0] = viaje.getIdviaje(); fila[1] = viaje.getRuta();
-				 * fila[2] = viaje.getVehiculo(); fila[3] = viaje.getChofer();
-				 * fila[4] = viaje.getFecha_salida(); fila[5] =
-				 * viaje.getFecha_retorno(); fila[6] = viaje.getCosto(); fila[7]
-				 * = viaje.getStatus();
-				 */
-				// JTable model = vviaje.getTable();
 				model.setValueAt(viaje.getIdviaje(), i, 0);
 				String Destino = viaje.getRuta().getDestino();
 				model.setValueAt(Destino, i, 1);
-				model.setValueAt(viaje.getVehiculo(), i, 2);
-				model.setValueAt(viaje.getChofer(), i, 3);
-				model.setValueAt(viaje.getFecha_salida(), i, 4);
-				model.setValueAt(viaje.getFecha_retorno(), i, 5);
+				model.setValueAt(viaje.getVehiculo().getId(), i, 2);
+				model.setValueAt(viaje.getChofer().getId_chofer(), i, 3);
+				model.setValueAt(sdf.format(viaje.getFecha_salida()), i, 4);
+				model.setValueAt(sdf.format(viaje.getFecha_retorno()), i, 5);
 				model.setValueAt(viaje.getCosto(), i, 6);
 				model.setValueAt(viaje.CalSeguro(viaje.getCosto()), i, 7);
 				model.setValueAt(viaje.getStatus(), i, 8);
 
-				// model.addRow(fila);
 			}
 
 			vviaje.getTable().setModel(model);
@@ -180,6 +175,7 @@ public class ControladorVistaViaje implements ActionListener {
 				if (viaje.getStatus() == "2") {
 					viaje.getChofer().setStatus("2");
 					viaje.getVehiculo().setStatus("2");
+					viaje.setStatus("3");
 
 				}
 			}
@@ -237,12 +233,29 @@ public class ControladorVistaViaje implements ActionListener {
 		// Devuelve el objeto Date con los nuevos días añadidos
 	}
 
-	public Date modificarHoras(Date fecha, int dias) {
+	public Date modificarHoras(Date fecha, int hora) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(fecha); // Configuramos la fecha que se recibe
-		calendar.add(Calendar.DAY_OF_YEAR, dias); //
+		calendar.add(Calendar.HOUR, hora); //
 		return calendar.getTime(); // Devuelve el objeto Date con la nueva hora
 
+	}
+
+	// **********************Random Salida***************
+
+	public Date randomSalida(Date fecha) {
+
+		int random = 0;
+
+		random = (int) Math.floor(Math.random() * 8 + 2);
+
+		Date salida = modificarDias(fecha, random);
+
+		random = (int) Math.floor(Math.random() * 23 + 0);
+		
+		salida = modificarHoras(salida, random);
+
+		return salida;
 	}
 
 	// ******************Asignar Retorno ****************//

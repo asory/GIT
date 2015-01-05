@@ -4,9 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -17,6 +20,9 @@ public class ControladorReporte implements ActionListener {
 	private VistaReporte vreport;
 	private TableRowSorter<TableModel> trsfiltro;
 	private Terminal ter;
+	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
+			"Retorno", "Pasaje", "Seguro", "Status" };
+	DefaultTableModel model = new DefaultTableModel(null, columna);
 
 	public ControladorReporte(Terminal terminal) {
 
@@ -26,29 +32,35 @@ public class ControladorReporte implements ActionListener {
 		ter = terminal;
 	}
 
-	public void llenarTabla()
+	public void llenarTabla() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+			
+            Cooperativa coop=ter.BuscarCoop(vreport.getRif);
+			ArrayList<Viaje> lViaje = coop.getlViaje();
+			model.setNumRows(lViaje.size());
 
-	{
-		Cooperativa coop = new Cooperativa();
-		Viaje viaje = new Viaje();
+			for (int i = 0; i < lViaje.size(); i++) {
+				Viaje viaje = lViaje.get(i);
 
-		for (int j = 0; j < ter.getlCoop().size(); j++) {
-
-			for (int i = 0; i < coop.getlViaje().size(); i++) {
-				viaje = coop.getlViaje().get(i);
-				JTable model = vreport.getTable();
 				model.setValueAt(viaje.getIdviaje(), i, 0);
-				model.setValueAt(viaje.getRuta().getDestino(), i, 1);
-				model.setValueAt(viaje.getVehiculo(), i, 2);
-				model.setValueAt(viaje.getChofer(), i, 3);
-				model.setValueAt(viaje.getFecha_salida(), i, 4);
-				model.setValueAt(viaje.getFecha_retorno(), i, 5);
+				String Destino = viaje.getRuta().getDestino();
+				model.setValueAt(Destino, i, 1);
+				model.setValueAt(viaje.getVehiculo().getId(), i, 2);
+				model.setValueAt(viaje.getChofer().getId_chofer(), i, 3);
+				model.setValueAt(sdf.format(viaje.getFecha_salida()), i, 4);
+				model.setValueAt(sdf.format(viaje.getFecha_retorno()), i, 5);
 				model.setValueAt(viaje.getCosto(), i, 6);
 				model.setValueAt(viaje.CalSeguro(viaje.getCosto()), i, 7);
 				model.setValueAt(viaje.getStatus(), i, 8);
 
-				vreport.setTable(model);
 			}
+
+			vreport.getTable().setModel(model);
+			vreport.getTable().setVisible(true);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -88,13 +100,13 @@ public class ControladorReporte implements ActionListener {
 		vreport.getTextFiltrar().addKeyListener(new KeyAdapter() {
 			public void keyReleased(final KeyEvent e) {
 				String cadena = (vreport.getTextFiltrar().getText())
-						.toUpperCase();
 				vreport.getTextFiltrar().setText(cadena);
 				vreport.getTextFiltrar().repaint();
 				filtro();
 			}
 		});
-		trsfiltro = new TableRowSorter<TableModel>(vreport.getTable().getModel());
+		trsfiltro = new TableRowSorter<TableModel>(vreport.getTable()
+				.getModel());
 		vreport.getTable().setRowSorter(trsfiltro);
 
 	};
