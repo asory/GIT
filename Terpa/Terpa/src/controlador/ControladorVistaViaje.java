@@ -2,8 +2,15 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentListener;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import vista.VistaViaje;
 import modelo.*;
@@ -11,72 +18,302 @@ import modelo.*;
 public class ControladorVistaViaje implements ActionListener {
 
 	private VistaViaje vviaje;
-	private Chofer ch;
-	private Unidad uni;
 	private Cooperativa coop;
+	private Terminal ter;
+	Viaje viaje = new Viaje();
+	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
+			"Retorno", "Costo", "Seguro", "Status" };
+	DefaultTableModel model = new DefaultTableModel(null,columna);
+	
+	public ControladorVistaViaje(Terminal terminal) {
 
-	public ControladorVistaViaje() {
-		super();
-		this.vviaje = new VistaViaje();
-		this.vviaje.setLocation(480, 210);
-		this.vviaje.setVisible(true);
-		this.vviaje.addComponentListener((ComponentListener) this);
-
+		vviaje = new VistaViaje();
+		vviaje.setVisible(true);
+		vviaje.activarListener(this);
+		this.ter = terminal;
+		vviaje.getTable().setModel(model);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		try {
 
-	}
+			if (e.getSource().equals(vviaje.getBtnGenerar()))
 
-	public void CargarViajes() {
-		String Rif = vviaje.getRif();
-		int Fila;
-		Viaje viaje = new Viaje();
+				asignarViajes(ter);
 
-		for (Fila = 0; Fila < coop.getlViaje().size(); Fila++)
+			else if (e.getActionCommand().equals("SALIR")) {
 
-		{
-			paciente = coop.getlChofer().get(Fila);
-
-			ConsultaPaciente.getjTablePacientes().setValueAt(
-					paciente.getCedula(), Fila, 0);
-			ConsultaPaciente.getjTablePacientes().setValueAt(
-					paciente.getNombre(), Fila, 1);
-		}
-
-	}
-//*****************Verificar **********************
-	public boolean VerificarUnidad(Unidad uni) {
-		for (int i = 0; i < coop.getlViaje().size(); i++) {
-			Viaje viaje = coop.getlViaje().get(i);
-			Date fechai = vviaje.getFechaI();
-
-			if ((viaje.getVehiculo().equals(uni))
-					&& (viaje.getFecha_retorno().after(fechai))) {
-				if (uni.getstatus() == "2")
-					return false;
+				vviaje.dispose();
 
 			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+
+		}
+
+	}
+
+	private void asignarViajes(Terminal ter) {
+
+		try {
+			if (vviaje.getRif() == "")
+				JOptionPane.showMessageDialog(null,
+						"Debe llenar todos los campos");
+			else {
+
+				String rif = vviaje.getRif();
+				if (ter.VerificarCoop(rif) == false) {
+					JOptionPane.showMessageDialog(null,
+							"La Cooperativa no esta registrada");
+					vviaje.Limpiar();
+
+				} else {
+					int i = 0;
+					do {
+						// obtenemos condiciones del viaje
+
+						coop = ter.BuscarCoop(rif);
+
+						Date fs = vviaje.getFechaI();
+						Ruta ruta = coop.randomRuta();
+						Date fr = asignarRetorno(ruta, fs);
+						Unidad uni = coop.ramdomSocio().randomUnidad();// asigna
+																		// unidad
+																		// aleatoria
+						uni = VerificarUnidad(uni);// / verifica la unidad y
+													// retorna
+													// una
+													// q
+													// este disponible
+						Chofer cho = coop.randomChofer();
+						cho = VerificarChofer(cho);
+						float costo = asignarCosto();//
+
+						String Stats = coop.randomStatusVi();// decide si el
+																// viaje
+																// salio
+																// o
+																// no
+
+						// // se asignan las variables al viaje
+
+						Viaje viaje = new Viaje();
+						viaje.setFecha_salida(fs);
+						viaje.setFecha_retorno(fr);
+						viaje.setVehiculo(uni);
+						viaje.setChofer(cho);
+						viaje.setCosto(costo);
+						viaje.setRuta(ruta);
+						viaje.setStatus(Stats);
+						coop.agregarViaje(viaje);
+						multar(fs);
+
+						i++;
+					} while (i < 10);
+
+					quitarmulta();
+					cancelarViaje();
+					llenarTabla();
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void llenarTabla() {
+		try {
+			ArrayList<Viaje> lViaje = coop.getlViaje();
 			
-		}
-		return true;
-	}
+			// (DefaultTableModel) vviaje.getTable().getModel();
 
+			Object[] fila = new Object[9];
 
-public boolean VerificarChofer(Chofer cho)  {
-	for (int i = 0; i < coop.getlViaje().size(); i++) {
-		Viaje viaje = coop.getlViaje().get(i);
-		Date fechai = vviaje.getFechaI();
-
-		if ((viaje.getChofer().equals(cho))
-				&& (viaje.getFecha_retorno().after(fechai))) {
-			if (cho.getStatus() == "2")
-				return false;
-
-		}
 		
+			model.setNumRows(lViaje.size());
+
+			for (int i = 0; i < lViaje.size(); i++) {
+				Viaje viaje = lViaje.get(i);
+
+				/*
+				 * fila[0] = viaje.getIdviaje(); fila[1] = viaje.getRuta();
+				 * fila[2] = viaje.getVehiculo(); fila[3] = viaje.getChofer();
+				 * fila[4] = viaje.getFecha_salida(); fila[5] =
+				 * viaje.getFecha_retorno(); fila[6] = viaje.getCosto(); fila[7]
+				 * = viaje.getStatus();
+				 */
+				// JTable model = vviaje.getTable();
+				model.setValueAt(viaje.getIdviaje(), i, 0);
+				String Destino = viaje.getRuta().getDestino();
+				model.setValueAt(Destino, i, 1);
+				model.setValueAt(viaje.getVehiculo(), i, 2);
+				model.setValueAt(viaje.getChofer(), i, 3);
+				model.setValueAt(viaje.getFecha_salida(), i, 4);
+				model.setValueAt(viaje.getFecha_retorno(), i, 5);
+				model.setValueAt(viaje.getCosto(), i, 6);
+				model.setValueAt(viaje.CalSeguro(viaje.getCosto()), i, 7);
+				model.setValueAt(viaje.getStatus(), i, 8);
+
+				// model.addRow(fila);
+			}
+
+			vviaje.getTable().setModel(model);
+			vviaje.getTable().setVisible(true);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
-	return true;
-}
+
+	// ///**********cambia el estatus del chofer y la unidad a multado
+	public void multar(Date pferiado) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(pferiado);
+		for (int i = 0; i < ter.getlFeriado().size(); i++) {
+			Feriado feriado = ter.getlFeriado().get(i);
+			int df = feriado.getDia();
+			int mf = feriado.getMes();
+			if ((df == calendar.get(Calendar.DAY_OF_MONTH))
+					&& (mf == calendar.get(Calendar.MONTH))) {
+				if (viaje.getStatus() == "2") {
+					viaje.getChofer().setStatus("2");
+					viaje.getVehiculo().setStatus("2");
+
+				}
+			}
+		}
+
+	}
+
+	// *******************Quitar Multa *************
+	public void quitarmulta() {
+		Multa multa = new Multa();
+		int i = 0;
+		if (coop.getlMulta().isEmpty() == false) {
+			for (int j = 0; j < coop.getlViaje().size(); j++) {
+				do {
+					// for (int i = 0; i < coop.getlMulta().size(); i++) {
+
+					viaje = coop.getlViaje().get(j);
+					multa = coop.getlMulta().get(i);
+
+					if (viaje.getFecha_salida().before(multa.getFecha_in())
+							|| viaje.getFecha_salida().after(
+									multa.getFecha_fin())) {
+						viaje.getChofer().setStatus("1");
+						viaje.getVehiculo().setStatus("2");
+					}
+					i++;
+				} while (i < coop.getlMulta().size());
+
+			}
+		}
+	}
+
+	// **********************Cancelar viaje por Multa ************************
+	public void cancelarViaje() {
+
+		for (int j = 0; j < coop.getlViaje().size(); j++) {
+			viaje = coop.getlViaje().get(j);
+			if (viaje.getChofer().getStatus() == "2"
+					|| viaje.getVehiculo().getstatus() == "2") {
+				viaje.setStatus("3");
+			}
+		}
+
+	}
+
+	// ****************** Suma/resta los días/horas recibidos a la
+	// fecha***********
+	public Date modificarDias(Date fecha, int dias) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(fecha); // Configuramos la fecha que se recibe
+		calendar.add(Calendar.DAY_OF_YEAR, dias); // numero de días a añadir, o
+		// restar en caso de días<0
+
+		return calendar.getTime();
+		// Devuelve el objeto Date con los nuevos días añadidos
+	}
+
+	public Date modificarHoras(Date fecha, int dias) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(fecha); // Configuramos la fecha que se recibe
+		calendar.add(Calendar.DAY_OF_YEAR, dias); //
+		return calendar.getTime(); // Devuelve el objeto Date con la nueva hora
+
+	}
+
+	// ******************Asignar Retorno ****************//
+	public Date asignarRetorno(Ruta ruta, Date f_salida) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(f_salida);
+		Date f_retorno;
+		if (ruta.getTipo() == 1) // 1 nacional
+			f_retorno = modificarHoras(f_salida, 42);
+		else
+			// 2 regional
+			f_retorno = modificarHoras(f_salida, 2); // en 2 horas return
+														// f_retorno;
+		return f_retorno;
+	}
+
+	// *******************************Asignar Costo********************** //
+	public float asignarCosto() {
+		float max = 1200;
+		float min = 520;
+
+		float costo = min + new Random().nextFloat() * (max - min);// // genera
+		// minimo
+		BigDecimal precio = new BigDecimal(costo).setScale(2,
+				BigDecimal.ROUND_HALF_UP);// / redondea el valor a 2 decimales
+		costo = precio.floatValue();// / convierte el el bigdecimal (costo
+									// redondeado ) en float
+		return costo;
+	}
+
+	// *********************Verificar ********************************
+
+	// **************Verifican si ya han retornado*********************
+	public Unidad VerificarUnidad(Unidad uni) {
+
+		boolean v;
+		do {
+			for (int i = 0; i < coop.getlViaje().size(); i++) {
+				Viaje viaje = coop.getlViaje().get(i);
+				Date fechai = vviaje.getFechaI();
+
+				if ((viaje.getVehiculo().equals(uni))
+						&& (viaje.getFecha_retorno().after(fechai))) {
+					uni = coop.ramdomSocio().randomUnidad();
+					v = false;
+				}
+			}
+			v = true;
+		} while (v = false);
+		return uni;
+	}
+
+	public Chofer VerificarChofer(Chofer cho) {
+		boolean v = false;
+		do {
+			for (int i = 0; i < coop.getlViaje().size(); i++) {
+				Viaje viaje = coop.getlViaje().get(i);
+				Date fechai = vviaje.getFechaI();
+
+				if ((viaje.getChofer().equals(cho))
+						&& (viaje.getFecha_retorno().after(fechai))) {
+					cho = coop.randomChofer();
+					v = false;
+				}
+			}
+			v = true;
+
+		} while (v = false);
+		return cho;
+
+		// ************************************
+	}
+
 }

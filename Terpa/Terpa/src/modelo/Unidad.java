@@ -6,7 +6,8 @@ public class Unidad {
 	private int tipo;
 	private String status;
 	private String id_socio;
-	private int id;
+	private int id;//1-carro 2-ranchera 3-van 4-encava/busetaP(25p) 5-busetaP(32)
+					//6-BusP (60) 7-BusG/Buscama(80) 
 
 	public Unidad() {
 		
@@ -41,7 +42,7 @@ public class Unidad {
 		return status;
 	}
 
-	public void setEstado(String status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

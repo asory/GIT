@@ -6,35 +6,52 @@ import java.util.Date;
 public class Multa {
 
 	private Date fecha_in;
-	private int numero;
-	private int id_unidad;
-	private Chofer chofer_Asignado;
-	private Cooperativa coop;
-
-
-
-
+	private Date fecha_fin;
+	private int nro;
+	private Unidad unidad;
+	private Chofer c_asignado;
+	
 	public Multa() {
 		// TODO - implement Multa.Multa
-		
-	}
-	public int getId_unidad() {
-		return this.id_unidad;
 	}
 
-	public void setId_unidad(int id_unidad) {
-		this.id_unidad = id_unidad;
-	}
 	public Date getFecha_in() {
 		return fecha_in;
 	}
+	
 	public void setFecha_in(Date fecha_in) {
 		this.fecha_in = fecha_in;
 	}
-	public int getNumero() {
-		return numero;
+
+	public Date getFecha_fin() {
+		return fecha_fin;
 	}
-	public void setNumero(int numero) {
-		this.numero = numero;
+	
+	public void setFecha_fin(Date fecha_fin) {
+		this.fecha_fin = fecha_fin;
 	}
-}
+
+	public int getNro() {
+		return nro;
+	}
+
+	public void setNro(int nro) {
+		this.nro = nro;
+	}
+	
+	public Unidad getUnidad() {
+		return unidad;
+	}
+
+	public void setUnidad(Unidad unidad) {
+		this.unidad = unidad;
+	}
+	
+	public Chofer getC_Asignado() {
+		return c_asignado;
+	}
+
+	public void setC_Asignado(Chofer c_asignado) {
+		this.c_asignado = c_asignado;
+	}
+};

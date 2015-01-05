@@ -1,27 +1,36 @@
 package modelo;
 public class Chofer extends Persona {
 
-	private String id_Chofer;
- private String Status;
-	public String getStatus() {
-	return Status;
-}
-
-public void setStatus(String status) {
-	Status = status;
-}
+	private String id_chofer;
+	private String status;
+	private String id_Jefe;
 
 	public Chofer() {
-		// TODO - implement Chofer.Chofer
-		super();
-	
+			super();	
+			
 }
 
-	public String getId_Chofer() {
-		return id_Chofer;
+	public String getId_chofer() {
+		return id_chofer;
 	}
 
-	public void setId_Chofer(String id_Chofer) {
-		this.id_Chofer = id_Chofer;
+	public String getStatus() {
+		return status;
+	}
+
+	public String getId_Jefe() {
+		return id_Jefe;
+	}
+
+	public void setId_chofer(String id_chofer) {
+		this.id_chofer = id_chofer;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void setId_Jefe(String id_Jefe) {
+		this.id_Jefe = id_Jefe;
 	}
 }

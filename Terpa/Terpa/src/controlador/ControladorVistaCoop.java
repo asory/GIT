@@ -2,41 +2,76 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import modelo.*;
-import vista.*;
- 
-public class ControladorVistaCoop implements ActionListener 
-{
-private VistaCoop vcoop;
-private Cooperativa coop;
-private ArrayList<Ruta> lruta;
-private ArrayList<Socio>lsoc;
-private static ControladorVistaCoop instancia;
+import vista.VistaCoop;
 
-  ControladorVistaCoop(){
-  coop =new Cooperativa();
-  lruta= new ArrayList<Ruta>();
-  lsoc= new ArrayList<Socio>();
- 
+public class ControladorVistaCoop implements ActionListener {
+	private VistaCoop vcoop;
+	private Terminal ter;
+	
+
+	public ControladorVistaCoop(Terminal terminal) {
+
+		vcoop = new VistaCoop();
+		vcoop.setVisible(true);
+		vcoop.setLocationRelativeTo(null);
+		vcoop.activarListener(this);
+		this.ter = terminal;
 	}
-public void iniciar(){}
 
-	//vcoop= vcoop.g;
-
-public static ControladorVistaCoop getInstancia(){
-	if (instancia == null){
-		instancia = new ControladorVistaCoop();
-	}
-	return instancia;
-}
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void actionPerformed(ActionEvent e) {
+
+		try {
+			if (e.getSource().equals(vcoop.getBtnAgregar()))
+				agregarCoop();
+
+			else if (e.getSource().equals(vcoop.getBtnAgregarSocio())) {
+				JOptionPane.showInternalConfirmDialog(vcoop, "Agregar Socio",
+						null, JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+
+				/*
+				 * ControladorCargarSocio v = new ControladorCargarSocio();
+				 * v.setVisible(true); v.setLocationRelativeTo(vcoop); }
+				 */
+				vcoop.Limpiar();
+			}
+
+			else if (e.getSource().equals(vcoop.getBtnSalir())) {
+
+				vcoop.Limpiar();
+
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+
+		}
 	}
 
+	public void agregarCoop() {
+
+		if (vcoop.getTexNombreC().isEmpty() || vcoop.getTextRif().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+		} else {
+			String rif = vcoop.getTextRif();
+			String nombre = vcoop.getTexNombreC();
+			Cooperativa coop = new Cooperativa(nombre, rif);
+			if (ter.VerificarCoop(rif) == false) {
+				ter.agregarCooperativa(coop);
+				vcoop.getBtnAgregarSocio().setVisible(true);
+				JOptionPane.showMessageDialog(null, "Cooperativa Registrada ");
+				vcoop.Limpiar();
+			} else
+				JOptionPane.showMessageDialog(null,
+						"La Cooperativa ya esta registrada");
+
+		}
+
+	}
 
 }

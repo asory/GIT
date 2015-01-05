@@ -3,52 +3,66 @@ package modelo;
 import java.util.ArrayList;
 
 import modelo.Unidad;
+
 public class Socio extends Persona {
 
 	private int cargo;
-	//private ArrayList<Chofer> ListaChofer;
-	private ArrayList<Unidad> ListaUnidad;
+	private ArrayList<Unidad> lUnidad;
 	private String id_socio;
 
-public Socio() {super();
-		
+	public Socio() {
+		super();
+		lUnidad = new ArrayList<Unidad>();
+
 	}
+
 	public void setCargo(int cargo) {
 		this.cargo = cargo;
 	}
 
-	public String getId_socio() {
-		return id_socio;
+	public int getCargo() {
+		return this.cargo;
 	}
 
 	public void setId_socio(String id_socio) {
 		this.id_socio = id_socio;
 	}
 
-	public int getCargo() {
-		return this.cargo;
-	}
-	
-
-	public ArrayList<Unidad> getListaUnidad() {
-		return ListaUnidad;
+	public String getId_socio() {
+		return id_socio;
 	}
 
-	public void setListaUnidad(ArrayList<Unidad> listaUnidad) {
-		ListaUnidad = listaUnidad;
-		
+	public ArrayList<Unidad> getlUnidad() {
+		return lUnidad;
 	}
-	
-	//*************** retorna una UNIDAD de la lista de unidades
+
+	public void setListaUnidad(ArrayList<Unidad> lUnidad) {
+		this.lUnidad = lUnidad;
+
+	}
+
+	// *************** retorna una UNIDAD aleatoria de la lista de unidades
 	public Unidad randomUnidad() {
-				int random = 0;
+		int random = 0;
 
-		random = (int) Math
-				.floor(Math.random() * getListaUnidad().size());
-		Unidad uni = getListaUnidad().get(random);
-		
+		random = (int) Math.floor(Math.random() * getlUnidad().size());
+		Unidad uni = getlUnidad().get(random);
+
 		return uni;
 
 	}
 
+	// ************ Agregar una unidad ****************//
+	public void agregarUnidad(Unidad unidad) {
+		this.lUnidad.add(unidad);
+	}
+
+	// //***************Remover unidad****************
+	public Unidad retirarRuta(int ptr) {
+		if (this.lUnidad.size() > ptr) {
+			Unidad uni = (Unidad) this.lUnidad.remove(ptr);
+			return uni;
+		} else
+			return null;
+	}
 }
