@@ -65,8 +65,10 @@ public class ControladorMenuP implements ActionListener {
 
 			else if (e.getSource().equals(vistaMenuP.getMpViajes())) {
 				new ControladorReporte(ter);
+				
 			} else if (e.getSource().equals(vistaMenuP.getBtnAsignar())) {
 				new ControladorVistaViaje(ter);
+				
 			} else if (actionC.equals("SALIR")) {
 				System.exit(0);
 			}

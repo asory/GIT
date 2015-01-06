@@ -4,9 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -18,44 +23,143 @@ import modelo.*;
 
 public class ControladorReporte implements ActionListener {
 	private VistaReporte vreport;
-	private TableRowSorter<TableModel> trsfiltro;
 	private Terminal ter;
-	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
-			"Retorno", "Pasaje", "Seguro", "Status" };
-	DefaultTableModel model = new DefaultTableModel(null, columna);
+	private Cooperativa coop;
+	private int opc;
+	private DefaultTableModel model;
 
 	public ControladorReporte(Terminal terminal) {
 
-		VistaReporte vreport = new VistaReporte();
+		vreport = new VistaReporte();
 		vreport.setVisible(true);
 		vreport.activarListener(this);
 		ter = terminal;
+
 	}
 
-	public void llenarTabla() {
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+
+			if (e.getSource().equals(vreport.getBtnGenerar())) {
+
+				opc = vreport.getindex();
+				String rif = vreport.getTextvrif().getText();
+
+				if (rif == "" || !ter.VerificarCoop(rif))
+					JOptionPane.showMessageDialog(null,
+							" Introduzca RIF VALIDO");
+
+				else {
+					if (opc == 0)
+						JOptionPane.showMessageDialog(null,
+								" Seleccione una opcion ");
+					if (opc == 3) {
+						vreport.desactivar();
+						llenarTablaMulta();
+					} else if (vreport.getTextFiltrar() == " ")
+						JOptionPane.showMessageDialog(null, " Introduzca ID ");
+					else
+						llenarTablaViajes(opc);
+				}
+				vreport.getTable().setModel(asignarcolumna(opc));
+
+			} else if (e.getSource().equals(vreport.getBtnCancelar())) {
+				vreport.limpiar();
+				vreport.activar();
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	};
+
+	public DefaultTableModel asignarcolumna(int tipo) {
+
+		// int tipo = vreport.getindex();// (int)combo.getSelectedIndex();
+		String[] columna = null;
+
+		coop = ter.BuscarCoop(vreport.getTextvrif().getText());
+		ArrayList<Viaje> lViaje = coop.getlViaje();
+		int size = 0;
+
+		switch (tipo) {
+
+		case 1:
+			String[] a = { "Chofer", "Cooperativa", "Jefe ", "ID Viaje",
+					"Destino", "Unidad", "Salida", "Retorno", "Status" };
+			columna = a;
+			size = lViaje.size();
+
+			break;
+		case 2:
+			String[] b = { "Unidad", "Cooperativa", " Propietario", "ID Viaje",
+					"Destino", "Chofer", "Salida", "Retorno", "Status" };
+			columna = b;
+			size = lViaje.size();
+
+			break;
+		case 3:
+			size = coop.getlMulta().size();
+			String[] c = { "Multa", "Cooperativa", "Inicio ", "Fina", "Unidad",
+					"Chofer" };
+			vreport.desactivar();
+			columna = c;
+			break;
+
+		}
+		DefaultTableModel model = new DefaultTableModel(null, columna);
+		 model.setNumRows(size);
+		return model;
+
+	}
+
+	public void llenarTablaViajes(int opc) {
+
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
-			
-            Cooperativa coop=ter.BuscarCoop(vreport.getRif);
+			String buscar = vreport.getTextFiltrar();
+
+			coop = ter.BuscarCoop(vreport.getTextvrif().getText());
 			ArrayList<Viaje> lViaje = coop.getlViaje();
-			model.setNumRows(lViaje.size());
 
 			for (int i = 0; i < lViaje.size(); i++) {
 				Viaje viaje = lViaje.get(i);
+				switch (opc) {
 
-				model.setValueAt(viaje.getIdviaje(), i, 0);
+				case 1: {
+					if (viaje.getChofer().getId_chofer() == buscar)
+						vreport.setLblTitulo("LISTADO DE ASIGNACIONES CHOFER:"
+								+ buscar);
+					model.setValueAt(buscar, i, 0);
+					model.setValueAt(viaje.getChofer().getId_Jefe(), i, 2);
+					model.setValueAt(viaje.getVehiculo().getId(), i, 5);
+
+					break;
+				}
+				case 2: {
+					if (viaje.getVehiculo().getId() == Integer
+							.parseInt((buscar)))
+						;
+					vreport.setLblTitulo("LISTADO DE ASIGNACIONES UNIDAD:"
+							+ buscar);
+					model.setValueAt(buscar, i, 0);
+					model.setValueAt(viaje.getVehiculo().getId_socio(), i, 2);
+					model.setValueAt(viaje.getChofer().getId_chofer(), i, 5);
+					break;
+				}
+				}
+
+				model.setValueAt(coop.getNombre(), i, 1);
+				model.setValueAt(viaje.getIdviaje(), i, 3);
 				String Destino = viaje.getRuta().getDestino();
-				model.setValueAt(Destino, i, 1);
-				model.setValueAt(viaje.getVehiculo().getId(), i, 2);
-				model.setValueAt(viaje.getChofer().getId_chofer(), i, 3);
-				model.setValueAt(sdf.format(viaje.getFecha_salida()), i, 4);
-				model.setValueAt(sdf.format(viaje.getFecha_retorno()), i, 5);
-				model.setValueAt(viaje.getCosto(), i, 6);
-				model.setValueAt(viaje.CalSeguro(viaje.getCosto()), i, 7);
+				model.setValueAt(Destino, i, 4);
+				model.setValueAt(sdf.format(viaje.getFecha_salida()), i, 6);
+				model.setValueAt(sdf.format(viaje.getFecha_retorno()), i, 7);
 				model.setValueAt(viaje.getStatus(), i, 8);
 
 			}
-
+          
 			vreport.getTable().setModel(model);
 			vreport.getTable().setVisible(true);
 
@@ -64,50 +168,29 @@ public class ControladorReporte implements ActionListener {
 		}
 	}
 
-	public void filtro() {
+	public void llenarTablaMulta() {
+		try {
 
-		int opc = vreport.getComboFiltro().getSelectedIndex();
-		switch (opc) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+			ArrayList<Multa> lMulta = coop.getlMulta();
+			for (int i = 0; i < lMulta.size(); i++) {
+				Multa multa = lMulta.get(i);
 
-		case 0:
-			System.out.print("Debe seleccionar una opcion");
-		case 1:
-			trsfiltro.setRowFilter(RowFilter.regexFilter(vreport
-					.getTextFiltrar().getText(), 1));
-		case 2:
-			trsfiltro.setRowFilter(RowFilter.regexFilter(vreport
-					.getTextFiltrar().getText(), 2));
-		case 3:
-			trsfiltro.setRowFilter(RowFilter.regexFilter(vreport
-					.getTextFiltrar().getText(), 3));
-		case 4:
-			trsfiltro.setRowFilter(RowFilter.regexFilter(vreport
-					.getTextFiltrar().getText(), 4));
-		case 5:
-			trsfiltro.setRowFilter(RowFilter.regexFilter(vreport
-					.getTextFiltrar().getText(), 5));
-		case 6:
-			trsfiltro.setRowFilter(RowFilter.regexFilter(vreport
-					.getTextFiltrar().getText(), 6));
+				coop = ter.BuscarCoop(vreport.getTextvrif().getText());
+				vreport.setLblTitulo("LISTADO DE MULTAS " + coop);
 
-		}
+				model.setValueAt(multa.getNro(), i, 0);
+				model.setValueAt(coop, i, 1);
+				model.setValueAt(sdf.format(multa.getFecha_in()), i, 2);
+				model.setValueAt(sdf.format(multa.getFecha_fin()), i, 3);
+				model.setValueAt(multa.getUnidad().getId(), i, 4);
+				model.setValueAt(multa.getC_Asignado().getId_chofer(), i, 5);
 
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-
-		vreport.getTextFiltrar().addKeyListener(new KeyAdapter() {
-			public void keyReleased(final KeyEvent e) {
-				String cadena = (vreport.getTextFiltrar().getText())
-				vreport.getTextFiltrar().setText(cadena);
-				vreport.getTextFiltrar().repaint();
-				filtro();
+				vreport.getTable().setModel(model);
+				vreport.getTable().setVisible(true);
 			}
-		});
-		trsfiltro = new TableRowSorter<TableModel>(vreport.getTable()
-				.getModel());
-		vreport.getTable().setRowSorter(trsfiltro);
-
-	};
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }

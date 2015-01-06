@@ -49,14 +49,14 @@ public class VistaCoop extends JFrame {
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setBackground(new Color(102, 204, 51));
 		btnAgregar.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnAgregar.setBounds(113, 264, 89, 23);
+		btnAgregar.setBounds(59, 264, 89, 23);
 		panel.add(btnAgregar);
 
 		btnSalir = new JButton("SALIR");
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(new Color(102, 204, 51));
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnSalir.setBounds(257, 264, 89, 23);
+		btnSalir.setBounds(339, 264, 89, 23);
 		panel.add(btnSalir);
 		
 		
@@ -67,28 +67,28 @@ public class VistaCoop extends JFrame {
 
 		JLabel lblRif = new JLabel("Rif :");
 		lblRif.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblRif.setBounds(33, 161, 32, 17);
+		lblRif.setBounds(32, 144, 32, 17);
 		panel.add(lblRif);
 
 		JLabel lblNombre = new JLabel("Nombre :");
 		lblNombre.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblNombre.setBounds(243, 159, 61, 20);
+		lblNombre.setBounds(243, 142, 61, 20);
 		panel.add(lblNombre);
 
 		btnAgregarSocio = new JButton("Agregar Socios");
 		btnAgregarSocio.setForeground(Color.WHITE);
 		btnAgregarSocio.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnAgregarSocio.setBackground(new Color(102, 204, 51));
-		btnAgregarSocio.setBounds(173, 312, 121, 25);
+		btnAgregarSocio.setBounds(183, 263, 121, 25);
 		btnAgregarSocio.setVisible(false);
 		panel.add(btnAgregarSocio);
 		
 		textRif = new JFormattedTextField();
-		textRif.setBounds(72, 160, 101, 20);
+		textRif.setBounds(75, 143, 101, 20);
 		panel.add(textRif);
 		
 		textNombreC = new JFormattedTextField();
-		textNombreC.setBounds(300, 160, 115, 20);
+		textNombreC.setBounds(301, 143, 115, 20);
 		panel.add(textNombreC);
 	}
 

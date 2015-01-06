@@ -1,6 +1,5 @@
 package vista;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,29 +13,12 @@ import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 
-import modelo.Viaje;
-import java.awt.Panel;
-import java.awt.ScrollPane;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JScrollBar;
-import java.awt.Dimension;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import java.awt.Component;
-import java.awt.Rectangle;
-import javax.swing.border.TitledBorder;
-import java.awt.GridLayout;
-import javax.swing.UIManager;
-import javax.swing.border.CompoundBorder;
-import javax.swing.JTextPane;
-import bean.JTextFieldValidator;
 
 @SuppressWarnings("serial")
 public class VistaViaje extends JFrame {
@@ -47,7 +29,7 @@ public class VistaViaje extends JFrame {
 	private JButton btnSalir;
 	private JTextField TextvRif;
 	private JTable table;
-	//private JScrollPane scrollPane;
+
 
 	public VistaViaje() {
 
