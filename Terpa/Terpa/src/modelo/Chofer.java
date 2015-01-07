@@ -1,4 +1,5 @@
 package modelo;
+
 public class Chofer extends Persona {
 
 	private String id_chofer;
@@ -6,9 +7,16 @@ public class Chofer extends Persona {
 	private String id_Jefe;
 
 	public Chofer() {
-			super();	
-			
-}
+		super();
+	}
+
+	public Chofer(String nombre, String apellido, String telefono, String ci,
+			String id_chofer, String status, String id_Jefe) {
+		super(nombre, apellido, telefono, ci);
+		this.id_chofer = id_chofer;
+		this.status = status;
+		this.id_Jefe = id_Jefe;
+	}
 
 	public String getId_chofer() {
 		return id_chofer;

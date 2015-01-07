@@ -47,7 +47,7 @@ public class ControladorMenuP implements ActionListener {
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpUnidad())) {
-
+				new ControladorVistaUnidad(ter);
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpChofer())) {
@@ -56,19 +56,17 @@ public class ControladorMenuP implements ActionListener {
 
 			else if (e.getSource().equals(vistaMenuP.getMpCalendario())) {
 				new ControladorVistaCalendario(ter);
-
 			}
-
 			else if (e.getSource().equals(vistaMenuP.getMpFeriado())) {
 				new ControladorVistaCargarFeriado(ter);
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpViajes())) {
 				new ControladorReporte(ter);
-				
+
 			} else if (e.getSource().equals(vistaMenuP.getBtnAsignar())) {
 				new ControladorVistaViaje(ter);
-				
+
 			} else if (actionC.equals("SALIR")) {
 				System.exit(0);
 			}
@@ -112,8 +110,7 @@ public class ControladorMenuP implements ActionListener {
 		return lectura;
 	}
 
-	// **********************//////////////CARGAR
-	// ////////////////////***************//
+	// ********/// //////CARGAR///////////////***************//
 	public void cargar(Terminal ter) {
 
 		String lectura = leer();

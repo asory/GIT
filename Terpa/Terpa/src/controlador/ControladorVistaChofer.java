@@ -11,17 +11,14 @@ import vista.*;
 public class ControladorVistaChofer implements ActionListener {
 
 	private VistaChofer vcho;
-	private Chofer cho;
-	// private Socio soc;
 	private Cooperativa coop;
 	private Terminal term;
 
-	public ControladorVistaChofer(Terminal terminal) {
+	public ControladorVistaChofer(Terminal ter) {
 		vcho = new VistaChofer();
 		vcho.setVisible(true);
-
 		vcho.activarListener(this);
-		term = terminal;
+		term = ter;
 	}
 
 	@Override
@@ -32,15 +29,15 @@ public class ControladorVistaChofer implements ActionListener {
 			if (actionCommand.equals("Guardar"))
 				agregarChofer();
 
-			else if (e.getSource().equals(vcho.getBtnGuardarC())) {
-				JOptionPane.showInternalConfirmDialog(vcho, "Agregar Chofer",
-						null, JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-				vcho.blanquearCampos();
-			}
+			/*
+			 * else if (e.getSource().equals(vcho.getBtnGuardarC())) {
+			 * JOptionPane.showInternalConfirmDialog(vcho, "Agregar Chofer",
+			 * null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			 * vcho.blanquearCampos(); }
+			 */
 
 			else if (e.getSource().equals(vcho.getBtnBuscarCoop())) {
-				BuscarCooperativa();
+				BuscarCooperativa(term);
 			}
 
 			else if (e.getSource().equals(vcho.getBtnSalir())) {
@@ -55,46 +52,55 @@ public class ControladorVistaChofer implements ActionListener {
 
 	// ///************* Boton Guardar Chofer ***************************///
 	private void agregarChofer() {
-		// try{
-		if (vcho.getRifCoop() == "" || vcho.getNombreC().getText() == ""
-				|| vcho.getCiC() == "" || vcho.getApellidoC().getText() == ""
-				|| vcho.getTelefonoC().getText() == ""
-				|| vcho.getSocioC() == "")
-			JOptionPane.showMessageDialog(vcho,
-					"Debe rellenar todos los campos");
+		try {
+			if (vcho.getRifCoop() == "" || vcho.getNombreC().getText() == ""
+					|| vcho.getCiC() == ""
+					|| vcho.getApellidoC().getText() == ""
+					|| vcho.getTelefonoC().getText() == ""
+					|| vcho.getSocioC() == "" || vcho.getIdC() == "")
+				JOptionPane.showMessageDialog(vcho,
+						"Debe rellenar todos los campos");
 
-		else {
-			// Chofer cho = new Chofer(); //
-			// Chofer(vcho.getCiC(),null,vcho.getSocioC())
-
-			if (true == term.VerificarCoop(vcho.getRifCoop())
-					&& false == ValidarChofer() && false == ValidarSocio()) {
-
-				String rifcoop = vcho.getRifCoop();
+			else {
 				coop = term.BuscarCoop(vcho.getRifCoop());
+				if (!term.VerificarCoop(vcho.getRifCoop()))
+					vcho.mostrarMensaje("Cooperativa no existe");
+
 				String nombrec = vcho.getNombreC().getText();
 				String apellidoc = vcho.getApellidoC().getText();
 				String cedulac = vcho.getCiC();
 				String telefonoc = vcho.getTelefonoC().getText();
 				String socioc = vcho.getSocioC();
+				String idc = vcho.getIdC();
 
-				coop.agregarChofer(cho);
-				vcho.mostrarMensaje("El Chofer ha sido guardada con exito");
+				Chofer cho = new Chofer(nombrec, apellidoc, telefonoc, cedulac,
+						idc, "0", socioc);
+
+				if (!ValidarChofer() && !ValidarSocio()) {
+					coop.agregarChofer(cho);
+					vcho.mostrarMensaje("El Chofer ha sido guardada con exito");
+				} else
+					vcho.mostrarMensaje("El chofer ya existe");
+
 				vcho.blanquearCampos();
-			} else
-				vcho.mostrarMensaje("El chofer ya existe");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		// }
-		// catch (Exception e) {
-		// vcho.mostrarMensaje("No se pudo guardar el chofer, verifique que los datos sean correctos");
-		// vcho.blanquearCampos();
-		// }
 	}
 
-	// ///************* Boton Buscar Cooperativa ***************************///
-	public void BuscarCooperativa() {
+	// ///************* Boton Buscar Cooperativa
+	// ******************************///
+	public void BuscarCooperativa(Terminal term) {
 		coop = term.BuscarCoop(vcho.getRifCoop());
-		vcho.getCoop().setText(coop.getNombre());
+
+		if (!term.getlCoop().contains(coop)) {
+
+			vcho.mostrarMensaje("La Cooperativa no existe");
+
+		} else
+
+			vcho.getCoop().setText(coop.getNombre());
 	}
 
 	// /**************** Validar que el Chofer no exista
@@ -103,25 +109,31 @@ public class ControladorVistaChofer implements ActionListener {
 		boolean v = false;
 		Cooperativa coop = new Cooperativa();
 
-		for (int i = 0; i < coop.getlChofer().size(); i++) {
-
-			if (vcho.getCiC() == coop.getlChofer().get(i).getCi())
-
+		if (coop.getlChofer() == null || coop.getlChofer().isEmpty())
+			v = false;
+		else
+			for (int i = 0; i < coop.getlChofer().size(); i++) {
+				if (vcho.getIdC() == coop.getlChofer().get(i).getId_chofer())
+					;
 				v = true; // lo encontro
-		}
+			}
 		return v; // no lo encontro
 	}
 
-	// /**************** Validar que el Socio exista ***********************///
+	// /**************** Validar que el Socio exista
+	// ***************************///
 	public boolean ValidarSocio() {
 		boolean v = false;
 		Cooperativa coop = new Cooperativa();
 
-		for (int i = 0; i < coop.getlChofer().size(); i++) {
-
-			if (vcho.getSocioC() == coop.getlSocio().get(i).getCi())
+		if (coop.getlChofer() == null || coop.getlChofer().isEmpty())
+			v = false;
+		else
+			for (int i = 0; i < coop.getlChofer().size(); i++) {
+				if (vcho.getSocioC() == coop.getlSocio().get(i).getId_socio())
+					;
 				v = true; // lo encontro
-		}
+			}
 		return v; // no lo encontro
 	}
 

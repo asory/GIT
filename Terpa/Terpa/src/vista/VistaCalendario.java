@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JTable;
@@ -43,7 +44,7 @@ public class VistaCalendario extends JFrame {
 public VistaCalendario() {
 		setBackground(Color.WHITE);
 		setTitle("TERPA");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 723, 453);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -64,20 +65,43 @@ public VistaCalendario() {
 		lblFHasta.setBounds(380, 80, 70, 15);
 		contentPane.add(lblFHasta);
 		
-		table = new JTable();
-		table.setBounds(66, 122, 590, 186);
-		contentPane.add(table);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 131, 700, 267);
+		contentPane.add(scrollPane);
+		
+			
+			table = new JTable();
+			scrollPane.setViewportView(table);
+			table.setEditingColumn(0);
+			table.setEditingRow(0);
+			table.setEnabled(false);
+			table.computeVisibleRect(getBounds());
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+			table.setName("Viajes");
+			table.setSelectionBackground(Color.DARK_GRAY);
+			table.setSelectionForeground(new Color(255, 255, 255));
+			table.setGridColor(Color.BLACK);
+			table.setAutoCreateRowSorter(true);
+			table.setFillsViewportHeight(true);
+			table.setBackground(Color.LIGHT_GRAY);
+			table.setShowHorizontalLines(true);
+			table.setShowVerticalLines(true);
+			table.setShowGrid(true);
+			table.setAutoscrolls(true);// *
+			table.setColumnSelectionAllowed(true);
+			table.setCellSelectionEnabled(true);
+			table.setForeground(Color.WHITE);
 		
 		btnConsultarOtrasFechas = new JButton("Consultar Otro");
 		btnConsultarOtrasFechas.setForeground(Color.WHITE);
 		btnConsultarOtrasFechas.setBackground(new Color(102, 204, 51));
-		btnConsultarOtrasFechas.setBounds(74, 331, 139, 25);
+		btnConsultarOtrasFechas.setBounds(74, 396, 139, 25);
 		contentPane.add(btnConsultarOtrasFechas);
 		
 		btnSalir = new JButton("Salir");
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(new Color(102, 204, 51));
-		btnSalir.setBounds(504, 331, 117, 25);
+		btnSalir.setBounds(505, 396, 117, 25);
 		contentPane.add(btnSalir);
 		
 		dateChooser1 = new JDateChooser();
@@ -91,7 +115,7 @@ public VistaCalendario() {
 		btnGenerarCalendario = new JButton("Generar Calendario");
 		btnGenerarCalendario.setForeground(Color.WHITE);
 		btnGenerarCalendario.setBackground(new Color(102, 204, 51));
-		btnGenerarCalendario.setBounds(269, 331, 181, 25);
+		btnGenerarCalendario.setBounds(269, 396, 181, 25);
 		contentPane.add(btnGenerarCalendario);
 }
 	
@@ -99,6 +123,12 @@ public VistaCalendario() {
 		btnConsultarOtrasFechas.addActionListener(accion);
 		btnGenerarCalendario.addActionListener(accion);
 		btnSalir.addActionListener(accion);
+	}
+	public JTable getTable() {
+		return table;
+	}
+	public void setTable(JTable table) {
+		this.table = table;
 	}
 	
 	public void setFechaDesde(Date fecha) {
@@ -114,14 +144,6 @@ public VistaCalendario() {
 		return this.dateChooser2.getDate();
 	}
 	
-
-	public JTable getTable() {
-		return table;
-	}
-
-	public void setTable(JTable table) {
-		this.table = table;
-	}
 
 	public void blanquearCampos() {
 		dateChooser1.setDate(null);

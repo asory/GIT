@@ -22,6 +22,7 @@ public class Unidad {
 		this.id = id;
 	}
 
+
 	public String getPlaca() {
 		return placa;
 	}
