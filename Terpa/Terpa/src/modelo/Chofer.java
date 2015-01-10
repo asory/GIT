@@ -3,7 +3,7 @@ package modelo;
 public class Chofer extends Persona {
 
 	private String id_chofer;
-	private String status;
+	private boolean status;// true = multado , false = no multado
 	private String id_Jefe;
 
 	public Chofer() {
@@ -11,7 +11,7 @@ public class Chofer extends Persona {
 	}
 
 	public Chofer(String nombre, String apellido, String telefono, String ci,
-			String id_chofer, String status, String id_Jefe) {
+			String id_chofer, boolean status, String id_Jefe) {
 		super(nombre, apellido, telefono, ci);
 		this.id_chofer = id_chofer;
 		this.status = status;
@@ -22,7 +22,7 @@ public class Chofer extends Persona {
 		return id_chofer;
 	}
 
-	public String getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
@@ -34,7 +34,7 @@ public class Chofer extends Persona {
 		this.id_chofer = id_chofer;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 

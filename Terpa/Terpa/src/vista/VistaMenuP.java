@@ -29,7 +29,6 @@ public class VistaMenuP extends JFrame {
 	JMenuItem mpUnidad;
 	JMenuItem mpFeriado;
 	JMenuItem mpViajes;
-	JMenuItem mpMultas;
 	JMenuItem mpCalendario;
 	JButton btnAsignar;
 	JButton btnSalir;
@@ -106,12 +105,7 @@ public class VistaMenuP extends JFrame {
 			mnConsulta.setBackground(new Color(102, 204, 51));
 			mnConsulta.setFont(new Font("Dialog", Font.BOLD, 12));
 
-			mpMultas = new JMenuItem("MULTAS");
-			mpMultas.setBackground(new Color(153, 204, 102));
-			mpMultas.setFont(new Font("Dialog", Font.BOLD, 12));
-			mnConsulta.add(mpMultas);
-
-			mpViajes = new JMenuItem("VIAJES");
+			mpViajes = new JMenuItem("LISTADOS");
 			mpViajes.setBackground(new Color(153, 204, 102));
 			mpViajes.setFont(new Font("Dialog", Font.BOLD, 12));
 			mnConsulta.add(mpViajes);
@@ -147,7 +141,6 @@ public class VistaMenuP extends JFrame {
 		mpChofer.addActionListener(accion);
 		mpUnidad.addActionListener(accion);
 		mpFeriado.addActionListener(accion);
-		mpMultas.addActionListener(accion);
 		mpCalendario.addActionListener(accion);
 		mpViajes.addActionListener(accion);
 	}
@@ -186,10 +179,6 @@ public class VistaMenuP extends JFrame {
 
 	public JMenuItem getMpViajes() {
 		return mpViajes;
-	}
-
-	public JMenuItem getMpMultas() {
-		return mpMultas;
 	}
 
 	public JMenuItem getMpCalendario() {

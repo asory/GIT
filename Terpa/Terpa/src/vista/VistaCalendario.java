@@ -127,6 +127,10 @@ public VistaCalendario() {
 	public JTable getTable() {
 		return table;
 	}
+	public JButton getBtnGenerarCalendario() {
+		return btnGenerarCalendario;
+	}
+
 	public void setTable(JTable table) {
 		this.table = table;
 	}
@@ -148,6 +152,7 @@ public VistaCalendario() {
 	public void blanquearCampos() {
 		dateChooser1.setDate(null);
 		dateChooser2.setDate(null);
+		
 	}
 
 	public void mostrarMensaje(String mensaje) {

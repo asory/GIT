@@ -1,6 +1,8 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 ;
 
@@ -147,6 +149,7 @@ public class Cooperativa {
 	}
 
 	public Multa retiraMulta(int ptr) {
+
 		if (this.lMulta.size() > ptr) {
 			Multa multa = (Multa) this.lMulta.remove(ptr);
 			return multa;
@@ -155,6 +158,22 @@ public class Cooperativa {
 
 	}
 
+	// **************Buscar
+	public Socio BuscarSocio(String idSocio) {
+
+		Socio v = new Socio();
+
+		for (int i = 0; i < lSocio.size(); i++)
+			if (lSocio.get(i).getId_socio().equals(idSocio))
+
+				v = lSocio.get(i);
+
+		return v;
+	}
+
+	// *****************
+
+	// ** METODOS PARA Valores de VIAJE ***///
 	// *******************RANDOM **************************
 	// / retorna un objecto aleatorio
 	public Socio ramdomSocio() {
@@ -169,7 +188,7 @@ public class Cooperativa {
 	public String randomStatusVi() {
 		int random = 0;
 
-		random = (int) Math.floor(Math.random() * 2+1);
+		random = (int) Math.floor(Math.random() * 2 + 1);
 		String ran = Integer.toString(random);// // CONVIERTE DE ENTERO A STRING
 		return ran;
 
@@ -193,16 +212,56 @@ public class Cooperativa {
 		return ruta;
 	}
 
-	// **************Buscar
-	public Socio BuscarSocio(String idSocio) {
+	// ****************Ordenar
+	public void Ordenar() {
 
-		Socio v = new Socio();
+		Collections.sort(lViaje, new Comparator<Viaje>() {
 
-		for (int i = 0; i < lSocio.size(); i++)
-			if (lSocio.get(i).getId_socio().equals(idSocio))
+			@Override
+			public int compare(Viaje o1, Viaje o2) {
+				return o1.getFecha_salida().compareTo(o2.getFecha_salida());
+			}
 
-				v = lSocio.get(i);
-
-		return v;
+		});
 	}
+
+	// **********************Cancelar viaje por Multa ************************
+	public void cancelarViaje() {
+
+		Viaje viaje = new Viaje();
+		for (int j = 0; j < lViaje.size(); j++) {
+			viaje = lViaje.get(j);
+			if (viaje.getChofer().getStatus()
+					|| viaje.getVehiculo().getstatus()) {
+				viaje.setStatus("3");
+			}
+		}
+
+	}
+
+	// *******************Quitar Multa *************
+	public void quitarmulta() {
+		Viaje viaje = new Viaje();
+		Multa multa = new Multa();
+		int i = 0;
+		if (!lMulta.isEmpty()) {
+			for (int j = 0; j < lViaje.size(); j++) {
+				viaje = lViaje.get(j);
+				while (i < lMulta.size()) {
+
+					multa = lMulta.get(i);
+
+					if (viaje.getFecha_salida().before(multa.getFecha_in())
+							|| viaje.getFecha_salida().after(
+									multa.getFecha_fin())) {
+						viaje.getChofer().setStatus(false);
+						viaje.getVehiculo().setStatus(false);
+					}
+					i++;
+				}
+
+			}
+		}
+	}
+
 }

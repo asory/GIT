@@ -51,9 +51,11 @@ public class VistaReporte extends JFrame {
 		contentPane.setLayout(null);
 
 		lblTituloListado = new JLabel("LISTADO ");
+		lblTituloListado.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblTituloListado.setLabelFor(contentPane);
 		lblTituloListado.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloListado.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblTituloListado.setBounds(152, 23, 231, 14);
+		lblTituloListado.setBounds(152, 23, 428, 14);
 		contentPane.add(lblTituloListado);
 
 		JLabel lblFiltrar = new JLabel("Listado de :");
@@ -77,8 +79,9 @@ public class VistaReporte extends JFrame {
 		contentPane.add(scrollPane);
 
 		table = new JTable();
+		table.setForeground(Color.WHITE);
+		table.setAutoCreateRowSorter(true);
 		table.setCellSelectionEnabled(true);
-		table.setColumnSelectionAllowed(true);
 		table.setFillsViewportHeight(true);
 		table.setBackground(Color.LIGHT_GRAY);
 		table.setEnabled(false);
@@ -109,7 +112,7 @@ public class VistaReporte extends JFrame {
 	}
 
 	public void activarListener(ActionListener e) {
-		// comboFiltro.addActionListener(e);
+		comboFiltro.addActionListener(e);
 		btnGenerar.addActionListener(e);
 		btnCancelar.addActionListener(e);
 	}

@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import javax.swing.JScrollPane;
+import bean.JTextFieldValidator;
 
 @SuppressWarnings("serial")
 public class VistaViaje extends JFrame {
@@ -28,6 +29,8 @@ public class VistaViaje extends JFrame {
 	private JButton btnGenerar;
 	private JButton btnSalir;
 	private JTextField TextvRif;
+	private JTextFieldValidator textDias;
+	private JTextFieldValidator textCantidad;
 	private JTable table;
 
 
@@ -48,7 +51,7 @@ public class VistaViaje extends JFrame {
 		panel.setLayout(null);
 
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(449, 62, 126, 20);
+		dateChooser.setBounds(337, 65, 126, 20);
 		dateChooser.getCalendarButton().setFont(
 				new Font("Dialog", Font.BOLD, 12));
 		dateChooser.getCalendarButton().setBackground(new Color(102, 204, 51));
@@ -56,17 +59,17 @@ public class VistaViaje extends JFrame {
 		panel.add(dateChooser);
 
 		JLabel lblCooperativaRif = new JLabel("Cooperativa Rif:");
-		lblCooperativaRif.setBounds(96, 65, 103, 17);
+		lblCooperativaRif.setBounds(38, 65, 103, 17);
 		lblCooperativaRif.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel.add(lblCooperativaRif);
 
 		JLabel label_1 = new JLabel("Fecha:");
-		label_1.setBounds(379, 62, 41, 17);
+		label_1.setBounds(286, 65, 41, 17);
 		label_1.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel.add(label_1);
 
 		btnGenerar = new JButton("GENERAR");
-		btnGenerar.setBounds(628, 97, 82, 23);
+		btnGenerar.setBounds(621, 65, 82, 23);
 		btnGenerar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnGenerar.setBackground(new Color(102, 204, 51));
 		btnGenerar.setForeground(Color.WHITE);
@@ -77,7 +80,7 @@ public class VistaViaje extends JFrame {
 		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 17));
 		panel.add(lblAsignarViaje);
 
-		btnSalir = new JButton("SALIR");
+		btnSalir = new JButton("Nuevo");
 		btnSalir.setBounds(621, 403, 89, 23);
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.setBackground(new Color(102, 204, 51));
@@ -85,7 +88,8 @@ public class VistaViaje extends JFrame {
 		panel.add(btnSalir);
 
 		TextvRif = new JTextField();
-		TextvRif.setBounds(209, 62, 103, 20);
+		TextvRif.setToolTipText("J1234");
+		TextvRif.setBounds(136, 62, 103, 20);
 		panel.add(TextvRif);
 		TextvRif.setColumns(10);
 
@@ -118,10 +122,32 @@ public class VistaViaje extends JFrame {
 			table.setForeground(Color.WHITE);
 	
 		
-		JLabel lblViajesDeLa = new JLabel("VIAJES DE LA SEMANA");
+		JLabel lblViajesDeLa = new JLabel("VIAJES ");
 		lblViajesDeLa.setFont(new Font("Dialog", Font.BOLD, 13));
 		lblViajesDeLa.setBounds(256, 116, 176, 14);
 		panel.add(lblViajesDeLa);
+		
+		textDias = new JTextFieldValidator();
+		textDias.setToolTipText("Para cuantos dias desea generar los viajes (empezando desde la fecha seleccionada ) ");
+		textDias.setTipoCaracteresPermitidos(textDias.SOLO_NUMEROS);
+		textDias.setBounds(539, 47, 41, 20);
+		panel.add(textDias);
+		
+		textCantidad = new JTextFieldValidator();
+		textCantidad.setToolTipText("Nro de viaje a generar");
+		textCantidad.setTipoCaracteresPermitidos(textCantidad.SOLO_NUMEROS);
+		textCantidad.setBounds(539, 79, 41, 20);
+		panel.add(textCantidad);
+		
+		JLabel lblDias = new JLabel("Dias ");
+		lblDias.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblDias.setBounds(496, 46, 33, 20);
+		panel.add(lblDias);
+		
+		JLabel lblNewLabel = new JLabel("Cantidad");
+		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblNewLabel.setBounds(488, 80, 75, 16);
+		panel.add(lblNewLabel);
 		
 	
 	}
@@ -146,6 +172,14 @@ public class VistaViaje extends JFrame {
 		return dateChooser.getDate();
 	}
 
+	public JTextFieldValidator getTextDias() {
+		return textDias;
+	}
+
+	public JTextFieldValidator getTextCantidad() {
+		return textCantidad;
+	}
+
 	public void setTable(JTable table) {
 		this.table = table;
 	}
@@ -158,5 +192,8 @@ public class VistaViaje extends JFrame {
 
 	public void Limpiar() {
 		TextvRif.setText("");
+		textCantidad.setText("");
+		textDias.setText("");
+		
 	}
 }

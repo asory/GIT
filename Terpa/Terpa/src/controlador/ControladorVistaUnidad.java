@@ -77,7 +77,7 @@ public class ControladorVistaUnidad implements ActionListener {
 				int tipo = vuni.getIndiceComboTipo();
 				String placa = vuni.getTextPlaca();
 
-				Unidad uni = new Unidad(placa, tipo, "0", id_socio, numeroid);
+				Unidad uni = new Unidad(placa, tipo, false, id_socio, numeroid);
 				if (ValidarSocio(coop) && !ValidarNumero(numeroid, coop)) {
 					soc.agregarUnidad(uni);
 					vuni.mostrarMensaje("La Unidad ha sido guardada con exito");
@@ -167,8 +167,8 @@ public class ControladorVistaUnidad implements ActionListener {
 			capacidad = 80;
 			break;
 		}
-		String h = "";
-		return h = Integer.toString(capacidad);
+		
+		return Integer.toString(capacidad);
 
 	}
 

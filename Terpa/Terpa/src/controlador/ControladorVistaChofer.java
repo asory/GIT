@@ -29,12 +29,6 @@ public class ControladorVistaChofer implements ActionListener {
 			if (actionCommand.equals("Guardar"))
 				agregarChofer();
 
-			/*
-			 * else if (e.getSource().equals(vcho.getBtnGuardarC())) {
-			 * JOptionPane.showInternalConfirmDialog(vcho, "Agregar Chofer",
-			 * null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			 * vcho.blanquearCampos(); }
-			 */
 
 			else if (e.getSource().equals(vcho.getBtnBuscarCoop())) {
 				BuscarCooperativa(term);
@@ -74,7 +68,7 @@ public class ControladorVistaChofer implements ActionListener {
 				String idc = vcho.getIdC();
 
 				Chofer cho = new Chofer(nombrec, apellidoc, telefonoc, cedulac,
-						idc, "0", socioc);
+						idc, false, socioc);
 
 				if (!ValidarChofer() && !ValidarSocio()) {
 					coop.agregarChofer(cho);

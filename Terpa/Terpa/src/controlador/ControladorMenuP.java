@@ -16,7 +16,7 @@ public class ControladorMenuP implements ActionListener {
 
 	private VistaMenuP vistaMenuP;
 	private Terminal ter;
-	private Cooperativa coop;
+
 
 	public ControladorMenuP() {
 
@@ -162,7 +162,7 @@ public class ControladorMenuP implements ActionListener {
 				cho.setCi(atributos[k + 3]);
 				cho.setId_chofer(atributos[k + 5]);
 				cho.setId_Jefe(atributos[k + 6]);
-				cho.setStatus("0");
+				cho.setStatus(false);
 				coop = ter.BuscarCoop(atributos[k + 7]);
 				coop.agregarChofer(cho);
 				k = k + 8;
@@ -174,7 +174,7 @@ public class ControladorMenuP implements ActionListener {
 				uni.setId_socio(atributos[k + 2]);
 				uni.setTipo(Integer.parseInt(atributos[k + 3]));
 				uni.setPlaca(atributos[k + 4]);
-				uni.setStatus("0");
+				uni.setStatus(false);
 				coop = ter.BuscarCoop(atributos[k + 5]);
 				soc = coop.BuscarSocio(atributos[k + 2]);
 				soc.agregarUnidad(uni);

@@ -3,17 +3,18 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
+import java.text.SimpleDateFormat;
 
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import modelo.Cooperativa;
 import modelo.Terminal;
 import modelo.Viaje;
 import vista.VistaCalendario;
-import vista.VistaViaje;
 
 public class ControladorVistaCalendario implements ActionListener {
 
@@ -21,6 +22,8 @@ public class ControladorVistaCalendario implements ActionListener {
 	private Cooperativa coop;
 	private Viaje viaje;
 	private Terminal terminal;
+	private Vector<String> vecv = new Vector<String>();
+
 	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
 			"Retorno", "Pasaje", "Seguro", "Status" };
 	DefaultTableModel model = new DefaultTableModel(null, columna);
@@ -42,73 +45,106 @@ public class ControladorVistaCalendario implements ActionListener {
 		try {
 			if (actionCommand.equals("Consultar Otro")) {
 				vistaCalendario.blanquearCampos();
+				vistaCalendario.getTable().setModel(
+						new DefaultTableModel(null, columna));
+				vecv.removeAllElements();
+				vistaCalendario.getBtnGenerarCalendario().setEnabled(true);
 			} else if (actionCommand.equals("Salir")) {
 				vistaCalendario.dispose();
 			} else if (actionCommand.equals("Generar Calendario")) {
 				GenerarCalendario(terminal);
-
+				vistaCalendario.getBtnGenerarCalendario().setEnabled(false);
 			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+
+	}
+
+	public void GenerarCalendario(Terminal terminal) {
+
+		for (int i = 0; i < terminal.getlCoop().size(); i++) {
+			coop = terminal.getlCoop().get(i);
+			for (int j = 1; j < coop.getlViaje().size(); j++) {
+				viaje = coop.getlViaje().get(j);
+				if (verificarFecha(viaje.getFecha_salida()))
+					llenarTabla(coop, j);
+				vistaCalendario.getTable().setVisible(true);
+			}
+		}
+
+		vistaCalendario.getTable().setVisible(true);
 
 	}
 
 	public void llenarTabla(Cooperativa coop, int i) {
 
 		try {
-
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+			ArrayList<Viaje> lViaje = coop.getlViaje();
+			viaje = lViaje.get(i);
 
-			VistaCalendario vistaCalendario = new VistaCalendario();
-
-			JTable model = vistaCalendario.getTable();
-			model.setValueAt(viaje.getIdviaje(), i, 0);
+			vecv.add(viaje.getIdviaje());
 			String Destino = viaje.getRuta().getDestino();
-			model.setValueAt(Destino, i, 1);
-			model.setValueAt(viaje.getVehiculo().getId(), i, 2);
-			model.setValueAt(viaje.getChofer().getId_chofer(), i, 3);
-			model.setValueAt(sdf.format(viaje.getFecha_salida()), i, 4);
-			model.setValueAt(sdf.format(viaje.getFecha_retorno()), i, 5);
-			model.setValueAt(viaje.getCosto(), i, 6);
-			model.setValueAt(viaje.CalSeguro(viaje.getCosto()), i, 7);
-			model.setValueAt(viaje.getStatus(), i, 8);
+			vecv.add(Destino);
+			vecv.add(Integer.toString(viaje.getVehiculo().getId()));
+			vecv.add(viaje.getChofer().getId_chofer());
+			vecv.add(sdf.format(viaje.getFecha_salida()));
+			vecv.add(sdf.format(viaje.getFecha_retorno()));
+			vecv.add(viaje.getCosto().toString());
 
-			vistaCalendario.setTable(model);
+			int Seguro = (int) viaje.CalSeguro(viaje.getCosto());// /
+			vecv.add(Integer.toString(Seguro));
+			vecv.add(Status(viaje.getStatus()));
 
-			vistaCalendario.getTable().setModel((TableModel) model);
-			vistaCalendario.getTable().setVisible(true);
+			model.addRow(vecv);
 
+			vistaCalendario.getTable().setModel(model);
+
+			vecv.clear();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void GenerarCalendario(Terminal terminal) {
+	public boolean verificarFecha(Date fverificar) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		boolean resp = false;
+		Calendar fviaje = Calendar.getInstance();
+		Calendar desde = Calendar.getInstance();
+		Calendar hasta = Calendar.getInstance();
 
-		Date desde = vistaCalendario.getFechaDesde();
-		Date hasta = vistaCalendario.getFechaHasta();
+		desde.setTime(vistaCalendario.getFechaDesde());
+		hasta.setTime(vistaCalendario.getFechaHasta());
+		fviaje.setTime(fverificar);
 
-		for (int i = 0; i < terminal.getlCoop().size(); i++) {
-			coop = terminal.getlCoop().get(i);
-			for (int j = 1; j < coop.getlViaje().size(); j++) {
-				viaje = coop.getlViaje().get(j);
-				if (viaje.getFecha_salida().equals(desde)
-						|| viaje.getFecha_salida().after(desde)) {
-					if (viaje.getFecha_salida().equals(hasta)
-							|| viaje.getFecha_salida().after(hasta))
+		String a = sdf.format(fverificar);
+		String b = sdf.format(vistaCalendario.getFechaDesde());
+		String c = sdf.format(vistaCalendario.getFechaHasta());
 
-						llenarTabla(coop, j);
-					vistaCalendario.getTable().setVisible(true);
+		if (fviaje.after(desde) && fviaje.before(hasta))
+			// if (desde.after(fviaje) && hasta.before(fviaje))
+			resp = true;
+		if (a.equals(b) || a.equals(c))
+			resp = true;
 
-				}
-			}
-
-		}
-		vistaCalendario.mostrarMensaje("No existen viajes en esas fechas");
-		vistaCalendario.blanquearCampos();
-
+		return resp;
 	}
 
+	public String Status(String string) {
+		String sts = "";
+		switch (string) {
+		case "1":
+			sts = "SALIO";
+			break;
+		case "2":
+			sts = "NO SALIO";
+			break;
+		case "3":
+			sts = "Cancelado ";
+			break;
+		}
+		return sts;
+	}
 }

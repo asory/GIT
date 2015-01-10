@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import vista.VistaViaje;
@@ -43,10 +42,11 @@ public class ControladorVistaViaje implements ActionListener {
 
 				asignarViajes(ter);
 
-			else if (e.getActionCommand().equals("SALIR")) {
+			else if (e.getActionCommand().equals("Nuevo")) {
 
-				vviaje.dispose();
-
+				vviaje.Limpiar();
+				vviaje.getBtnGenerar().setEnabled(true);
+				vviaje.getTable().setModel(new DefaultTableModel(null, columna));
 			}
 
 		} catch (Exception ex) {
@@ -59,7 +59,7 @@ public class ControladorVistaViaje implements ActionListener {
 	private void asignarViajes(Terminal ter) {
 
 		try {
-			if (vviaje.getRif() == "")
+			if (vviaje.getRif() == "" || vviaje.getTextDias().getText()=="" || vviaje.getTextCantidad().getText()=="")
 				JOptionPane.showMessageDialog(null,
 						"Debe llenar todos los campos");
 			else {
@@ -75,6 +75,7 @@ public class ControladorVistaViaje implements ActionListener {
 
 				} else {
 					int i = 0;
+					int nroViajes= Integer.parseInt(vviaje.getTextCantidad().getText());
 					do {
 						// obtenemos condiciones del viaje
 
@@ -86,24 +87,22 @@ public class ControladorVistaViaje implements ActionListener {
 						Unidad uni = coop.ramdomSocio().randomUnidad();// asigna
 																		// unidad
 																		// aleatoria
-						uni = VerificarUnidad(uni);// / verifica la unidad y
-													// retorna
-													// una
-													// q
-													// este disponible
+
+						// / verifica la unidad y retorna una q este disponible
+						uni = VerificarUnidad(uni, fs);
 						Chofer cho = coop.randomChofer();
-						cho = VerificarChofer(cho);
+						cho = VerificarChofer(cho, fs);
 						float costo = asignarCosto();//
 						// decide si el viaje salio o no
 						String Stats = coop.randomStatusVi();
 
-						// se asignan las variables al viaje
-
+						// ********** se asignan las variables al viaje*********
 						String codv = "v" + "" + i + ""
 								+ rif.substring(rif.length() - 3, rif.length());
 						// codigo esta compuesto por el numero de viaje y los 3
-						// ultimos
-						// digitos del rif de la cooperativa a la q pertenece
+						// ultimos digitos del rif de la cooperativa a la q
+						// pertenece
+
 						Viaje viaje = new Viaje();
 						viaje.setIdviaje(codv);
 						viaje.setFecha_salida(fs);
@@ -115,14 +114,16 @@ public class ControladorVistaViaje implements ActionListener {
 						viaje.setStatus(Stats);
 
 						coop.agregarViaje(viaje);
-						multar(fs);
+						multar(fs, viaje, coop);
 
 						i++;
-					} while (i < 10);
-
-					quitarmulta();
-					cancelarViaje();
+					} while (i < nroViajes);
+					
+                    coop.Ordenar();
+					coop.quitarmulta();
+					coop.cancelarViaje();
 					llenarTabla();
+					vviaje.getBtnGenerar().setEnabled(false);
 
 				}
 			}
@@ -150,7 +151,7 @@ public class ControladorVistaViaje implements ActionListener {
 				model.setValueAt(sdf.format(viaje.getFecha_retorno()), i, 5);
 				model.setValueAt(viaje.getCosto(), i, 6);
 				model.setValueAt(viaje.CalSeguro(viaje.getCosto()), i, 7);
-				model.setValueAt(viaje.getStatus(), i, 8);
+				model.setValueAt(Status(viaje.getStatus()), i, 8);
 
 			}
 
@@ -160,65 +161,6 @@ public class ControladorVistaViaje implements ActionListener {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}
-
-	// ///**********cambia el estatus del chofer y la unidad a multado
-	public void multar(Date pferiado) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(pferiado);
-		for (int i = 0; i < ter.getlFeriado().size(); i++) {
-			Feriado feriado = ter.getlFeriado().get(i);
-			int df = feriado.getDia();
-			int mf = feriado.getMes();
-			if ((df == calendar.get(Calendar.DAY_OF_MONTH))
-					&& (mf == calendar.get(Calendar.MONTH))) {
-				if (viaje.getStatus() == "2") {
-					viaje.getChofer().setStatus("2");
-					viaje.getVehiculo().setStatus("2");
-					viaje.setStatus("3");
-
-				}
-			}
-		}
-
-	}
-
-	// *******************Quitar Multa *************
-	public void quitarmulta() {
-		Multa multa = new Multa();
-		int i = 0;
-		if (coop.getlMulta().isEmpty() == false) {
-			for (int j = 0; j < coop.getlViaje().size(); j++) {
-				do {
-					// for (int i = 0; i < coop.getlMulta().size(); i++) {
-
-					viaje = coop.getlViaje().get(j);
-					multa = coop.getlMulta().get(i);
-
-					if (viaje.getFecha_salida().before(multa.getFecha_in())
-							|| viaje.getFecha_salida().after(
-									multa.getFecha_fin())) {
-						viaje.getChofer().setStatus("1");
-						viaje.getVehiculo().setStatus("2");
-					}
-					i++;
-				} while (i < coop.getlMulta().size());
-
-			}
-		}
-	}
-
-	// **********************Cancelar viaje por Multa ************************
-	public void cancelarViaje() {
-
-		for (int j = 0; j < coop.getlViaje().size(); j++) {
-			viaje = coop.getlViaje().get(j);
-			if (viaje.getChofer().getStatus() == "2"
-					|| viaje.getVehiculo().getstatus() == "2") {
-				viaje.setStatus("3");
-			}
-		}
-
 	}
 
 	// ****************** Suma/resta los días/horas recibidos a la
@@ -246,13 +188,16 @@ public class ControladorVistaViaje implements ActionListener {
 	public Date randomSalida(Date fecha) {
 
 		int random = 0;
+		int max= Integer.parseInt(vviaje.getTextDias().getText());
+		
+		
 
-		random = (int) Math.floor(Math.random() * 8 + 2);
+		random = (int) Math.floor(Math.random() * max + 0);
 
 		Date salida = modificarDias(fecha, random);
 
 		random = (int) Math.floor(Math.random() * 23 + 0);
-		
+
 		salida = modificarHoras(salida, random);
 
 		return salida;
@@ -274,8 +219,8 @@ public class ControladorVistaViaje implements ActionListener {
 
 	// *******************************Asignar Costo********************** //
 	public float asignarCosto() {
-		float max = 1200;
-		float min = 520;
+		float max = 500;
+		float min = 50;
 
 		float costo = min + new Random().nextFloat() * (max - min);// // genera
 		// minimo
@@ -289,16 +234,15 @@ public class ControladorVistaViaje implements ActionListener {
 	// *********************Verificar ********************************
 
 	// **************Verifican si ya han retornado*********************
-	public Unidad VerificarUnidad(Unidad uni) {
+	public Unidad VerificarUnidad(Unidad uni, Date fs) {
 
 		boolean v;
 		do {
 			for (int i = 0; i < coop.getlViaje().size(); i++) {
 				Viaje viaje = coop.getlViaje().get(i);
-				Date fechai = vviaje.getFechaI();
 
 				if ((viaje.getVehiculo().equals(uni))
-						&& (viaje.getFecha_retorno().after(fechai))) {
+						&& (viaje.getFecha_retorno().after(fs))) {
 					uni = coop.ramdomSocio().randomUnidad();
 					v = false;
 				}
@@ -308,15 +252,15 @@ public class ControladorVistaViaje implements ActionListener {
 		return uni;
 	}
 
-	public Chofer VerificarChofer(Chofer cho) {
+	public Chofer VerificarChofer(Chofer cho, Date fs) {
 		boolean v = false;
 		do {
 			for (int i = 0; i < coop.getlViaje().size(); i++) {
 				Viaje viaje = coop.getlViaje().get(i);
-				Date fechai = vviaje.getFechaI();
 
-				if ((viaje.getChofer().equals(cho))
-						&& (viaje.getFecha_retorno().after(fechai))) {
+				if ((viaje.getChofer().getId_chofer()
+						.equals(cho.getId_chofer()))
+						&& (viaje.getFecha_retorno().after(fs))) {
 					cho = coop.randomChofer();
 					v = false;
 				}
@@ -329,4 +273,56 @@ public class ControladorVistaViaje implements ActionListener {
 		// ************************************
 	}
 
+	// ///**********cambia el estatus del chofer y la unidad a multado y agrega
+	// la multa al listado
+	public void multar(Date pferiado, Viaje viaje, Cooperativa coop) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(pferiado);
+
+		int cm = calendar.get(Calendar.MONTH) + 1;// calendar maneja los meses
+													// desd 0
+		for (int i = 0; i < ter.getlFeriado().size(); i++) {
+			Feriado feriado = ter.getlFeriado().get(i);
+			int df = feriado.getDia();
+			int mf = feriado.getMes();
+
+			if ((df == calendar.get(Calendar.DAY_OF_MONTH)) && (mf == cm)) {
+				if (viaje.getStatus().equals("2")) {
+					viaje.getChofer().setStatus(true);
+					viaje.getVehiculo().setStatus(true);
+
+					// id compuesta por: M + id del chofer + la id de la unidad multada
+					String idmulta = "M" + viaje.getChofer().getId_chofer()
+							+ viaje.getVehiculo().getId() + "";
+					// Crea una multa y la agrega a la lista de coop
+					Date iniciom=  modificarDias(viaje.getFecha_salida(),1);
+					Date finm= modificarDias(iniciom,3);
+					Multa multa = new Multa( iniciom,finm,idmulta,
+							viaje.getVehiculo(), viaje.getChofer());
+					coop.agregarMulta(multa);
+
+					i = ter.getlFeriado().size();
+
+				} else
+					i = ter.getlFeriado().size();
+			}
+		}
+
+	}
+
+	public String Status(String string) {
+		String sts = "";
+		switch (string) {
+		case "1":
+			sts = "SALIO";
+			break;
+		case "2":
+			sts = "NO SALIO";
+			break;
+		case "3":
+			sts = "Cancelado ";
+			break;
+		}
+		return sts;
+	}
 }

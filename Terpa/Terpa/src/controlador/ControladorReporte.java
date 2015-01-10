@@ -2,21 +2,11 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Vector;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 import vista.*;
 import modelo.*;
@@ -40,8 +30,7 @@ public class ControladorReporte implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-
-			if (e.getSource().equals(vreport.getBtnGenerar())) {
+		 if (e.getSource().equals(vreport.getBtnGenerar())) {
 
 				opc = vreport.getindex();
 				String rif = vreport.getTextvrif().getText();
@@ -55,18 +44,20 @@ public class ControladorReporte implements ActionListener {
 						JOptionPane.showMessageDialog(null,
 								" Seleccione una opcion ");
 					if (opc == 3) {
-						vreport.desactivar();
-						llenarTablaMulta();
-					} else if (vreport.getTextFiltrar() == " ")
+
+						llenarTablaMulta(asignarcolumna(opc));
+
+					} else if (vreport.getTextFiltrar().equalsIgnoreCase(""))
 						JOptionPane.showMessageDialog(null, " Introduzca ID ");
 					else
-						llenarTablaViajes(opc);
+						llenarTablaViajes(opc, asignarcolumna(opc));
 				}
-				vreport.getTable().setModel(asignarcolumna(opc));
 
 			} else if (e.getSource().equals(vreport.getBtnCancelar())) {
 				vreport.limpiar();
+				vreport.getTable().setModel(new DefaultTableModel());
 				vreport.activar();
+
 			}
 
 		} catch (Exception ex) {
@@ -100,66 +91,78 @@ public class ControladorReporte implements ActionListener {
 
 			break;
 		case 3:
+
 			size = coop.getlMulta().size();
-			String[] c = { "Multa", "Cooperativa", "Inicio ", "Fina", "Unidad",
+			String[] c = { "Multa", "Cooperativa", "Inicio ", "Fin", "Unidad",
 					"Chofer" };
-			vreport.desactivar();
 			columna = c;
 			break;
 
 		}
 		DefaultTableModel model = new DefaultTableModel(null, columna);
-		 model.setNumRows(size);
+		model.setNumRows(size);
 		return model;
 
 	}
 
-	public void llenarTablaViajes(int opc) {
+	public void llenarTablaViajes(int opc, DefaultTableModel model) {
 
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
 			String buscar = vreport.getTextFiltrar();
-
+			boolean llenar = false;// evita q la tabla se llene sino cumple con
+									// las condiciones del switch
 			coop = ter.BuscarCoop(vreport.getTextvrif().getText());
 			ArrayList<Viaje> lViaje = coop.getlViaje();
+		
 
 			for (int i = 0; i < lViaje.size(); i++) {
+
 				Viaje viaje = lViaje.get(i);
 				switch (opc) {
 
 				case 1: {
-					if (viaje.getChofer().getId_chofer() == buscar)
+					if (viaje.getChofer().getId_chofer().equals(buscar)) {
 						vreport.setLblTitulo("LISTADO DE ASIGNACIONES CHOFER:"
-								+ buscar);
-					model.setValueAt(buscar, i, 0);
-					model.setValueAt(viaje.getChofer().getId_Jefe(), i, 2);
-					model.setValueAt(viaje.getVehiculo().getId(), i, 5);
+								+ viaje.getChofer().getNombre());
+						llenar = true;
+						model.setValueAt(buscar, i, 0);
+						model.setValueAt(viaje.getChofer().getId_Jefe(), i, 2);
+						model.setValueAt(viaje.getVehiculo().getId(), i, 5);
 
+					}
 					break;
 				}
 				case 2: {
-					if (viaje.getVehiculo().getId() == Integer
-							.parseInt((buscar)))
+					int a = Integer.parseInt((buscar));
+					if (viaje.getVehiculo().getId() == a) {
 						;
-					vreport.setLblTitulo("LISTADO DE ASIGNACIONES UNIDAD:"
-							+ buscar);
-					model.setValueAt(buscar, i, 0);
-					model.setValueAt(viaje.getVehiculo().getId_socio(), i, 2);
-					model.setValueAt(viaje.getChofer().getId_chofer(), i, 5);
+						llenar = true;
+						vreport.setLblTitulo("LISTADO DE ASIGNACIONES UNIDAD:"
+								+ viaje.getVehiculo().getId_socio()
+								+ viaje.getVehiculo().getId());
+						model.setValueAt(buscar, i, 0);
+						model.setValueAt(viaje.getVehiculo().getId_socio(), i,
+								2);
+						model.setValueAt(viaje.getChofer().getId_chofer(), i, 5);
+					}
 					break;
 				}
 				}
 
-				model.setValueAt(coop.getNombre(), i, 1);
-				model.setValueAt(viaje.getIdviaje(), i, 3);
-				String Destino = viaje.getRuta().getDestino();
-				model.setValueAt(Destino, i, 4);
-				model.setValueAt(sdf.format(viaje.getFecha_salida()), i, 6);
-				model.setValueAt(sdf.format(viaje.getFecha_retorno()), i, 7);
-				model.setValueAt(viaje.getStatus(), i, 8);
+				if (llenar) {
+					model.setValueAt(coop.getNombre(), i, 1);
+					model.setValueAt(viaje.getIdviaje(), i, 3);
+					String Destino = viaje.getRuta().getDestino();
+					model.setValueAt(Destino, i, 4);
+					model.setValueAt(sdf.format(viaje.getFecha_salida()), i, 6);
+					model.setValueAt(sdf.format(viaje.getFecha_retorno()), i, 7);
+					model.setValueAt(Status(viaje.getStatus()), i, 8);
+					llenar = false;
 
+				}
 			}
-          
+
 			vreport.getTable().setModel(model);
 			vreport.getTable().setVisible(true);
 
@@ -168,19 +171,20 @@ public class ControladorReporte implements ActionListener {
 		}
 	}
 
-	public void llenarTablaMulta() {
+	public void llenarTablaMulta(DefaultTableModel model) {
 		try {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
 			ArrayList<Multa> lMulta = coop.getlMulta();
+
 			for (int i = 0; i < lMulta.size(); i++) {
 				Multa multa = lMulta.get(i);
 
 				coop = ter.BuscarCoop(vreport.getTextvrif().getText());
-				vreport.setLblTitulo("LISTADO DE MULTAS " + coop);
+				vreport.setLblTitulo("LISTADO DE MULTAS " + coop.getNombre());
 
 				model.setValueAt(multa.getNro(), i, 0);
-				model.setValueAt(coop, i, 1);
+				model.setValueAt(coop.getNombre(), i, 1);
 				model.setValueAt(sdf.format(multa.getFecha_in()), i, 2);
 				model.setValueAt(sdf.format(multa.getFecha_fin()), i, 3);
 				model.setValueAt(multa.getUnidad().getId(), i, 4);
@@ -193,4 +197,21 @@ public class ControladorReporte implements ActionListener {
 			ex.printStackTrace();
 		}
 	}
+
+	public String Status(String string) {
+		String sts = "";
+		switch (string) {
+		case "1":
+			sts = "SALIO";
+			break;
+		case "2":
+			sts = "NO SALIO";
+			break;
+		case "3":
+			sts = "Cancelado ";
+			break;
+		}
+		return sts;
+	}
+
 }
