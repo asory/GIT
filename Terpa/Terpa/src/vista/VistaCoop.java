@@ -1,24 +1,14 @@
 package vista;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
-
 import java.awt.Color;
-
-
-
 import javax.swing.JLabel;
-
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 import javax.swing.JFormattedTextField;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 @SuppressWarnings("serial")
 public class VistaCoop extends JFrame {
@@ -52,7 +42,7 @@ public class VistaCoop extends JFrame {
 		btnAgregar.setBounds(59, 264, 89, 23);
 		panel.add(btnAgregar);
 
-		btnSalir = new JButton("SALIR");
+		btnSalir = new JButton("CANCELAR");
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(new Color(102, 204, 51));
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));

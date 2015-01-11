@@ -10,8 +10,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.Font;
 import java.awt.Color;
+
 import bean.JTextFieldValidator;
 
+@SuppressWarnings("serial")
 public class VistaChofer extends javax.swing.JFrame {//
 	
 	private JPanel contentPane;

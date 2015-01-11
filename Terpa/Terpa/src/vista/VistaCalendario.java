@@ -1,8 +1,5 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,7 +7,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.JTextField;
 import javax.swing.JTable;
 
 import java.awt.Color;
@@ -18,11 +14,10 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
+@SuppressWarnings("serial")
 public class VistaCalendario extends JFrame {
 
 	private JPanel contentPane;

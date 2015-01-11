@@ -69,7 +69,7 @@ public class VistaViaje extends JFrame {
 		panel.add(label_1);
 
 		btnGenerar = new JButton("GENERAR");
-		btnGenerar.setBounds(621, 65, 82, 23);
+		btnGenerar.setBounds(600, 65, 87, 25);
 		btnGenerar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnGenerar.setBackground(new Color(102, 204, 51));
 		btnGenerar.setForeground(Color.WHITE);

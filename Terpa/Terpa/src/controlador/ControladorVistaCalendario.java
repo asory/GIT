@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
-import java.text.SimpleDateFormat;
-
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Cooperativa;
@@ -70,7 +68,7 @@ public class ControladorVistaCalendario implements ActionListener {
 				viaje = coop.getlViaje().get(j);
 				if (verificarFecha(viaje.getFecha_salida()))
 					llenarTabla(coop, j);
-				vistaCalendario.getTable().setVisible(true);
+				
 			}
 		}
 
@@ -81,6 +79,7 @@ public class ControladorVistaCalendario implements ActionListener {
 	public void llenarTabla(Cooperativa coop, int i) {
 
 		try {
+			vecv.clear();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
 			ArrayList<Viaje> lViaje = coop.getlViaje();
 			viaje = lViaje.get(i);
@@ -102,7 +101,7 @@ public class ControladorVistaCalendario implements ActionListener {
 
 			vistaCalendario.getTable().setModel(model);
 
-			vecv.clear();
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -124,8 +123,7 @@ public class ControladorVistaCalendario implements ActionListener {
 		String c = sdf.format(vistaCalendario.getFechaHasta());
 
 		if (fviaje.after(desde) && fviaje.before(hasta))
-			// if (desde.after(fviaje) && hasta.before(fviaje))
-			resp = true;
+					resp = true;
 		if (a.equals(b) || a.equals(c))
 			resp = true;
 

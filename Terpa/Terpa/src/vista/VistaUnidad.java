@@ -123,36 +123,43 @@ public class VistaUnidad extends javax.swing.JFrame {
 		textNumero.setFont(new Font("Dialog", Font.BOLD, 12));
 		textNumero.setBounds(129, 177, 147, 23);
 		panel.add(textNumero);
-
+		textNumero.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
+		
 		textPlaca = new JTextFieldValidator();
 		textPlaca.setFont(new Font("Dialog", Font.BOLD, 12));
 		textPlaca.setBounds(127, 273, 149, 20);
 		panel.add(textPlaca);
-
+		textPlaca.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
+		
 		textCapacidad = new JTextFieldValidator();
 		textCapacidad.setFont(new Font("Dialog", Font.BOLD, 12));
 		textCapacidad.setText(" ");
 		textCapacidad.setBounds(398, 227, 130, 23);
 		panel.add(textCapacidad);
-
+		textCapacidad.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
+		
 		textSocio = new JTextFieldValidator();
 		textSocio.setFont(new Font("Dialog", Font.BOLD, 12));
-		textSocio.setBounds(398, 178, 130, 23);
+		textSocio.setBounds(398, 178, 130, 23);      
 		panel.add(textSocio);
-
+		textSocio.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
+		
 		textNombre = new JTextFieldValidator();
 		textNombre.setText("  ");
 		textNombre.setFont(new Font("Dialog", Font.BOLD, 12));
 		textNombre.setBounds(131, 112, 386, 23);
 		panel.add(textNombre);
-
+		textNombre.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_ESPACIOS_Y_NUMEROS);
+		
 		textRif = new JTextFieldValidator();
 		textRif.setFont(new Font("Dialog", Font.BOLD, 12));
 		textRif.setBounds(153, 58, 205, 23);
 		panel.add(textRif);
-
+		textRif.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
+		
+		
 	}
-
+	
 	// /////////////////////////////////////////////////////////////////////////////////////////
 	public void activarListener(ActionListener accion) {
 		btnBuscar.addActionListener(accion);

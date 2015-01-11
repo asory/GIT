@@ -30,15 +30,8 @@ public class ControladorVistaCoop implements ActionListener {
 				agregarCoop();
 
 			else if (e.getSource().equals(vcoop.getBtnAgregarSocio())) {
-				JOptionPane.showInternalConfirmDialog(vcoop, "Agregar Socio",
-						null, JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-
-				/*
-				 * ControladorCargarSocio v = new ControladorCargarSocio();
-				 * v.setVisible(true); v.setLocationRelativeTo(vcoop); }
-				 */
-				vcoop.Limpiar();
+			 new ControladorVistaSocio(ter);
+							vcoop.Limpiar();
 			}
 
 			else if (e.getSource().equals(vcoop.getBtnSalir())) {

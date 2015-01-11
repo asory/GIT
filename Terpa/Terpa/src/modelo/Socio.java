@@ -16,6 +16,14 @@ public class Socio extends Persona {
 
 	}
 
+	public Socio(String nombre, String apellido, String telefono, String ci,
+			int cargo, String id_socio) {
+		super(nombre, apellido, telefono, ci);
+		this.cargo = cargo;
+		lUnidad = new ArrayList<Unidad>();
+		this.id_socio = id_socio;
+	}
+
 	public void setCargo(int cargo) {
 		this.cargo = cargo;
 	}

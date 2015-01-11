@@ -1,30 +1,22 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Frame;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.JTextComponent;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
 
 import bean.JTextFieldValidator;
 
+@SuppressWarnings("serial")
 public class VistaCargarRuta extends JFrame {
 
 	private JPanel contentPane;
@@ -93,15 +85,7 @@ public class VistaCargarRuta extends JFrame {
 		btnSalir.setBounds(474, 344, 95, 25);
 		contentPane.add(btnSalir);
 
-		/*
-		 * comboTipo = new JComboBox(); jComboBoxModel = new
-		 * DefaultComboBoxModel(new
-		 * String[]{"Seleccione","Nacional","Regional"});
-		 * comboTipo.setBackground(Color.WHITE); comboTipo.setBounds(452, 203,
-		 * 117, 24); contentPane.add(comboTipo);
-		 * comboTipo.setModel(jComboBoxModel);
-		 */
-
+		
 		String[] items = { "Seleccione", "Nacional", "Regional" };
 		comboTipo = new JComboBox<Object>(items);
 		comboTipo.setBackground(Color.WHITE);

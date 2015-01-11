@@ -3,11 +3,11 @@ package modelo;
 public class Unidad {
 
 	private String placa;
-	private int tipo;
+	private int tipo;//1-carro 2-ranchera 3-van 4-encava/busetaP(25p) 5-busetaP(32)
+	//6-BusP (60) 7-BusG/Buscama(80) 
 	private boolean status; // true = multado , false = no multado
 	private String id_socio;
-	private int id;//1-carro 2-ranchera 3-van 4-encava/busetaP(25p) 5-busetaP(32)
-					//6-BusP (60) 7-BusG/Buscama(80) 
+	private int id;
 
 	public Unidad() {
 		

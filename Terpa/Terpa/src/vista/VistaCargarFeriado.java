@@ -1,7 +1,4 @@
 package vista;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,17 +7,16 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
-import javax.swing.JDesktopPane;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import javax.swing.JTextField;
 
 import bean.JTextFieldValidator;
 
 import com.toedter.calendar.JDateChooser;
 
+@SuppressWarnings("serial")
 public class VistaCargarFeriado extends JFrame {
 
 	private JPanel contentPane;
