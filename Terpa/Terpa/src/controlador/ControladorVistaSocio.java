@@ -64,8 +64,9 @@ public class ControladorVistaSocio implements ActionListener {
 			else {
 
 				String rif = vsoc.getRifCoop();
-
-				if (term.VerificarCoop(rif) && !ValidarSocio(rif)) {
+				String id = vsoc.getTextID().getText();
+				
+				if (term.VerificarCoop(rif) && !ValidarSocio(rif,id)) {
 
 					coop = term.BuscarCoop(rif);
 					String nombre = vsoc.getNombreS().getText();
@@ -73,7 +74,7 @@ public class ControladorVistaSocio implements ActionListener {
 					String cedula = vsoc.getCiS();
 					int cargo = vsoc.getIndiceCombo();
 					String telefono = vsoc.getTelefonoS().getText();
-					String id = vsoc.getTextID().getText();
+					
 					soc = new Socio(nombre, apellido, telefono, cedula, cargo,
 							id);
 					coop.agregarSocio(soc);
@@ -104,17 +105,17 @@ public class ControladorVistaSocio implements ActionListener {
 
 	// /**************** Validar que el Socio exista ***********************///
 
-	public boolean ValidarSocio(String rif) {
+	public boolean ValidarSocio(String rif,String id) {
 		boolean v = false;
 		coop = term.BuscarCoop(rif);
 
-		if (coop.getlChofer() == null || coop.getlChofer().isEmpty())
+		if (coop.getlSocio() == null || coop.getlSocio().isEmpty())
 			v = false;
 		else
 			for (int i = 0; i < coop.getlChofer().size(); i++) {
-				if (vsoc.getTextID().getText() == coop.getlSocio().get(i)
+				if (id == coop.getlSocio().get(i)
 						.getId_socio())
-					;
+					
 				v = true; // lo encontro
 			}
 		return v; // no lo encontro

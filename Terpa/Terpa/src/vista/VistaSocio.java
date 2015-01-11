@@ -51,7 +51,6 @@ public class VistaSocio extends JFrame {
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setToolTipText("J1234");
 		panel.setBackground(Color.WHITE);
 		panel.setBounds(0, 0, 459, 384);
 		contentPane.add(panel);
@@ -109,6 +108,7 @@ public class VistaSocio extends JFrame {
 		panel.add(btnSalir);
 
 		textRifCoop = new JTextFieldValidator();
+		textRifCoop.setToolTipText("J1234");
 		textRifCoop.setBounds(112, 81, 102, 20);
 		panel.add(textRifCoop);
 
@@ -151,6 +151,7 @@ public class VistaSocio extends JFrame {
 		panel.add(btnAgregarCho);
 		
 		btnAgregarUnidad = new JButton("Agregar Unidad");
+		btnAgregarUnidad.setVisible(false);
 		btnAgregarUnidad.setForeground(Color.WHITE);
 		btnAgregarUnidad.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnAgregarUnidad.setBackground(new Color(102, 204, 51));
@@ -239,6 +240,8 @@ public class VistaSocio extends JFrame {
 		textTelefonoS.setText("");
 		textID.setText("");
 		textApellidoS.setText("");
+		comboCargo.setSelectedIndex(0);
+		
 	}
 	
 	public String getComboCargo() {
