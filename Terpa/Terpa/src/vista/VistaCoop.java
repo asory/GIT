@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class VistaCoop extends JFrame {
@@ -18,7 +19,18 @@ public class VistaCoop extends JFrame {
 	private JButton btnAgregarSocio;
 	private JButton btnSalir;
 	private JFormattedTextField textRif;
-    private JFormattedTextField textNombreC;
+	private JFormattedTextField textNombreC;
+
+	// SINGLETON
+	private static VistaCoop instancia;
+	private JTextField textField;
+
+	public static VistaCoop getInstancia() {
+		if (instancia == null) {
+			instancia = new VistaCoop();
+		}
+		return instancia;
+	}
 
 	public VistaCoop() {
 		setTitle("TERPA");
@@ -48,8 +60,7 @@ public class VistaCoop extends JFrame {
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.setBounds(339, 264, 89, 23);
 		panel.add(btnSalir);
-		
-		
+
 		JLabel lblAsignarViaje = new JLabel(" AGREGAR COOPERATIVA");
 		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblAsignarViaje.setBounds(157, 11, 189, 52);
@@ -72,23 +83,36 @@ public class VistaCoop extends JFrame {
 		btnAgregarSocio.setBounds(183, 263, 121, 25);
 		btnAgregarSocio.setVisible(false);
 		panel.add(btnAgregarSocio);
-		
+
 		textRif = new JFormattedTextField();
 		textRif.setBounds(75, 143, 101, 20);
 		panel.add(textRif);
-		
+
 		textNombreC = new JFormattedTextField();
 		textNombreC.setBounds(301, 143, 115, 20);
 		panel.add(textNombreC);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(303, 193, 89, 23);
+		panel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(59, 210, 89, 23);
+		panel.add(btnNewButton_1);
+		
+		textField = new JTextField();
+		textField.setBounds(181, 90, 86, 20);
+		panel.add(textField);
+		textField.setColumns(10);
 	}
 
 	public void activarListener(ActionListener accion) {
 		btnAgregar.addActionListener(accion);
 		btnAgregarSocio.addActionListener(accion);
 		btnSalir.addActionListener(accion);
-		
-		
+
 	}
+
 	public void Limpiar() {
 		textRif.setText("");
 		textNombreC.setText("");
@@ -117,6 +141,4 @@ public class VistaCoop extends JFrame {
 	public void setTextRif(JFormattedTextField textRif) {
 		this.textRif = textRif;
 	}
-
-
 }

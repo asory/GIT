@@ -15,12 +15,28 @@ public class ControladorVistaChofer implements ActionListener {
 	private Terminal term;
 
 	public ControladorVistaChofer(Terminal ter) {
-		vcho = new VistaChofer();
+		vcho = VistaChofer.getInstancia();
 		vcho.setVisible(true);
 		vcho.activarListener(this);
 		term = ter;
 	}
-
+	//SINGLETON
+	private static  ControladorVistaChofer instancia;
+	
+	
+	public static  ControladorVistaChofer getInstancia(Terminal term){
+			if (instancia == null){
+				instancia = new ControladorVistaChofer (term) ;
+			}
+			
+			return instancia;
+		}
+	public void iniciar(){
+		vcho.blanquearCampos();;
+		vcho.setVisible(true);
+	}
+		
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();

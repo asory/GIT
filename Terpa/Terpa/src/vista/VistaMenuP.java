@@ -21,8 +21,8 @@ import javax.swing.SwingConstants;
 @SuppressWarnings("serial")
 public class VistaMenuP extends JFrame {
 
-	private JPanel contentPane = null;
-	JMenuItem mpCoop = null;
+	private JPanel contentPane ;
+	JMenuItem mpCoop ;
 	JMenuItem mpRuta;
 	JMenuItem mpChofer;
 	JMenuItem mpSocio;
@@ -32,7 +32,16 @@ public class VistaMenuP extends JFrame {
 	JMenuItem mpCalendario;
 	JButton btnAsignar;
 	JButton btnSalir;
-	
+
+	// SINGLETON
+	private static VistaMenuP instancia;
+
+	public static VistaMenuP getInstancia() {
+		if (instancia == null) {
+			instancia = new VistaMenuP();
+		}
+		return instancia;
+	}
 
 	public VistaMenuP() {
 		try {
@@ -126,6 +135,7 @@ public class VistaMenuP extends JFrame {
 			btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 			btnSalir.setBounds(360, 350, 89, 23);
 			panel.add(btnSalir);
+
 		} catch (Exception e) {
 			// add your error handling code here
 			e.printStackTrace();

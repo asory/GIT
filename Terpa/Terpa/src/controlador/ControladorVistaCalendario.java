@@ -19,16 +19,32 @@ public class ControladorVistaCalendario implements ActionListener {
 	private VistaCalendario vistaCalendario;
 	private Cooperativa coop;
 	private Viaje viaje;
-	private Terminal terminal;
+	private  Terminal terminal;
 	private Vector<String> vecv = new Vector<String>();
 
 	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
 			"Retorno", "Pasaje", "Seguro", "Status" };
 	DefaultTableModel model = new DefaultTableModel(null, columna);
 
+	//SINGLETON
+	private static ControladorVistaCalendario  instancia;
+	
+	
+	public static ControladorVistaCalendario getInstancia(Terminal terminal){
+			if (instancia == null){
+				instancia = new ControladorVistaCalendario(terminal) ;
+			}
+			return instancia;
+		}
+	public void iniciar(){
+		vistaCalendario.blanquearCampos();
+		vistaCalendario.setVisible(true);
+	}
+		
+		
 	public ControladorVistaCalendario(Terminal terminal) {
 
-		vistaCalendario = new VistaCalendario();
+		vistaCalendario =  VistaCalendario.getInstancia();
 		vistaCalendario.setLocation(480, 210);
 		vistaCalendario.setVisible(true);
 		vistaCalendario.activarListener(this);

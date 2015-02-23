@@ -6,20 +6,36 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import modelo.*;
+import modelo.dao.*;
 import vista.VistaCoop;
 
 public class ControladorVistaCoop implements ActionListener {
 	private VistaCoop vcoop;
 	private Terminal ter;
-	
+	private CooperativaDAO copDAO;
 
 	public ControladorVistaCoop(Terminal terminal) {
 
-		vcoop = new VistaCoop();
+		vcoop = VistaCoop.getInstancia();
 		vcoop.setVisible(true);
 		vcoop.setLocationRelativeTo(null);
 		vcoop.activarListener(this);
 		this.ter = terminal;
+	}
+
+	// SINGLETON
+	private static ControladorVistaCoop instancia;
+
+	public static ControladorVistaCoop getInstancia(Terminal ter) {
+		if (instancia == null) {
+			instancia = new ControladorVistaCoop(ter);
+		}
+		return instancia;
+	}
+
+	public void iniciar() {
+		vcoop.Limpiar();
+		vcoop.setVisible(true);
 	}
 
 	@Override
@@ -30,8 +46,8 @@ public class ControladorVistaCoop implements ActionListener {
 				agregarCoop();
 
 			else if (e.getSource().equals(vcoop.getBtnAgregarSocio())) {
-			 new ControladorVistaSocio(ter);
-							vcoop.Limpiar();
+				ControladorVistaSocio.getInstancia(ter);
+				vcoop.Limpiar();
 			}
 
 			else if (e.getSource().equals(vcoop.getBtnSalir())) {
@@ -54,8 +70,10 @@ public class ControladorVistaCoop implements ActionListener {
 			String rif = vcoop.getTextRif();
 			String nombre = vcoop.getTexNombreC();
 			Cooperativa coop = new Cooperativa(nombre, rif);
-			if (ter.VerificarCoop(rif) == false) {
-				ter.agregarCooperativa(coop);
+			if (copDAO.buscarCooperativa(rif) == null)
+			// ter.VerificarCoop(rif) == false)
+			{
+				copDAO.registrarCooperativa(coop);
 				vcoop.getBtnAgregarSocio().setVisible(true);
 				JOptionPane.showMessageDialog(null, "Cooperativa Registrada ");
 				vcoop.Limpiar();

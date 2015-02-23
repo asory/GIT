@@ -13,15 +13,31 @@ public class ControladorVistaSocio implements ActionListener {
 	private VistaSocio vsoc;
 	private Socio soc;
 	private Cooperativa coop;
-	private Terminal term;
+	private  Terminal term;
 
 	public ControladorVistaSocio(Terminal terminal) {
-		vsoc = new VistaSocio();
+		term = terminal;
+		vsoc = VistaSocio.getInstancia();
 		vsoc.setVisible(true);
 		vsoc.activarListener(this);
-		term = terminal;
+		
 	}
-
+	//SINGLETON
+	private static ControladorVistaSocio instancia;
+	
+	
+	public static  ControladorVistaSocio getInstancia(Terminal term){
+			if (instancia == null){
+				instancia = new ControladorVistaSocio(term) ;
+			}
+			return instancia;
+		}
+	public void iniciar(){
+		vsoc.blanquearCampos();
+		vsoc.setVisible(true);
+	}
+		
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
@@ -32,10 +48,10 @@ public class ControladorVistaSocio implements ActionListener {
 				vsoc.getBtnAgregarUnidad().setVisible(true);
 
 			} else if (e.getSource().equals(vsoc.getBtnAgregarCho())) {
-				new ControladorVistaChofer(term);
+				ControladorVistaChofer.getInstancia(term);
 				
 			} else if (e.getSource().equals(vsoc.getBtnAgregarUnidad())) {
-				new ControladorVistaUnidad(term);
+				 ControladorVistaUnidad.getInstancia(term);
 				
 			} else if (e.getSource().equals(vsoc.getBtnBuscarCoop())) {
 				BuscarCooperativa(term);

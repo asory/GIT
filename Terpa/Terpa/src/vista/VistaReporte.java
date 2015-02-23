@@ -39,6 +39,16 @@ public class VistaReporte extends JFrame {
 	private JTextFieldValidator textvrif;
 	private JButton btnCancelar;
 
+	// SINGLETON
+	private static VistaReporte instancia;
+
+	public static VistaReporte getInstancia() {
+		if (instancia == null) {
+			instancia = new VistaReporte();
+		}
+		return instancia;
+	}
+
 	public VistaReporte() {
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

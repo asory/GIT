@@ -1,6 +1,5 @@
 package modelo;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Viaje {
@@ -18,18 +17,12 @@ public class Viaje {
 	public Viaje() {
 
 	}
-
-	public Viaje(Date fecha_salida, Date fecha_retorno,
-			Unidad vehiculo, Chofer chofer, ArrayList<Feriado> lFeriado,
-			ArrayList<Multa> lMulta) {
-		super();
-		this.fecha_salida = fecha_salida;
-		this.fecha_retorno = fecha_retorno;
-		this.vehiculo = vehiculo;
-		this.chofer = chofer;
-		
-	}
 	
+	public Viaje(String id, Date fechasalida, Date fecharetorno, String ruta2,
+			Unidad vehiculo, Chofer chofer, String status) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Unidad getVehiculo() {
 		return vehiculo;
 	}

@@ -18,9 +18,25 @@ public class ControladorReporte implements ActionListener {
 	private int opc;
 	private DefaultTableModel model;
 
+	
+	//SINGLETON
+	private static ControladorReporte instancia;
+	
+	
+	public static ControladorReporte  getInstancia(Terminal ter){
+			if (instancia == null){
+				instancia = new ControladorReporte (ter) ;
+			}
+			return instancia;
+		}
+	public void iniciar(){
+		vreport.limpiar();
+		vreport.setVisible(true);
+	}
+		
 	public ControladorReporte(Terminal terminal) {
 
-		vreport = new VistaReporte();
+		vreport =VistaReporte.getInstancia();
 		vreport.setVisible(true);
 		vreport.activarListener(this);
 		ter = terminal;

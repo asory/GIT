@@ -12,16 +12,33 @@ public class ControladorVistaCargarFeriado implements ActionListener {
 	private VistaCargarFeriado vistaCargarFeriado;
 	private Terminal terminal;
 	
-
+	//SINGLETON
+	private static ControladorVistaCargarFeriado instancia;
+	
+	
+	public static  ControladorVistaCargarFeriado getInstancia(Terminal terminal){
+			if (instancia == null){
+				instancia = new ControladorVistaCargarFeriado(terminal) ;
+			}
+			return instancia;
+		}
+		
+		
 	public ControladorVistaCargarFeriado(Terminal terminal) {
 		
-		vistaCargarFeriado= new VistaCargarFeriado();
+		vistaCargarFeriado= VistaCargarFeriado.getInstancia();
 		vistaCargarFeriado.setLocation(480,210);
 		vistaCargarFeriado.setVisible(true);
 		vistaCargarFeriado.activarListener(this);
 		this.terminal = terminal;
 		
 	}
+	
+	public void iniciar(){
+		vistaCargarFeriado.blanquearCampos();
+		vistaCargarFeriado.setVisible(true);
+	}
+		
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

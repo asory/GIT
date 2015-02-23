@@ -16,7 +16,6 @@ import bean.JTextFieldValidator;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-
 @SuppressWarnings("serial")
 public class VistaSocio extends JFrame {
 
@@ -32,14 +31,22 @@ public class VistaSocio extends JFrame {
 	private JTextFieldValidator textCiS;
 	private JTextFieldValidator textNombreS;
 	private JTextFieldValidator textTelefonoS;
-	private JTextFieldValidator textID;	
+	private JTextFieldValidator textID;
 	private JTextFieldValidator textApellidoS;
-	
-	
+
 	private JComboBox comboCargo;
 	private DefaultComboBoxModel<?> jComboBoxModel;
 
+	// SINGLETON
 
+	private static VistaSocio instancia;
+
+	public static VistaSocio getInstancia() {
+		if (instancia == null) {
+			instancia = new VistaSocio();
+		}
+		return instancia;
+	}
 
 	public VistaSocio() {
 		setTitle("TERPA");
@@ -127,21 +134,21 @@ public class VistaSocio extends JFrame {
 		textTelefonoS = new JTextFieldValidator();
 		textTelefonoS.setBounds(299, 225, 104, 23);
 		panel.add(textTelefonoS);
-	
+
 		JLabel IDS = new JLabel("ID :");
 		IDS.setFont(new Font("Dialog", Font.BOLD, 12));
 		IDS.setBounds(74, 230, 25, 14);
 		panel.add(IDS);
-		
+
 		JLabel lblApellido = new JLabel("Apellido :");
 		lblApellido.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblApellido.setBounds(243, 145, 51, 16);
 		panel.add(lblApellido);
-		
-	    textApellidoS = new JTextFieldValidator();
+
+		textApellidoS = new JTextFieldValidator();
 		textApellidoS.setBounds(299, 146, 104, 20);
 		panel.add(textApellidoS);
-		
+
 		btnAgregarCho = new JButton("Agregar Chofer");
 		btnAgregarCho.setVisible(false);
 		btnAgregarCho.setForeground(Color.WHITE);
@@ -149,7 +156,7 @@ public class VistaSocio extends JFrame {
 		btnAgregarCho.setBackground(new Color(102, 204, 51));
 		btnAgregarCho.setBounds(83, 314, 119, 25);
 		panel.add(btnAgregarCho);
-		
+
 		btnAgregarUnidad = new JButton("Agregar Unidad");
 		btnAgregarUnidad.setVisible(false);
 		btnAgregarUnidad.setForeground(Color.WHITE);
@@ -157,14 +164,15 @@ public class VistaSocio extends JFrame {
 		btnAgregarUnidad.setBackground(new Color(102, 204, 51));
 		btnAgregarUnidad.setBounds(250, 314, 121, 25);
 		panel.add(btnAgregarUnidad);
-		
-		String[] items =  {"Seleccione", "Presidente", "Vice Presidente", "Tesorero", "Secretario", "Sin Cargo "};
+
+		String[] items = { "Seleccione", "Presidente", "Vice Presidente",
+				"Tesorero", "Secretario", "Sin Cargo " };
 		comboCargo = new JComboBox<Object>(items);
 		comboCargo.setBackground(Color.WHITE);
 		comboCargo.setFont(new Font("Dialog", Font.BOLD, 12));
 		comboCargo.setBounds(98, 191, 104, 20);
 		panel.add(comboCargo);
-		
+
 		textID = new JTextFieldValidator();
 		textID.setToolTipText("S xx");
 		textID.setBounds(98, 226, 104, 20);
@@ -198,7 +206,6 @@ public class VistaSocio extends JFrame {
 		return textNombreS;
 	}
 
-
 	public JButton getBtnAgregarUnidad() {
 		return btnAgregarUnidad;
 	}
@@ -214,11 +221,10 @@ public class VistaSocio extends JFrame {
 	public JTextFieldValidator getTelefonoS() {
 		return textTelefonoS;
 	}
-	
+
 	public JTextFieldValidator getTextID() {
 		return textID;
 	}
-
 
 	public JButton getBtnBuscarCoop() {
 		return btnBuscarCoop;
@@ -241,11 +247,11 @@ public class VistaSocio extends JFrame {
 		textID.setText("");
 		textApellidoS.setText("");
 		comboCargo.setSelectedIndex(0);
-		
+
 	}
-	
+
 	public String getComboCargo() {
-		return (String)comboCargo.getSelectedItem();
+		return (String) comboCargo.getSelectedItem();
 	}
 
 	public int getIndiceCombo() {

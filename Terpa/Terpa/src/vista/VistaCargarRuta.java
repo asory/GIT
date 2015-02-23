@@ -36,9 +36,18 @@ public class VistaCargarRuta extends JFrame {
 	private JLabel lblDesc;
 	private DefaultComboBoxModel<?> jComboBoxModel;
 
-	/**
-	 * Create the frame.
-	 */
+	//SINGLETON
+	private static VistaCargarRuta instancia;
+	
+	
+	public static  VistaCargarRuta getInstancia(){
+			if (instancia == null){
+				instancia = new VistaCargarRuta() ;
+			}
+			return instancia;
+		}
+		
+	
 	public VistaCargarRuta() {
 		setTitle("TERPA");
 		setBackground(Color.WHITE);

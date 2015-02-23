@@ -9,10 +9,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 
 import vista.VistaViaje;
+import memento.*;
 import modelo.*;
 
 public class ControladorVistaViaje implements ActionListener {
@@ -20,14 +23,44 @@ public class ControladorVistaViaje implements ActionListener {
 	private VistaViaje vviaje;
 	private Cooperativa coop;
 	private Terminal ter;
+	//private String state;
+
 	Viaje viaje = new Viaje();
 	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
 			"Retorno", "Pasaje", "Seguro", "Status" };
 	DefaultTableModel model = new DefaultTableModel(null, columna);
 
+	// MEMENTO
+
+	/*private Caretaker ant = new Caretaker();
+
+	public Memento backup(String state) {
+
+		return new Memento(state);
+	}
+
+	public void restore(Memento m) {
+		state = m.getSavedState();
+
+	}
+*/
+	// SINGLETON
+	private static ControladorVistaViaje instancia;
+
+	public void iniciar() {
+		vviaje.setVisible(true);
+	}
+
+	public static ControladorVistaViaje getInstancia(Terminal ter) {
+		if (instancia == null) {
+			instancia = new ControladorVistaViaje(ter);
+		}
+		return instancia;
+	}
+
 	public ControladorVistaViaje(Terminal terminal) {
 
-		vviaje = new VistaViaje();
+		vviaje = VistaViaje.getInstancia();
 		vviaje.setVisible(true);
 		vviaje.activarListener(this);
 		this.ter = terminal;
@@ -46,7 +79,8 @@ public class ControladorVistaViaje implements ActionListener {
 
 				vviaje.Limpiar();
 				vviaje.getBtnGenerar().setEnabled(true);
-				vviaje.getTable().setModel(new DefaultTableModel(null, columna));
+				vviaje.getTable()
+						.setModel(new DefaultTableModel(null, columna));
 			}
 
 		} catch (Exception ex) {
@@ -59,7 +93,8 @@ public class ControladorVistaViaje implements ActionListener {
 	private void asignarViajes(Terminal ter) {
 
 		try {
-			if (vviaje.getRif() == "" || vviaje.getTextDias().getText()=="" || vviaje.getTextCantidad().getText()=="")
+			if (vviaje.getRif() == "" || vviaje.getTextDias().getText() == ""
+					|| vviaje.getTextCantidad().getText() == "")
 				JOptionPane.showMessageDialog(null,
 						"Debe llenar todos los campos");
 			else {
@@ -75,7 +110,8 @@ public class ControladorVistaViaje implements ActionListener {
 
 				} else {
 					int i = 0;
-					int nroViajes= Integer.parseInt(vviaje.getTextCantidad().getText());
+					int nroViajes = Integer.parseInt(vviaje.getTextCantidad()
+							.getText());
 					do {
 						// obtenemos condiciones del viaje
 
@@ -118,12 +154,15 @@ public class ControladorVistaViaje implements ActionListener {
 
 						i++;
 					} while (i < nroViajes);
-					
-                    coop.Ordenar();
+
+					coop.Ordenar();
 					coop.quitarmulta();
 					coop.cancelarViaje();
 					llenarTabla();
 					vviaje.getBtnGenerar().setEnabled(false);
+					// MEMENTO
+
+			//		ant.addMemento(backup(rif));
 
 				}
 			}
@@ -188,9 +227,7 @@ public class ControladorVistaViaje implements ActionListener {
 	public Date randomSalida(Date fecha) {
 
 		int random = 0;
-		int max= Integer.parseInt(vviaje.getTextDias().getText());
-		
-		
+		int max = Integer.parseInt(vviaje.getTextDias().getText());
 
 		random = (int) Math.floor(Math.random() * max + 0);
 
@@ -291,13 +328,14 @@ public class ControladorVistaViaje implements ActionListener {
 					viaje.getChofer().setStatus(true);
 					viaje.getVehiculo().setStatus(true);
 
-					// id compuesta por: M + id del chofer + la id de la unidad multada
+					// id compuesta por: M + id del chofer + la id de la unidad
+					// multada
 					String idmulta = "M" + viaje.getChofer().getId_chofer()
 							+ viaje.getVehiculo().getId() + "";
 					// Crea una multa y la agrega a la lista de coop
-					Date iniciom=  modificarDias(viaje.getFecha_salida(),1);
-					Date finm= modificarDias(iniciom,3);
-					Multa multa = new Multa( iniciom,finm,idmulta,
+					Date iniciom = modificarDias(viaje.getFecha_salida(), 1);
+					Date finm = modificarDias(iniciom, 3);
+					Multa multa = new Multa(iniciom, finm, idmulta,
 							viaje.getVehiculo(), viaje.getChofer());
 					coop.agregarMulta(multa);
 
@@ -325,4 +363,6 @@ public class ControladorVistaViaje implements ActionListener {
 		}
 		return sts;
 	}
+
+	
 }

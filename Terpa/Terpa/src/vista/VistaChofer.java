@@ -15,12 +15,12 @@ import bean.JTextFieldValidator;
 
 @SuppressWarnings("serial")
 public class VistaChofer extends javax.swing.JFrame {//
-	
+
 	private JPanel contentPane;
 	private JButton btnBuscarCoop;//
 	private JButton btnGuardarC;//
 	private JButton btnSalir;//
-	
+
 	private JTextFieldValidator textRifCoop;
 	private JTextFieldValidator textCoop;
 	private JTextFieldValidator textCiC;
@@ -29,7 +29,16 @@ public class VistaChofer extends javax.swing.JFrame {//
 	private JTextFieldValidator textTelefonoC;
 	private JTextFieldValidator textSocioC;
 	private JTextFieldValidator textIdC;
-	
+
+	// SINGLETON
+	private static VistaChofer instancia;
+
+	public static VistaChofer getInstancia() {
+		if (instancia == null) {
+			instancia = new VistaChofer();
+		}
+		return instancia;
+	}
 
 	public VistaChofer() {
 		setTitle("TERPA");
@@ -55,20 +64,20 @@ public class VistaChofer extends javax.swing.JFrame {//
 		lblRifCoop.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblRifCoop.setBounds(10, 82, 104, 14);
 		panel.add(lblRifCoop);
-		
+
 		textRifCoop = new JTextFieldValidator();
 		textRifCoop.setFont(new Font("Dialog", Font.BOLD, 12));
 		textRifCoop.setBounds(110, 80, 104, 20);
 		panel.add(textRifCoop);
-		
-		//JButton 
+
+		// JButton
 		btnBuscarCoop = new JButton("Buscar");
 		btnBuscarCoop.setForeground(Color.WHITE);
 		btnBuscarCoop.setBackground(new Color(102, 204, 51));
 		btnBuscarCoop.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnBuscarCoop.setBounds(224, 78, 87, 23);
 		panel.add(btnBuscarCoop);
-		
+
 		textCoop = new JTextFieldValidator();
 		textCoop.setFont(new Font("Dialog", Font.BOLD, 12));
 		textCoop.setBounds(332, 79, 102, 23);
@@ -78,7 +87,7 @@ public class VistaChofer extends javax.swing.JFrame {//
 		lblNombreC.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblNombreC.setBounds(52, 188, 54, 14);
 		panel.add(lblNombreC);
-		
+
 		textNombreC = new JTextFieldValidator();
 		textNombreC.setFont(new Font("Dialog", Font.BOLD, 12));
 		textNombreC.setBounds(110, 185, 104, 23);
@@ -88,7 +97,7 @@ public class VistaChofer extends javax.swing.JFrame {//
 		lblApellidoC.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblApellidoC.setBounds(266, 188, 56, 14);
 		panel.add(lblApellidoC);
-		
+
 		textApellidoC = new JTextFieldValidator();
 		textApellidoC.setFont(new Font("Dialog", Font.BOLD, 12));
 		textApellidoC.setBounds(332, 184, 102, 23);
@@ -98,7 +107,7 @@ public class VistaChofer extends javax.swing.JFrame {//
 		lblCiC.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblCiC.setBounds(52, 233, 46, 18);
 		panel.add(lblCiC);
-		
+
 		textCiC = new JTextFieldValidator();
 		textCiC.setFont(new Font("Dialog", Font.BOLD, 12));
 		textCiC.setBounds(110, 231, 104, 23);
@@ -108,108 +117,106 @@ public class VistaChofer extends javax.swing.JFrame {//
 		lblTelefonoC.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblTelefonoC.setBounds(266, 233, 56, 18);
 		panel.add(lblTelefonoC);
-		
+
 		textTelefonoC = new JTextFieldValidator();
 		textTelefonoC.setFont(new Font("Dialog", Font.BOLD, 12));
 		textTelefonoC.setBounds(332, 231, 102, 23);
 		panel.add(textTelefonoC);
-		
+
 		JLabel lblSocio = new JLabel("ID Socio :");
 		lblSocio.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblSocio.setBounds(52, 129, 54, 14);
 		panel.add(lblSocio);
-		
+
 		textSocioC = new JTextFieldValidator();
 		textSocioC.setFont(new Font("Dialog", Font.BOLD, 12));
 		textSocioC.setBounds(110, 125, 104, 23);
 		panel.add(textSocioC);
 
-		//JButton 
+		// JButton
 		btnGuardarC = new JButton("Guardar");
 		btnGuardarC.setForeground(Color.WHITE);
 		btnGuardarC.setBackground(new Color(102, 204, 51));
 		btnGuardarC.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnGuardarC.setBounds(110, 320, 89, 23);
 		panel.add(btnGuardarC);
-		
+
 		btnSalir = new JButton("Salir");
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(new Color(102, 204, 51));
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.setBounds(251, 320, 89, 23);
 		panel.add(btnSalir);
-		
+
 		JLabel lblIdChofer = new JLabel("ID Chofer :");
 		lblIdChofer.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblIdChofer.setBounds(41, 280, 65, 14);
 		panel.add(lblIdChofer);
-		
+
 		textIdC = new JTextFieldValidator();
 		textIdC.setFont(new Font("Dialog", Font.BOLD, 12));
 		textIdC.setBounds(110, 280, 104, 20);
 		panel.add(textIdC);
-		
-	
+
 	}
 
-	///////////===========================================///////////////
-	
+	// /////////===========================================///////////////
+
 	public void activarListener(ActionListener accion) {
 		btnBuscarCoop.addActionListener(accion);
 		btnGuardarC.addActionListener(accion);
 		btnSalir.addActionListener(accion);
-		
-		
+
 	}
-	
+
 	public String getRifCoop() {
 		return textRifCoop.getText();
 	}
-	
+
 	public JTextFieldValidator getCoop() {
 		return textCoop;
 	}
-	
+
 	public void setCoop(JTextFieldValidator textCoop) {
-		this.textCoop  = textCoop;
+		this.textCoop = textCoop;
 	}
-	
+
 	public String getCiC() {
 		return textCiC.getText();
 	}
 
-	public  JTextFieldValidator getNombreC() {
+	public JTextFieldValidator getNombreC() {
 		return textNombreC;
 	}
 
-	public  JTextFieldValidator getApellidoC() {
+	public JTextFieldValidator getApellidoC() {
 		return textApellidoC;
 	}
 
-	public  JTextFieldValidator getTelefonoC() {
+	public JTextFieldValidator getTelefonoC() {
 		return textTelefonoC;
 	}
-	
-	public  String getSocioC() {
+
+	public String getSocioC() {
 		return textSocioC.getText();
 	}
-	
-	public  String getIdC() {
+
+	public String getIdC() {
 		return textIdC.getText();
 	}
-	
+
 	public JButton getBtnBuscarCoop() {
 		return btnBuscarCoop;
 	}
-	
+
 	public JButton getBtnGuardarC() {
 		return btnGuardarC;
 	}
-	
+
 	public JButton getBtnSalir() {
 		return btnSalir;
 	}
-	
+
 	public void blanquearCampos() {
 		textRifCoop.setText("");
 		textCoop.setText("");
@@ -220,7 +227,7 @@ public class VistaChofer extends javax.swing.JFrame {//
 		textSocioC.setText("");
 		textIdC.setText("");
 	}
-	
+
 	public void mostrarMensaje(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje);
 	}

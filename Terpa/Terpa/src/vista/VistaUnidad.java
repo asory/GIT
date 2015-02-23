@@ -38,6 +38,16 @@ public class VistaUnidad extends javax.swing.JFrame {
 	private JComboBox<?> comboTipo;
 	private DefaultComboBoxModel<?> jComboBoxModel;
 
+	//SINGLETON
+	private static VistaUnidad instancia;
+		public static VistaUnidad getInstancia(){
+			if (instancia == null){
+				instancia = new VistaUnidad();
+			}
+			return instancia;
+		}
+		
+	
 	public VistaUnidad() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 611, 497);

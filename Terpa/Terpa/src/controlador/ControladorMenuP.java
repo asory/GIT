@@ -16,16 +16,17 @@ public class ControladorMenuP implements ActionListener {
 
 	private VistaMenuP vistaMenuP;
 	private Terminal ter;
-
+	
 
 	public ControladorMenuP() {
 
-		vistaMenuP = new VistaMenuP();
+		vistaMenuP = VistaMenuP.getInstancia();
 		vistaMenuP.setLocationRelativeTo(null);
 		vistaMenuP.setVisible(true);
 		vistaMenuP.activarListener(this);
 		ter = new Terminal();
 		cargar(ter);
+
 	}
 
 	@Override
@@ -35,37 +36,51 @@ public class ControladorMenuP implements ActionListener {
 		try {
 
 			if (actionC.equals("COOPERATIVA")) {
-				new ControladorVistaCoop(ter);
+				ControladorVistaCoop cvc = ControladorVistaCoop
+						.getInstancia(ter);
+				cvc.iniciar();
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpRuta())) {
-				new ControladorVistaCargarRuta(ter);
-
+				ControladorVistaCargarRuta cvr = ControladorVistaCargarRuta
+						.getInstancia(ter);
+				cvr.iniciar();
 			} else if (e.getSource().equals(vistaMenuP.getMpSocio())) {
-				new ControladorVistaSocio(ter);
-
+				ControladorVistaSocio cv = ControladorVistaSocio
+						.getInstancia(ter);
+				cv.iniciar();
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpUnidad())) {
-				new ControladorVistaUnidad(ter);
+				ControladorVistaUnidad cv = ControladorVistaUnidad
+						.getInstancia(ter);
+				cv.iniciar();
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpChofer())) {
-				new ControladorVistaChofer(ter);
+				ControladorVistaChofer cv = ControladorVistaChofer
+						.getInstancia(ter);
+				cv.iniciar();
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpCalendario())) {
-				new ControladorVistaCalendario(ter);
-			}
-			else if (e.getSource().equals(vistaMenuP.getMpFeriado())) {
-				new ControladorVistaCargarFeriado(ter);
+				ControladorVistaCalendario cv = ControladorVistaCalendario
+						.getInstancia(ter);
+				cv.iniciar();
+			} else if (e.getSource().equals(vistaMenuP.getMpFeriado())) {
+				ControladorVistaCargarFeriado cv = ControladorVistaCargarFeriado
+						.getInstancia(ter);
+				cv.iniciar();
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpViajes())) {
-				new ControladorReporte(ter);
+				ControladorReporte cv = ControladorReporte.getInstancia(ter);
+				cv.iniciar();
 
 			} else if (e.getSource().equals(vistaMenuP.getBtnAsignar())) {
-				new ControladorVistaViaje(ter);
+				ControladorVistaViaje cv = ControladorVistaViaje
+						.getInstancia(ter);
+				cv.iniciar();
 
 			} else if (actionC.equals("SALIR")) {
 				System.exit(0);
@@ -197,4 +212,5 @@ public class ControladorMenuP implements ActionListener {
 
 	}
 
+	
 }

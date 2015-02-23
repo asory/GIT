@@ -15,13 +15,28 @@ public class ControladorVistaUnidad implements ActionListener {
 
 	public ControladorVistaUnidad(Terminal terminal) {
 
-		vuni = new VistaUnidad();
+		vuni = VistaUnidad.getInstancia();
 		vuni.setVisible(true);
 		vuni.setLocationRelativeTo(null);
 		vuni.activarListener(this);
 		ter = terminal;
 	}
-
+	//SINGLETON
+	private static ControladorVistaUnidad instancia;
+	
+	
+	public static  ControladorVistaUnidad getInstancia(Terminal ter){
+			if (instancia == null){
+				instancia = new ControladorVistaUnidad(ter) ;
+			}
+			return instancia;
+		}
+	public void iniciar(){
+		vuni.Limpiar();
+		vuni.setVisible(true);
+	}
+		
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

@@ -11,18 +11,33 @@ import java.awt.event.ActionListener;
 public class ControladorVistaCargarRuta implements ActionListener {
 
 	private VistaCargarRuta vistaCargarRuta;
-	private Terminal terminal;
+	private  Terminal terminal;
 
 	public ControladorVistaCargarRuta(Terminal terminal) {
 		
-		vistaCargarRuta = new VistaCargarRuta();
+		vistaCargarRuta = VistaCargarRuta.getInstancia();
 		vistaCargarRuta.setLocation(480, 210);
 		vistaCargarRuta.setVisible(true);
 		vistaCargarRuta.activarListener(this);
 		this.terminal = terminal;
 
 	}
-
+	//SINGLETON
+	private static ControladorVistaCargarRuta instancia;
+	
+	
+	public static  ControladorVistaCargarRuta getInstancia(Terminal terminal){
+			if (instancia == null){
+				instancia = new ControladorVistaCargarRuta(terminal) ;
+			}
+			return instancia;
+		}
+		
+	public void iniciar(){
+		vistaCargarRuta.blanquearCampos();
+		vistaCargarRuta.setVisible(true);
+	}
+		
 	public void actionPerformed(ActionEvent e) {
 		try {
 			if (e.getSource().equals(vistaCargarRuta.getBtnGuardar())) {
