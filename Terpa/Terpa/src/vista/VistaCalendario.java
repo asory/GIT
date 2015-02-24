@@ -34,14 +34,15 @@ public class VistaCalendario extends JFrame {
 	// SINGLETON
 	private static VistaCalendario instancia;
 
+
 	public static VistaCalendario getInstancia() {
 		if (instancia == null) {
 			instancia = new VistaCalendario();
 		}
 		return instancia;
 	}
-
-	public VistaCalendario() {
+	
+public VistaCalendario() {
 		setBackground(Color.WHITE);
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

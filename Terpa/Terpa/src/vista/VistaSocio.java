@@ -226,7 +226,7 @@ public class VistaSocio extends JFrame {
 		return btnAgregarCho;
 	}
 
-	public String getTextApellidoS() {
+	public String getApellidoS() {
 		return textApellidoS.getText();
 	}
 
@@ -234,7 +234,7 @@ public class VistaSocio extends JFrame {
 		return textTelefonoS.getText();
 	}
 	
-	public String getTextID() {
+	public String getID() {
 		return textID.getText();
 	}
 	public String getRifCoop() {
@@ -252,7 +252,12 @@ public class VistaSocio extends JFrame {
 	public JButton getBtnSalir() {
 		return btnSalir;
 	}
-
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+	public JButton getBtnEliminar() {
+		return btnEliminar;
+	}
 	public void blanquearCampos() {
 
 		textNombreS.setText("");
@@ -267,11 +272,27 @@ public class VistaSocio extends JFrame {
 	public String getComboCargo() {
 		return (String)comboCargo.getSelectedItem();
 	}
-
+	public JComboBox<?> getcomboCargo() {
+		return comboCargo;
+	}
 	public int getIndiceCombo() {
 		return comboCargo.getSelectedIndex();
 	}
-
+	public JTextFieldValidator getTextCiS() {
+		return textCiS;
+	}
+	public JTextFieldValidator getTextNombreS() {
+		return textNombreS;
+	}
+	public JTextFieldValidator getTextTelefonoS() {
+		return textTelefonoS;
+	}
+	public JTextFieldValidator getTextID() {
+		return textID;
+	}
+	public JTextFieldValidator getTextApellidoS() {
+		return textApellidoS;
+	}
 	public void mostrarMensaje(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje);
 	}

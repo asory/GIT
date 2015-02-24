@@ -25,41 +25,49 @@ public class MultaDAO extends ConexionDAO {
 
 	public void registrarMulta(Multa mul, String rifcoop) {
 
-		String tiraSQL = "INSERT INTO multa"
-				+ "(nro,fecha_in,fecha_fin,unidad,c_asignado,statusdb)"
+		char a = 'A';
+		// espacios
+		String tiraSQL = "INSERT INTO multa "
+				+ "(nro,fecha_in,fecha_fin,unidad,c_asignado,statusdb,rifcoop)"
 				+ "VALUES ('" + mul.getNro() + "'," + "'" + mul.getFecha_in()
 				+ "'," + "'" + mul.getFecha_fin() + "'," + "'"
 				+ mul.getUnidad() + "'," + "'" + mul.getC_Asignado() + "',"
-				+ "'A','" + rifcoop + "')";
+				+ "'" + a + "','" + rifcoop + "')";
+
 		Conexion.ejecutar(tiraSQL);
 
 	}
 
 	public void eliminarMulta(Multa mul) {
-		String tiraSQL = "update multa set status='E' where nro='"
+		String tiraSQL = "update multa set statusdb='E' where nro='"
 				+ mul.getNro() + "'";
 
 		Conexion.ejecutar(tiraSQL);
 
 	}
 
-	public void actualizarMulta(Multa mul) {
+	public void actualizarMulta(Multa mul, String rifcoop) {
+
+		char a = 'A';
 
 		String tiraSQL = "update multa set " + "unidad='" + mul.getUnidad()
-				+ "'," + "c_asignado='" + mul.getC_Asignado() + "'"
-				+ "where nro='" + mul.getNro() + "' and status!='E'";
+				+ "', " + "c_asignado='" + mul.getC_Asignado() + "' "
+				+ "where nro='" + mul.getNro() + "' and rifcoop='" + rifcoop
+				+ "' and statusdb='" + a + "'";
 
 		Conexion.ejecutar(tiraSQL);
 
 	}
 
-	public Multa buscarMulta(String nrodado) {
+	public Multa buscarMulta(String nrodado, String rifcoop) {
+
+		char a = 'A';
 
 		uniDAO = new UnidadDAO();
 		choDAO = new ChoferDAO();
 
-		String tiraSQL = "select * from multa where nro = '" + nrodado
-				+ "' and status='A'";
+		String tiraSQL = "select * from multa where nro ='" + nrodado
+				+ "' and rifcoop='" + rifcoop + "' and statusdb='" + a + "'";
 		ResultSet rsMulta = Conexion.consultar(tiraSQL);
 		try {
 			while (rsMulta.next()) {
@@ -83,12 +91,15 @@ public class MultaDAO extends ConexionDAO {
 
 	public ArrayList<Multa> Llenarlistmult(String rif) {
 
+		char a = 'A';
+
 		uniDAO = new UnidadDAO();
 		choDAO = new ChoferDAO();
 
 		ArrayList<Multa> lmult = new ArrayList<Multa>();
 
-		String tiraSQL = "select * from multa where statusdb='A'";
+		String tiraSQL = "select * from multa where  statusdb='" + a
+				+ "' and rifcoop='" + rif + "'";
 
 		ResultSet rs = Conexion.consultar(tiraSQL);
 
@@ -109,8 +120,6 @@ public class MultaDAO extends ConexionDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return lmult;
 	}
-
 }

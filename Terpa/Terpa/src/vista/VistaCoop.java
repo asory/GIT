@@ -18,9 +18,9 @@ public class VistaCoop extends JFrame {
 	private JButton btnAgregarSocio;
 	private JButton btnCancelar;
 	private JFormattedTextField textRif;
-	private JFormattedTextField textNombreC;
+    private JFormattedTextField textNombreC;
 	private JButton btnBuscar;
-	private JButton btnEliminar;
+    private JButton btnEliminar;
 	private JButton btnModificar;
 
 	// SINGLETON
@@ -84,29 +84,29 @@ public class VistaCoop extends JFrame {
 		btnAgregarSocio.setBounds(243, 358, 121, 25);
 		btnAgregarSocio.setVisible(false);
 		panel.add(btnAgregarSocio);
-
+		
 		textRif = new JFormattedTextField();
 		textRif.setBounds(170, 143, 126, 20);
 		panel.add(textRif);
-
+		
 		textNombreC = new JFormattedTextField();
 		textNombreC.setBounds(170, 220, 297, 20);
 		panel.add(textNombreC);
-
+		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setForeground(Color.WHITE);
 		btnBuscar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnBuscar.setBackground(new Color(102, 204, 51));
 		btnBuscar.setBounds(322, 141, 89, 23);
 		panel.add(btnBuscar);
-
+		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setForeground(Color.WHITE);
 		btnEliminar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnEliminar.setBackground(new Color(102, 204, 51));
 		btnEliminar.setBounds(191, 298, 89, 23);
 		panel.add(btnEliminar);
-
+		
 		btnModificar = new JButton("Modificar");
 		btnModificar.setForeground(Color.WHITE);
 		btnModificar.setFont(new Font("Dialog", Font.BOLD, 12));
@@ -124,7 +124,6 @@ public class VistaCoop extends JFrame {
 		btnBuscar.addActionListener(accion);
 
 	}
-
 	public void Limpiar() {
 		textRif.setText("");
 		textNombreC.setText("");
@@ -149,32 +148,28 @@ public class VistaCoop extends JFrame {
 	public JButton getBtnSalir() {
 		return btnCancelar;
 	}
-
-	/**
-	 * @return the btnBuscar
-	 */
-	public JButton getBtnBuscar() {
-		return btnBuscar;
-	}
-
-	/**
-	 * @return the btnEliminar
-	 */
-	public JButton getBtnEliminar() {
+    public JButton getBtnEliminar() {
 		return btnEliminar;
 	}
-
-	/**
-	 * @return the textNombreC
-	 */
-	public JFormattedTextField getTextNombreC() {
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+    public JButton getBtnBuscar() {
+		return btnBuscar;
+	}
+	public void setTextRif(JFormattedTextField textRif) {
+		this.textRif = textRif;
+	}
+    public JFormattedTextField getTextNombreC() {
 		return textNombreC;
 	}
 
-	
 }
 
-/*
- * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
- * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
  */

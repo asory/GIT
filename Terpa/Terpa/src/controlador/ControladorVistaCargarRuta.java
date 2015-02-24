@@ -1,5 +1,6 @@
 package controlador;
 
+import modelo.Chofer;
 import modelo.Ruta;
 import modelo.Terminal;
 import modelo.Cooperativa;
@@ -36,9 +37,12 @@ public class ControladorVistaCargarRuta implements ActionListener {
 			agregarRuta();
 		} else if (e.getSource().equals(vistaCargarRuta.getBtnSalir())) {
 			vistaCargarRuta.dispose();
-
+		} else if (e.getSource().equals(vistaCargarRuta.getBtnEliminar())) {
+			eliminar();
+		} else if (e.getSource().equals(vistaCargarRuta.getBtnModificar())) {
+			 modificar(); 			
 		} else if (e.getSource().equals(vistaCargarRuta.getBtnBuscar())){
-			//Buscar();	
+			Buscar();	
 		}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -67,7 +71,52 @@ public class ControladorVistaCargarRuta implements ActionListener {
 		}
 
 	}
+	
+public void eliminar(){
+		
+	Ruta rut = new Ruta(vistaCargarRuta.getCod(), vistaCargarRuta.getDesc(), vistaCargarRuta.getIndiceCombo());
+	
+	if (rutDAO.consultarRuta(rut)) {
+		rutDAO.eliminarRuta(rut);
+		JOptionPane.showMessageDialog(null, "Ruta Eliminada ");
+		vistaCargarRuta.blanquearCampos();
+	} else
+		JOptionPane.showMessageDialog(null,
+				"La Ruta no existe");
+}
 
+	
+	public void modificar(){
+		
+		Ruta rut = new Ruta(vistaCargarRuta.getCod(), vistaCargarRuta.getDesc(), vistaCargarRuta.getIndiceCombo());
+		
+		
+		if (vistaCargarRuta.getCod().equals("")
+				|| vistaCargarRuta.getDesc().equals("")
+				|| vistaCargarRuta.getIndiceCombo()==0) {
+			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+		} else {
+			if (rutDAO.consultarRuta(rut)) {
+				rutDAO.actualizarRuta(rut);
+				JOptionPane.showMessageDialog(null, "Ruta Actualizada ");
+				vistaCargarRuta.blanquearCampos();
+			} else
+				JOptionPane.showMessageDialog(null,
+						"La Ruta no existe");
+		}
+	}	
+	
+	private void Buscar() {
+		
+		Ruta rut= rutDAO.buscarRuta(vistaCargarRuta.getCod());
+		
+		int tipo = rut.getTipo();
+		String desc = rut.getDestino();
+		
+		vistaCargarRuta.getcomboTipo().setSelectedIndex(tipo);
+		vistaCargarRuta.getTextDesc().setText(desc);		
+		
+	}
 }
 	
 

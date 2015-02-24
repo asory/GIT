@@ -9,10 +9,14 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import vista.*;
-import modelo.*;
-import modeloDAO.*;
-import memento.*;
+import modelo.Cooperativa;
+import modelo.Multa;
+import modelo.Terminal;
+import modelo.Viaje;
+import modeloDAO.CooperativaDAO;
+import modeloDAO.MultaDAO;
+import modeloDAO.ViajeDAO;
+import vista.VistaReporte;
 
 public class ControladorReporte implements ActionListener {
 	private VistaReporte vreport;
@@ -134,7 +138,7 @@ public class ControladorReporte implements ActionListener {
 			String buscar = vreport.getTextFiltrar();
 			boolean llenar = false;// evita q la tabla se llene sino cumple con
 									// las condiciones del switch
-
+		
 			ArrayList<Viaje> lViaje = vDao.Llenarlistviajes(vreport
 					.getTextvrif().getText());
 
@@ -239,7 +243,11 @@ public class ControladorReporte implements ActionListener {
 	}
 }
 
-/*
- * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
- * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
  */

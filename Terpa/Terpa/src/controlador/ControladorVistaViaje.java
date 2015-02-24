@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -22,6 +23,7 @@ public class ControladorVistaViaje implements ActionListener {
 	private Cooperativa coop;
 	private CooperativaDAO copDao;
 	private ViajeDAO vDao;
+	private FeriadoDAO fDao;
 	
 	
 	Viaje viaje = new Viaje();
@@ -285,10 +287,11 @@ public class ControladorVistaViaje implements ActionListener {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(pferiado);
 
+		List<Feriado> lFeriado = fDao.Llenarlistfer();
 		int cm = calendar.get(Calendar.MONTH) + 1;// calendar maneja los meses
 													// desd 0
-		for (int i = 0; i < ter.getlFeriado().size(); i++) {
-			Feriado feriado = ter.getlFeriado().get(i);
+		for (int i = 0; i < lFeriado.size(); i++) {
+			Feriado feriado = lFeriado.get(i);
 			int df = feriado.getDia();
 			int mf = feriado.getMes();
 
@@ -307,10 +310,10 @@ public class ControladorVistaViaje implements ActionListener {
 							viaje.getVehiculo(), viaje.getChofer());
 					coop.agregarMulta(multa);
 
-					i = ter.getlFeriado().size();
+					i = lFeriado.size();
 
 				} else
-					i = ter.getlFeriado().size();
+					i = lFeriado.size();
 			}
 		}
 

@@ -13,15 +13,19 @@ public class UsuarioDAO extends ConexionDAO {
 
 	public void registrarUsuario(Usuario usu) {
 
-		String tiraSQL = "INSERT INTO usuario " + "(nombre,password,tipo,statusdb) "
-				+ "VALUES (' " + usu.getNombre() + "'," + "'" + usu.getPassword()+ "',"
-						+ "'" + usu.getTipo() + "','A')";
+		char a='A';
+		
+		String tiraSQL = "INSERT INTO usuario (nombre,password,tipo,statusdb) "
+				+ "VALUES (' " + usu.getNombre() + "',"
+				+ "'" + usu.getPassword()+ "',"
+				+ "'" + usu.getTipo() + "',"
+				+ "'" + a + "')";
 
 		Conexion.ejecutar(tiraSQL);
 	}
 
 	public void eliminarUsuario(Usuario usu) {
-		String tiraSQL = "update usuario set status='E' where nombre='"+ usu.getNombre() + "' and password='"+ usu.getPassword() +"'";
+		String tiraSQL = "update usuario set statusdb='E' where nombre='"+ usu.getNombre() + "' and password='"+ usu.getPassword() +"'";
 
 		Conexion.ejecutar(tiraSQL);
 
@@ -29,9 +33,10 @@ public class UsuarioDAO extends ConexionDAO {
 
 	public void actualizarUsuario(Usuario usu) {
 
-		String tiraSQL = "update usuario set " + "password='"
-				+ usu.getPassword() + "' " + "where nombre='" + usu.getNombre()
-				+ "' and status!='E'";
+		char a='A';
+		
+		String tiraSQL = "update usuario set password='" + usu.getPassword() + "' "
+				+ "where nombre='" + usu.getNombre() + "' and statusdb='" + a + "'";
 
 		Conexion.ejecutar(tiraSQL);
 
@@ -39,8 +44,9 @@ public class UsuarioDAO extends ConexionDAO {
 
 	public Usuario buscarUsuario(String nombredado,String passdada) {
 
-		String tiraSQL = "select * from usuario where nombre = '" + nombredado
-				+ "' and password = '" + passdada + "' and status='A'";
+		char a='A';
+		Usuario usu = new Usuario();
+		String tiraSQL = "select * from usuario where nombre = '" + nombredado + "' and password = '" + passdada + "' and statusdb='" + a + "'";
 		ResultSet rsUsuario = Conexion.consultar(tiraSQL);
 		try {
 			while (rsUsuario.next()) {
@@ -48,21 +54,23 @@ public class UsuarioDAO extends ConexionDAO {
 				String password = rsUsuario.getString("password");
 				int tipo = rsUsuario.getInt("tipo");
 
-				Usuario usu = new Usuario(nombre,password,tipo);
-				return usu;
+				usu.setNombre(nombre);
+				usu.setPassword(password);
+				usu.setTipo(tipo);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return usu;
 	}
 
 	public boolean consultarUsuario(Usuario usu) {
 
+		char a='A';
+		
 		boolean seEncuentra = false;
 
-		String tiraSQL = "select nombre,password,tipo,statusdb" + " from usuario where nombre ='"
-				+ usu.getNombre() + "' and password ='" + usu.getPassword() + "' and status='A'";
+		String tiraSQL = "select * from usuario where nombre ='" + usu.getNombre() + "' and password ='" + usu.getPassword() + "' and statusdb='" + a + "'";
 
 		ResultSet rsUsuario = Conexion.consultar(tiraSQL);
 

@@ -12,6 +12,7 @@ public class Viaje {
 	private Ruta ruta;
 	private int Status;// 1-Salio, 2-No salio 3- Multado(viaje en los no
 							// salio por estar multado)
+	
 
 	public Viaje() {
 
@@ -30,6 +31,7 @@ public class Viaje {
 	public Chofer getChofer() {
 		return chofer;
 	}
+
 
 	public Float getCosto() {
 		return costo;
@@ -89,6 +91,7 @@ public class Viaje {
 
 	// *************************************************************************
 
+
 	public float CalSeguro(float monto) {
 		float seguro = 0;
 		int tipo = vehiculo.getTipo();
@@ -120,4 +123,12 @@ public class Viaje {
 
 	}
 
+	
 }
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

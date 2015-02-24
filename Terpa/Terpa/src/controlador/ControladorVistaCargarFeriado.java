@@ -1,5 +1,7 @@
 package controlador;
 
+import modelo.Chofer;
+import modelo.Cooperativa;
 import modelo.Feriado;
 import modelo.Terminal;
 import modeloDAO.FeriadoDAO;
@@ -38,6 +40,12 @@ public class ControladorVistaCargarFeriado implements ActionListener {
 				agregarFeriado();
 			} else if (actionCommand.equals("Salir")) {
 				vistaCargarFeriado.dispose();
+			}else if (e.getSource().equals(vistaCargarFeriado.getBtnEliminar())) {
+				eliminar();
+			} else if (e.getSource().equals(vistaCargarFeriado.getBtnModificar())) {
+			 	modificar();
+			} else if (e.getSource().equals(vistaCargarFeriado.getBtnBuscar())) {
+				Buscar();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -61,19 +69,78 @@ public class ControladorVistaCargarFeriado implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
 		} else {
 			
-			//if (!ferDAO.consultarFeriado(fer)) {
+			if (!ferDAO.consultarFeriado(fer)) {
 				ferDAO.registrarFeriado(fer);
 				
 				JOptionPane.showMessageDialog(null, "Dia Feriado Registrado ");
 				vistaCargarFeriado.blanquearCampos();
-			//} else
+			} else
 				JOptionPane.showMessageDialog(null,
 						"El Dia Feriado ya existe");
 		}
 
 	}
 	
-
+	public void eliminar(){
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(vistaCargarFeriado.getFecha());
+		int dia = calendar.get(Calendar.DAY_OF_MONTH);
+		int mes = calendar.get(Calendar.MONTH);
+		
+		Feriado fer = new Feriado(dia, mes, vistaCargarFeriado.getDesc());
+			
+		if (ferDAO.consultarFeriado(fer)) {
+			ferDAO.eliminarFeriado(fer);
+			
+			JOptionPane.showMessageDialog(null, "Dia Feriado Eliminado ");
+			vistaCargarFeriado.blanquearCampos();
+		} else
+			JOptionPane.showMessageDialog(null,
+					"El Dia Feriado no existe");
+	} 
+		
+		public void modificar(){
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(vistaCargarFeriado.getFecha());
+			int dia = calendar.get(Calendar.DAY_OF_MONTH);
+			int mes = calendar.get(Calendar.MONTH);
+			
+			Feriado fer = new Feriado(dia, mes, vistaCargarFeriado.getDesc());
+			
+			
+			
+			if(vistaCargarFeriado.getFecha().equals(null) || 
+					vistaCargarFeriado.getDesc().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+			} else {
+				if (ferDAO.consultarFeriado(fer)) {
+					ferDAO.actualizarFeriado(fer);
+					
+					JOptionPane.showMessageDialog(null, "Dia Feriado Actualizado ");
+					vistaCargarFeriado.blanquearCampos();
+				} else
+					JOptionPane.showMessageDialog(null,
+							"El Dia Feriado no existe");
+			} 
+		}
+		
+		private void Buscar() {
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(vistaCargarFeriado.getFecha());
+			int dia = calendar.get(Calendar.DAY_OF_MONTH);
+			int mes = calendar.get(Calendar.MONTH);
+			
+			Feriado fer = ferDAO.buscarFeriado(dia, mes);
+			
+			String descripcion = fer.getDescripcion();
+			
+			vistaCargarFeriado.getTextDesc().setText(descripcion);
+			
+			
+		}
 }
 
 

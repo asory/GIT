@@ -14,19 +14,22 @@ public class RutaDAO extends ConexionDAO {
 	
 	public void registrarRuta(Ruta rut) {
 		
-	String tiraSQL =	"INSERT INTO ruta"+
-						"(codigo,destino,tipo,statusdb)"+
-						"VALUES ('"+rut.getCodigo()+"',"
-								+ "'"+rut.getDestino()+"',"
-								+ "'"+rut.getTipo()+"',"
-								+ "'A')";
+		char a='A';
+		
+	String tiraSQL =	"INSERT INTO ruta "
+			+ "(codigo,destino,tipo,statusdb) "
+			+ "VALUES ('"+rut.getCodigo()+"',"
+			+ "'"+rut.getDestino()+"',"
+			+ "'"+rut.getTipo()+"',"
+			+ "'" + a + "')";
+	
 	Conexion.ejecutar(tiraSQL);
 			
 	}
 	
 	public void eliminarRuta(Ruta rut) 
 	{
-            String tiraSQL= "update ruta set status='E' where codigo='" + rut.getCodigo() + "'";
+            String tiraSQL= "update ruta set statusdb='E' where codigo='" + rut.getCodigo() + "'";
     
             Conexion.ejecutar(tiraSQL);
            
@@ -34,18 +37,22 @@ public class RutaDAO extends ConexionDAO {
 	
 	public void actualizarRuta(Ruta rut) {
 		
-            String tiraSQL= "update ruta set " +
-                        "destino='" + rut.getDestino() + "', "+
-                        "tipo= '" + rut.getTipo() + "'"+
-                        "where codigo='" + rut.getCodigo() + "' and status!='E'";
+		char a='A';
+		
+            String tiraSQL= "update ruta set "
+            		+ "destino='" + rut.getDestino() + "', "
+            		+ "tipo= '" + rut.getTipo() + "' "
+            		+ "where codigo='" + rut.getCodigo() + "' and statusdb='" + a + "'";
             
             Conexion.ejecutar(tiraSQL);
     
     }
 	
-	public Ruta buscarCooperativa(String coddado) {
+	public Ruta buscarRuta(String coddado) {
 		
-		 String tiraSQL= "select * from ruta where codigo = '" + coddado + "' and status='A'";
+		 char a='A';
+		 Ruta rut = new Ruta();
+		 String tiraSQL= "select * from ruta where codigo = '" + coddado + "' and statusdb='" + a + "'";
 		 ResultSet rsRuta= Conexion.consultar(tiraSQL);
 		 try {
 			 while (rsRuta.next()){
@@ -53,21 +60,24 @@ public class RutaDAO extends ConexionDAO {
 				 String destino = rsRuta.getString("destino");
 				 int tipo = rsRuta.getInt("tipo");
 				 
-				 Ruta rut = new Ruta(cod,destino,tipo);
-				 return rut;
+				 rut.setCodigo(cod);
+				 rut.setDestino(destino);
+				 rut.setTipo(tipo);
+		
 			 }
 		 } catch (SQLException e) {
 			 e.printStackTrace();
 		 }
-		 return null;
+		 return rut;
 	}
 	
 	public boolean consultarRuta(Ruta rut) {
-           
+        
+		char a='A';
+		
 		boolean seEncuentra= false;
             
-            String tiraSQL= "select codigo,destino,tipo" +
-    " from ruta where codigo ='" + rut.getCodigo() + "' and status='A'";
+            String tiraSQL= "select * from ruta where codigo ='" + rut.getCodigo() + "' and statusdb='" + a + "'";
             
             ResultSet rsRuta= Conexion.consultar(tiraSQL);
             

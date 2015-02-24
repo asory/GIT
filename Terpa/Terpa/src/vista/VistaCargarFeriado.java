@@ -1,5 +1,4 @@
 package vista;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -30,9 +29,9 @@ public class VistaCargarFeriado extends JFrame {
 	private JDateChooser dateChooser1;
 	private JButton btnGuardar;
 	private JButton btnSalir;
-	private JButton btnBuscar;
-	private JButton btnEliminar;
 	private JButton btnModificar;
+	private JButton btnEliminar;
+	private JButton btnBuscar;
 
 	// SINGLETON
 	private static VistaCargarFeriado instancia;
@@ -127,7 +126,19 @@ public VistaCargarFeriado() {
 	public Date getFecha() {
 		return this.dateChooser1.getDate();
 	}
-
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+	public JButton getBtnEliminar() {
+		return btnEliminar;
+	}
+	public JButton getBtnBuscar() {
+		return btnBuscar;
+	}
+	
+	public JTextFieldValidator getTextDesc() {
+		return textDesc;
+	}
 	public void blanquearCampos() {
 		textDesc.setText("");
 		dateChooser1.setDate(null);

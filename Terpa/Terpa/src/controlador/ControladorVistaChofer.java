@@ -72,14 +72,15 @@ public class ControladorVistaChofer implements ActionListener {
 				String rifdado = vcho.getRifCoop();
 				Cooperativa cop = copDAO.buscarCooperativa(rifdado);
 						
-				if (copDAO.consultarCooperativa(cop)==false) {
+				if (!copDAO.consultarCooperativa(cop)); {
 				
-				String iddado = vcho.getSocioC();	
-				Socio soc = socDAO.buscarSocio(iddado);
+				String iddado = vcho.getSocioC();
+				String rifcoop = vcho.getRifCoop();
+				Socio soc = socDAO.buscarSocio(iddado, rifcoop);
 
 				if (!choDAO.consultarChofer(cho)){
 				
-				 if (socDAO.consultarSocio(soc)) {
+				 if (socDAO.consultarSocio(soc,rifcoop)) {
 					 
 					choDAO.registrarChofer(cho);
 					vcho.mostrarMensaje("El Chofer ha sido guardado con exito");
@@ -103,7 +104,7 @@ public class ControladorVistaChofer implements ActionListener {
 			vcho.mostrarMensaje("El Chofer ha sido eliminado con exito");
 			vcho.blanquearCampos();
 		} else
-			vcho.mostrarMensaje("El Chofer ya se ha eliminado");
+			vcho.mostrarMensaje("El Chofer no existe");
 	}
 	
 	public void modificar(){
@@ -128,20 +129,23 @@ public class ControladorVistaChofer implements ActionListener {
 	}
 	
 	public void Buscar(){
-		
-		Chofer chofer = choDAO.buscarChofer(vcho.getTextCiC().getText());
-		
-		//if(choDAO.consultarChofer(chofer)){
-					
-			vcho.getTextNombreC().setText(chofer.getNombre());
-			vcho.getTextCiC().setText(chofer.getCi());
-			vcho.getTextApellidoC().setText(chofer.getApellido());
-			vcho.getTextTelefonoC().setText(chofer.getTelefono());
-			vcho.getTextSocioC().setText(chofer.getId_Jefe());
-		//}
-		vcho.mostrarMensaje("El Chofer no existe");
+	
+			Chofer chofer = choDAO.buscarChofer(vcho.getIdC());
+			
+			String nombre = chofer.getNombre();
+			String cedula = chofer.getCi();
+			String apellido = chofer.getApellido();
+			String telefono = chofer.getTelefono();
+			String idjefe = chofer.getId_Jefe();
+			
+			vcho.getTextNombreC().setText(nombre);
+			vcho.getTextCiC().setText(cedula);
+			vcho.getTextApellidoC().setText(apellido);
+			vcho.getTextTelefonoC().setText(telefono);
+			vcho.getTextSocioC().setText(idjefe);
 		
 	}
+
 }
 /*Integrantes:
  * Rosa Piña C.I. 24.166.902

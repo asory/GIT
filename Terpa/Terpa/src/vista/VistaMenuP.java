@@ -17,7 +17,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 
 import javax.swing.SwingConstants;
-import bean.Login2;
 import javax.swing.JDesktopPane;
 import java.awt.BorderLayout;
 import bean.Login3;
@@ -40,21 +39,7 @@ public class VistaMenuP extends JFrame {
 	Login3 login3;
 	// SINGLETON
 	private static VistaMenuP instancia;
-	private Login2 login2 = new Login2();
-
-	/**
-	 * @return the login2
-	 */
-	public Login2 getLogin2() {
-		return login2;
-	}
-
-	/**
-	 * @param login2 the login2 to set
-	 */
-	public void setLogin2(Login2 login2) {
-		this.login2 = login2;
-	}
+	
 
 	public static VistaMenuP getInstancia() {
 		if (instancia == null) {
@@ -65,9 +50,6 @@ public class VistaMenuP extends JFrame {
 
 	public VistaMenuP() {
 		login3.main(null);		
-		//Login2.main(null);
-		//login2.setLocationRelativeTo(mpFeriado);
-		//login2.getTextField().setText("hola");
 		
 		try {
 			setTitle("TERPA");
@@ -92,7 +74,6 @@ public class VistaMenuP extends JFrame {
 			panel.setLayout(null);
 
 			JMenuBar menuBar = new JMenuBar();
-			menuBar.setEnabled(false);
 			menuBar.setBackground(new Color(102, 204, 51));
 			menuBar.setBounds(0, 0, 459, 27);
 			panel.add(menuBar);

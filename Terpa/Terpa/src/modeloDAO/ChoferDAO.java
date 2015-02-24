@@ -14,16 +14,18 @@ public class ChoferDAO extends ConexionDAO {
 	
 	public void registrarChofer(Chofer cho) {
 		
-	String tiraSQL =	"INSERT INTO chofer"+ 
-						"(id_chofer,cedula,nombre,apellido,telefono,id_jefe,status,statusdb)"+ 
-						"VALUES ('"+cho.getId_chofer()+"',"
+		char a='A';
+		
+	String tiraSQL =	"INSERT INTO chofer "
+			+ "(id_chofer,cedula,nombre,apellido,telefono,id_jefe,status,statusdb) "
+			+ "VALUES ('"+cho.getId_chofer()+"',"
 								+ "'"+cho.getCi()+"',"
 								+ "'"+cho.getNombre()+"',"
 								+ "'"+cho.getApellido()+"',"
 								+ "'"+cho.getTelefono()+"',"
 								+ "'"+cho.getId_Jefe()+"',"
 								+ "'"+cho.getStatus()+"',"
-								+ "'A')";
+								+ "'" + a + "')";
 	Conexion.ejecutar(tiraSQL);
 		
 		
@@ -31,7 +33,7 @@ public class ChoferDAO extends ConexionDAO {
 	
 	public void eliminarChofer(Chofer cho) 
 	{
-            String tiraSQL= "update chofer set status='E' where id_chofer='" + cho.getId_chofer() + "'";
+            String tiraSQL= "update chofer set statusdb='E' where id_chofer='" + cho.getId_chofer() + "'";
     
             Conexion.ejecutar(tiraSQL);
            
@@ -39,11 +41,13 @@ public class ChoferDAO extends ConexionDAO {
 	
 	public void actualizarChofer(Chofer cho) {
 		
-            String tiraSQL= "update chofer set " +
-            		"nombre='" + cho.getNombre() + "'," +
-                    "apellido='"+ cho.getApellido() + "'," + 
-                    "telefono='" + cho.getTelefono() +  "' " +
-                    "where id_chofer='" + cho.getId_chofer() + "'";
+		char a='A';
+		
+            String tiraSQL= "update chofer set "
+            		+ "nombre='" + cho.getNombre() + "' "
+            		+ "apellido='"+ cho.getApellido() + "' "
+            		+ "telefono='" + cho.getTelefono() +  "' "
+            		+ "where id_chofer='" + cho.getId_chofer() + "' and statusdb='" + a + "'";
             
             Conexion.ejecutar(tiraSQL);
     
@@ -51,7 +55,9 @@ public class ChoferDAO extends ConexionDAO {
 	
 	public Chofer buscarChofer(String idchofer) {
 		
-		 String tiraSQL= "select * from chofer where id_chofer = '" + idchofer + "' and statusdb='A'";
+		 char a='A';
+		 Chofer cho = new Chofer();
+		 String tiraSQL= "select * from chofer where id_chofer = '" + idchofer + "' and statusdb='" + a + "'";
 		 ResultSet rsChofer= Conexion.consultar(tiraSQL);
 		 try {
 			 while (rsChofer.next()){
@@ -63,21 +69,28 @@ public class ChoferDAO extends ConexionDAO {
 				 String idjefe = rsChofer.getString("id_jefe");
 				 boolean status = rsChofer.getBoolean("status");
 				 
-				 Chofer cho = new Chofer(nombre,apellido,telef,ced,id,status,idjefe);
-				 return cho;
+				 cho.setId_chofer(id);
+				 cho.setCi(ced);
+				 cho.setNombre(nombre);
+				 cho.setApellido(apellido);
+				 cho.setTelefono(telef);
+				 cho.setId_Jefe(idjefe);
+				 cho.setStatus(status);
+				 
 			 }
 		 } catch (SQLException e) {
 			 e.printStackTrace();
 		 }
-		 return null;
+		 return cho;
 	}
 	
 	public boolean consultarChofer(Chofer cho) {
+		
+		char a='A';
            
 		boolean seEncuentra= false;
             
-            String tiraSQL= "select id_chofer,cedula,nombre,apellido,telefono,id_jefe,status,statusdb" +
-    " from chofer where id_chofer ='" + cho.getId_chofer() + "' and statusdb='A'";
+            String tiraSQL= "select * from chofer where id_chofer ='" + cho.getId_chofer() + "' and statusdb='" + a + "'";
             
             ResultSet rsChofer= Conexion.consultar(tiraSQL);
             
@@ -94,4 +107,5 @@ public class ChoferDAO extends ConexionDAO {
             
             return seEncuentra;
     }
+
 }

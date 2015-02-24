@@ -55,25 +55,30 @@ public class ViajeDAO extends ConexionDAO {
 
 	}
 
-	public void eliminarViaje(Viaje via) {
+	public void eliminarViaje(Viaje via, String rifcoop) {
 		String tiraSQL = "update viaje set statusdb='E' where id_viaje='"
-				+ via.getIdviaje() + "'";
+				+ via.getIdviaje() + "' and rifcoop='" + rifcoop + "'";
 
 		Conexion.ejecutar(tiraSQL);
 
 	}
 
-	public void actualizarViaje(Viaje via) {
+	public void actualizarViaje(Viaje via, String rifcoop) {
+
+		char a = 'A';
 
 		String tiraSQL = "update viaje set " + "vehiculo='" + via.getVehiculo()
-				+ "'," + "chofer='" + via.getChofer() + "'"
-				+ "where id_viaje='" + via.getIdviaje() + "' and statusdb='A'";
+				+ "', " + "chofer='" + via.getChofer() + "' where id_viaje='"
+				+ via.getIdviaje() + "' and rifcoop='" + rifcoop
+				+ "' and statusdb='" + a + "'";
 
 		Conexion.ejecutar(tiraSQL);
 
 	}
 
-	public Viaje buscarViaje(String iddado) {
+	public Viaje buscarViaje(String iddado, String rifcoop) {
+
+		char a = 'A';
 
 		uniDAO = new UnidadDAO();
 		choDAO = new ChoferDAO();
@@ -104,14 +109,15 @@ public class ViajeDAO extends ConexionDAO {
 		return null;
 	}
 
-	public boolean consultarViaje(Viaje via) {
+	public boolean consultarViaje(Viaje via, String rifcoop) {
+
+		char a = 'A';
 
 		boolean seEncuentra = false;
 
-		String tiraSQL = "select id_viaje,fecha_salida,fecha_retorno,ruta,vehiculo,chofer,costo,status"
-				+ " from viaje where id_viaje ='"
-				+ via.getIdviaje()
-				+ "' and statusdb='A'";
+		String tiraSQL = "select * from viaje where id_viaje ='"
+				+ via.getIdviaje() + "' and rifcoop='" + rifcoop
+				+ "' and statusdb='" + a + "'";
 
 		ResultSet rsViaje = Conexion.consultar(tiraSQL);
 
@@ -129,40 +135,41 @@ public class ViajeDAO extends ConexionDAO {
 	}
 
 	public ArrayList<Viaje> Llenarlistviajes(String rif) {
+		{
+			char a = 'A';
 
-		uniDAO = new UnidadDAO();
-		choDAO = new ChoferDAO();
+			uniDAO = new UnidadDAO();
+			choDAO = new ChoferDAO();
 
-		ArrayList<Viaje> lviaj = new ArrayList<Viaje>();
+			ArrayList<Viaje> lviaj = new ArrayList<Viaje>();
 
-		String tiraSQL = "select * from viaje where rifcoop='" + rif
-				+ "' and statusdb='A'";
+			String tiraSQL = "select * from viaje where statusdb='" + a + "'";
 
-		ResultSet rs = Conexion.consultar(tiraSQL);
+			ResultSet rs = Conexion.consultar(tiraSQL);
 
-		try {
-			while (rs.next()) {
-				String id = rs.getString("id");
-				Date fechasalida = rs.getDate("fecha_salida");
-				Date fecharetorno = rs.getDate("fecha_retorno");
-				String ruta = rs.getString("ruta");
-				String idunidad = rs.getString("vehiculo");
-				String idchofer = rs.getString("chofer");
-				String status = rs.getString("status");
-				float costo = rs.getFloat("costo");
+			try {
+				while (rs.next()) {
+					String id = rs.getString("id");
+					Date fechasalida = rs.getDate("fecha_salida");
+					Date fecharetorno = rs.getDate("fecha_retorno");
+					String ruta = rs.getString("ruta");
+					String idunidad = rs.getString("vehiculo");
+					String idchofer = rs.getString("chofer");
+					String status = rs.getString("status");
+					float costo = rs.getFloat("costo");
 
-				Unidad vehiculo = uniDAO.buscarUnidad(idunidad);
-				Chofer chofer = choDAO.buscarChofer(idchofer);
+					Unidad vehiculo = uniDAO.buscarUnidad(idunidad);
+					Chofer chofer = choDAO.buscarChofer(idchofer);
 
-				lviaj.add(new Viaje(id, fechasalida, fecharetorno, vehiculo,
-						chofer, costo, ruta, status));
+					lviaj.add(new Viaje(id, fechasalida, fecharetorno,
+							vehiculo, chofer, costo, ruta, status));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			return lviaj;
 		}
-
-		return lviaj;
 	}
-
 }

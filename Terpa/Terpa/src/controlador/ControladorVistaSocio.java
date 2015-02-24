@@ -44,10 +44,12 @@ public class ControladorVistaSocio implements ActionListener {
 				new ControladorVistaUnidad(term);
 				
 			} else if (e.getSource().equals(vsoc.getBtnBuscar())) {
-				
-			}
-
-			else if (e.getSource().equals(vsoc.getBtnSalir())) {
+				Buscar();
+			}else if (e.getSource().equals(vsoc.getBtnEliminar())) {
+				eliminar();
+			} else if (e.getSource().equals(vsoc.getBtnModificar())) {
+			 	modificar();
+			} else if (e.getSource().equals(vsoc.getBtnSalir())) {
 				vsoc.dispose();
 			}
 		} catch (Exception ex) {
@@ -59,16 +61,15 @@ public class ControladorVistaSocio implements ActionListener {
 	// ///************* Boton Guardar Socio ***************************///
 	private void agregarSocio() {
 		
-		Socio soc = new Socio(vsoc.getNombreS(), vsoc.getTextApellidoS(), vsoc.getTelefonoS(), vsoc.getCiS(),
-				vsoc.getIndiceCombo(), vsoc.getTextID());
-		
-		
+		Socio soc = new Socio(vsoc.getNombreS(), vsoc.getApellidoS(), vsoc.getTelefonoS(), vsoc.getCiS(),
+				vsoc.getIndiceCombo(), vsoc.getID());
+	
 		
 		if (vsoc.getNombreS() == ""
 					|| vsoc.getCiS() == "" || vsoc.getIndiceCombo() == 0
 					|| vsoc.getTelefonoS() == ""
-					|| vsoc.getTextID() == ""
-					|| vsoc.getTextApellidoS() == ""
+					|| vsoc.getID() == ""
+					|| vsoc.getApellidoS() == ""
 					|| vsoc.getRifCoop() == "")
 				JOptionPane.showMessageDialog(null,
 						"Debe rellenar todos los campos");
@@ -80,9 +81,9 @@ public class ControladorVistaSocio implements ActionListener {
 						
 				if (copDAO.consultarCooperativa(cop)); {
 				
-				 if (!socDAO.consultarSocio(soc)) {
+				 if (!socDAO.consultarSocio(soc,rifdado)) {
 					 
-					socDAO.registrarSocio(soc);
+					socDAO.registrarSocio(soc,rifdado);
 					vsoc.mostrarMensaje("El Socio ha sido guardado con exito");
 					vsoc.blanquearCampos();
 					} else
@@ -92,7 +93,68 @@ public class ControladorVistaSocio implements ActionListener {
 									
 			}
 	}
+	
+	
+public void eliminar(){
+		
+	Socio soc = new Socio(vsoc.getNombreS(), vsoc.getApellidoS(), vsoc.getTelefonoS(), vsoc.getCiS(),
+			vsoc.getIndiceCombo(), vsoc.getID());
+	
+	String rifcoop = vsoc.getRifCoop();
+		
+	if (socDAO.consultarSocio(soc,rifcoop)) {
+		 
+		socDAO.eliminarSocio(soc,rifcoop);
+		vsoc.mostrarMensaje("El Socio ha sido eliminado");
+		vsoc.blanquearCampos();
+		} else
+			vsoc.mostrarMensaje("El Socio no existe");						
+}
+	
+	public void modificar(){
+		
+		Socio soc = new Socio(vsoc.getNombreS(), vsoc.getApellidoS(), vsoc.getTelefonoS(), vsoc.getCiS(),
+				vsoc.getIndiceCombo(), vsoc.getID());
+		
+		String rifcoop = vsoc.getRifCoop();
+		
+		if (vsoc.getNombreS() == ""
+				|| vsoc.getCiS() == "" || vsoc.getIndiceCombo() == 0
+				|| vsoc.getTelefonoS() == ""
+				|| vsoc.getID() == ""
+				|| vsoc.getApellidoS() == ""
+				|| vsoc.getRifCoop() == "")
+			JOptionPane.showMessageDialog(null,
+					"Debe rellenar todos los campos");
 
+		else {
+			if (socDAO.consultarSocio(soc,rifcoop)) {
+				 
+				socDAO.actualizarSocio(soc, rifcoop);
+				vsoc.mostrarMensaje("El Socio ha sido actualizado");
+				vsoc.blanquearCampos();
+				} else
+					vsoc.mostrarMensaje("El Socio no existe");		
+		}
+	}
+	
+	private void Buscar() {
+		
+		Socio soc = socDAO.buscarSocio(vsoc.getID(), vsoc.getRifCoop());
+		
+		String nombre= soc.getNombre();
+		String apellido = soc.getApellido();
+		int cargo = soc.getCargo();
+		String ced = soc.getCi();
+		String telef = soc.getTelefono();
+		
+		vsoc.getTextNombreS().setText(nombre);
+		vsoc.getTextApellidoS().setText(apellido);
+		vsoc.getTextCiS().setText(ced);
+		vsoc.getTextTelefonoS().setText(telef);
+		vsoc.getcomboCargo().setSelectedIndex(cargo);
+		
+	}
 
 }
 

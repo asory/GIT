@@ -68,7 +68,7 @@ public class ControladorVistaCalendario implements ActionListener {
 				viaje = coop.getlViaje().get(j);
 				if (verificarFecha(viaje.getFecha_salida()))
 					llenarTabla(coop, j);
-				
+
 			}
 		}
 
@@ -101,7 +101,6 @@ public class ControladorVistaCalendario implements ActionListener {
 
 			vistaCalendario.getTable().setModel(model);
 
-			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -123,7 +122,7 @@ public class ControladorVistaCalendario implements ActionListener {
 		String c = sdf.format(vistaCalendario.getFechaHasta());
 
 		if (fviaje.after(desde) && fviaje.before(hasta))
-					resp = true;
+			resp = true;
 		if (a.equals(b) || a.equals(c))
 			resp = true;
 
@@ -144,14 +143,11 @@ public class ControladorVistaCalendario implements ActionListener {
 			break;
 		}
 		return sts;
+	
 	}
 }
 
-
-
-/*Integrantes:
- * Rosa Piña C.I. 24.166.902
- * Edwin Lucena C.I. 21.256.626
- * Norielsy Freitez C.I. 20.668.899
- * Ana Ruiz  C.I. 21.296.217
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
  */

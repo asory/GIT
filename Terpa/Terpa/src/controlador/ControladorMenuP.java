@@ -17,6 +17,7 @@ public class ControladorMenuP implements ActionListener {
 	private VistaMenuP vistaMenuP;
 	private Terminal ter;
 
+
 	public ControladorMenuP() {
 
 		vistaMenuP = new VistaMenuP();
@@ -25,7 +26,6 @@ public class ControladorMenuP implements ActionListener {
 		vistaMenuP.activarListener(this);
 		ter = new Terminal();
 		cargar(ter);
-
 	}
 
 	@Override
@@ -56,7 +56,8 @@ public class ControladorMenuP implements ActionListener {
 
 			else if (e.getSource().equals(vistaMenuP.getMpCalendario())) {
 				new ControladorVistaCalendario(ter);
-			} else if (e.getSource().equals(vistaMenuP.getMpFeriado())) {
+			}
+			else if (e.getSource().equals(vistaMenuP.getMpFeriado())) {
 				new ControladorVistaCargarFeriado(ter);
 			}
 
@@ -64,7 +65,7 @@ public class ControladorMenuP implements ActionListener {
 				new ControladorReporte(ter);
 
 			} else if (e.getSource().equals(vistaMenuP.getBtnAsignar())) {
-				new ControladorVistaViaje(ter);
+				new ControladorVistaViaje();
 
 			} else if (actionC.equals("SALIR")) {
 				System.exit(0);
@@ -198,8 +199,14 @@ public class ControladorMenuP implements ActionListener {
 
 }
 
-/*
- * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
- * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
+
+
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
  */
 

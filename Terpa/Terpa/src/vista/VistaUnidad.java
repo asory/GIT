@@ -30,7 +30,6 @@ public class VistaUnidad extends javax.swing.JFrame {
 	private JButton btnBuscar;
 
 	private JTextFieldValidator textRif;
-	private JTextFieldValidator textNombre;
 	private JTextFieldValidator textNumero;
 	private JTextFieldValidator textSocio;
 	private JTextFieldValidator textPlaca;
@@ -40,16 +39,6 @@ public class VistaUnidad extends javax.swing.JFrame {
 	private JButton btnEliminar;
 	private JButton btnModificar;
 
-	//SINGLETON
-	private static VistaUnidad instancia;
-		public static VistaUnidad getInstancia(){
-			if (instancia == null){
-				instancia = new VistaUnidad();
-			}
-			return instancia;
-		}
-		
-	
 	public VistaUnidad() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 611, 497);
@@ -185,26 +174,25 @@ public class VistaUnidad extends javax.swing.JFrame {
 
 	public void Limpiar() {
 		textRif.setText("");
-		textNombre.setText("");
 		textNumero.setText("");
 		textSocio.setText("");
 		textPlaca.setText("");
 		textCapacidad.setText("");
 	}
 
-	public String getTextRif() {
+	public String getRif() {
 		return textRif.getText();
 	}
 
-	public String getTextNumero() {
+	public String getNumero() {
 		return textNumero.getText();
 	}
 
-	public String getTextSocio() {
+	public String getSocio() {
 		return textSocio.getText();
 	}
 
-	public String getTextPlaca() {
+	public String getPlaca() {
 		return textPlaca.getText();
 	}
 
@@ -212,14 +200,16 @@ public class VistaUnidad extends javax.swing.JFrame {
 		return textCapacidad;
 	}
 
-	public String getcomboTipo() {
+	public String getComboTipo() {
 		return (String) comboTipo.getSelectedItem();
 	}
 
 	public int getIndiceComboTipo() {
 		return comboTipo.getSelectedIndex();
 	}
-
+	public JComboBox<?> getcomboTipo() {
+		return comboTipo;
+	}
 	public JButton getbtnAgregar() {
 		return btnAgregar;
 	}
@@ -231,8 +221,27 @@ public class VistaUnidad extends javax.swing.JFrame {
 	public JButton getbtnSalir() {
 		return btnSalir;
 	}
+	public JButton getBtnEliminar() {
+		return btnEliminar;
+	}
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+	public JTextFieldValidator getTextRif() {
+		return textRif;
+	}
 
+	public JTextFieldValidator getTextNumero() {
+		return textNumero;
+	}
 
+	public JTextFieldValidator getTextSocio() {
+		return textSocio;
+	}
+
+	public JTextFieldValidator getTextPlaca() {
+		return textPlaca;
+	}
 	public void mostrarMensaje(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje);
 	}

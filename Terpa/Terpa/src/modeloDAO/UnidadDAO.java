@@ -3,11 +3,15 @@ package modeloDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import vista.VistaUnidad;
 import modelo.Chofer;
 import modelo.Unidad;
 import bean.Conexion;
 
 public class UnidadDAO extends ConexionDAO {
+	
+	private VistaUnidad vuni;
+	
 	public UnidadDAO() {
 		super();
 	}
@@ -15,23 +19,25 @@ public class UnidadDAO extends ConexionDAO {
 	
 	public void registrarUnidad(Unidad uni) {
 		
-	String tiraSQL =	"INSERT INTO unidad"+
-						"(id,placa,tipo,id_socio,status,statusdb)"+
-						"VALUES ('"+uni.getId()+"',"
-								+ "'"+uni.getPlaca()+"',"
-								+ "'"+uni.getTipo()+"',"
-								+ "'"+uni.getId_socio()+"',"
-								+ "'"+uni.getstatus()+"',"
-								+ "'A')";
+		char a='A';
+		
+	String tiraSQL =	"INSERT INTO unidad "
+			+ "(id,placa,tipo,id_socio,status,statusdb) "
+			+ "VALUES ('"+uni.getId()+"',"
+			+ "'"+uni.getPlaca()+"',"
+			+ "'"+uni.getTipo()+"',"
+			+ "'"+uni.getId_socio()+"',"
+			+ "'"+uni.getstatus()+"',"
+			+ "'" + a + "')";
+	
 	Conexion.ejecutar(tiraSQL);
-						
-						
+	
 			
 	}
 	
 	public void eliminarUnidad(Unidad uni) 
 	{
-            String tiraSQL= "update unidad set status='E' where id='" + uni.getId() + "'";
+            String tiraSQL= "update unidad set statusdb='E' where id='" + uni.getId() + "'";
     
             Conexion.ejecutar(tiraSQL);
            
@@ -39,11 +45,13 @@ public class UnidadDAO extends ConexionDAO {
 	
 	public void actualizarUnidad(Unidad uni) {
 		
-            String tiraSQL= "update unidad set " +
-            		"placa='" + uni.getPlaca() + "'," +
-                    "tipo='"+ uni.getTipo() + "'," + 
-                    "id_socio='" + uni.getId_socio() +  "' " +
-                    "where id='" + uni.getId() + "' and status!='E'";
+		char a='A';
+		
+            String tiraSQL= "update unidad set "
+            		+ "placa='" + uni.getPlaca() + "', "
+            		+ "tipo='"+ uni.getTipo() + "', "
+            		+ "id_socio='" + uni.getId_socio() +  "' "
+            		+ "where id='" + uni.getId() + "' and statusdb='" + a + "'";
             
             Conexion.ejecutar(tiraSQL);
     
@@ -51,7 +59,9 @@ public class UnidadDAO extends ConexionDAO {
 	
 	public Unidad buscarUnidad(String idunidad) {
 		
-		 String tiraSQL= "select * from unidad where id = '" + idunidad + "' and status='A'";
+		 char a='A';
+		 Unidad uni = new Unidad();
+		 String tiraSQL= "select * from unidad where id = '" + idunidad + "' and statusdb='" + a + "'";
 		 ResultSet rsUnidad= Conexion.consultar(tiraSQL);
 		 try {
 			 while (rsUnidad.next()){
@@ -61,21 +71,26 @@ public class UnidadDAO extends ConexionDAO {
 				 String idsocio = rsUnidad.getString("id_socio");
 				 boolean status = rsUnidad.getBoolean("status");
 				 
-				 Unidad uni = new Unidad(placa,tipo,status,idsocio,id);
-				 return uni;
+				 uni.setId(id);
+				 uni.setPlaca(placa);
+				 uni.setTipo(tipo);
+				 uni.setId_socio(idsocio);
+				 uni.setStatus(status);
+				 
 			 }
 		 } catch (SQLException e) {
 			 e.printStackTrace();
 		 }
-		 return null;
+		 return uni;
 	}
 	
 	public boolean consultarUnidad(Unidad uni) {
-           
+        
+		char a='A';
+		
 		boolean seEncuentra= false;
             
-            String tiraSQL= "select id,placa,tipo,id_socio,status,statusdb" +
-    " from unidad where id ='" + uni.getId() + "' and status='A'";
+            String tiraSQL= "select * from unidad where id ='" + uni.getId() + "' and statusdb='" + a + "'";
             
             ResultSet rsUnidad= Conexion.consultar(tiraSQL);
             
@@ -84,6 +99,32 @@ public class UnidadDAO extends ConexionDAO {
 				{       
 				        seEncuentra= true;
 				        
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
+            return seEncuentra;
+    }
+	
+	public boolean ValidarNumero(Unidad uni) {
+        
+		char a='A';
+		
+		boolean seEncuentra= false;
+            
+            String tiraSQL= "select id from unidad where id ='" + uni.getId() + "' and statusdb='" + a + "'";
+            
+            ResultSet rsUnidad= Conexion.consultar(tiraSQL);
+            
+            try {
+				if (rsUnidad.next())
+				{     
+					int id = rsUnidad.getInt("id");
+					if (id == Integer.parseInt(vuni.getTextNumero().getText())){
+				        seEncuentra= true;
+					}
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

@@ -41,9 +41,12 @@ public class ControladorVistaUnidad implements ActionListener {
 
 			if (e.getSource().equals(vuni.getbtnAgregar()))
 				agregarUni();
-
-			else if (e.getSource().equals(vuni.getbtnBuscar())) {
-				//Buscar();
+			else if (e.getSource().equals(vuni.getBtnEliminar())) {
+				eliminar();
+			} else if (e.getSource().equals(vuni.getBtnModificar())) {
+			 	modificar();
+			} else if (e.getSource().equals(vuni.getbtnBuscar())) {
+				Buscar();
 			}
 
 			else if (e.getSource().equals(vuni.getbtnSalir())) {
@@ -62,27 +65,28 @@ public class ControladorVistaUnidad implements ActionListener {
 
 	public void agregarUni() {
 		
-		Unidad uni = new Unidad(vuni.getTextPlaca(), vuni.getIndiceComboTipo(), false, vuni.getTextSocio(), Integer.parseInt(vuni.getTextNumero()));
+		Unidad uni = new Unidad(vuni.getPlaca(), vuni.getIndiceComboTipo(), false, vuni.getSocio(), Integer.parseInt(vuni.getNumero()));
 
-			if (vuni.getTextRif().isEmpty()
-					|| vuni.getTextNumero() == "0 " 
-					|| vuni.getTextSocio().equals("")
-					|| vuni.getTextPlaca().equals("")
+			if (vuni.getRif().isEmpty()
+					|| vuni.getNumero() == "0 " 
+					|| vuni.getSocio().equals("")
+					|| vuni.getPlaca().equals("")
 					|| vuni.getIndiceComboTipo() == 0) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
 			} else {
-				String rifdado = vuni.getTextRif();
+				String rifdado = vuni.getRif();
 				Cooperativa cop = copDAO.buscarCooperativa(rifdado);
 						
 				if (copDAO.consultarCooperativa(cop)); {
 				
-				String iddado = vuni.getTextSocio();	
-				Socio soc = socDAO.buscarSocio(iddado);
+				String iddado = vuni.getSocio();
+				String rifcoop= vuni.getRif();
+				Socio soc = socDAO.buscarSocio(iddado,rifcoop);
 				
-				 if (socDAO.consultarSocio(soc)) {
+				 if (socDAO.consultarSocio(soc,rifcoop)) {
 					 
 					if (!uniDAO.consultarUnidad(uni)){
-						//if (!uniDAO.ValidarNumero(uni)){
+						if (!uniDAO.ValidarNumero(uni)){
 						uniDAO.registrarUnidad(uni);
 						vuni.mostrarMensaje("La unidad ha sido guardada con exito");
 						vuni.Limpiar();
@@ -90,14 +94,60 @@ public class ControladorVistaUnidad implements ActionListener {
 							vuni.mostrarMensaje("El numero ya existe");
 					} else
 						vuni.mostrarMensaje("La Unidad ya existe");
-				//} else
+				} else
 					vuni.mostrarMensaje("El Socio no existe");
 				} 
 					vuni.mostrarMensaje("Cooperativa no existe");					
 		}
 }
 
+	public void eliminar(){
+		
+		Unidad uni = new Unidad(vuni.getPlaca(), vuni.getIndiceComboTipo(), false, vuni.getSocio(), Integer.parseInt(vuni.getNumero()));
 
+		if (uniDAO.consultarUnidad(uni)){
+			uniDAO.eliminarUnidad(uni);
+			vuni.mostrarMensaje("La unidad ha sido eliminada");
+			vuni.Limpiar();
+		} else
+			vuni.mostrarMensaje("La Unidad no existe");
+	}
+	
+	public void modificar(){
+		
+		Unidad uni = new Unidad(vuni.getPlaca(), vuni.getIndiceComboTipo(), false, vuni.getSocio(), Integer.parseInt(vuni.getNumero()));
+
+		if (vuni.getRif().isEmpty()
+				|| vuni.getNumero() == "0 " 
+				|| vuni.getSocio().equals("")
+				|| vuni.getPlaca().equals("")
+				|| vuni.getIndiceComboTipo() == 0) {
+			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+		} else {
+			if (uniDAO.consultarUnidad(uni)){
+				uniDAO.actualizarUnidad(uni);
+				vuni.mostrarMensaje("La unidad ha sido actualizada");
+				vuni.Limpiar();
+			} else
+				vuni.mostrarMensaje("La Unidad no existe");
+		}
+		
+	
+}
+
+	private void Buscar() {
+	
+		Unidad uni = uniDAO.buscarUnidad(vuni.getNumero());
+		
+		String placa = uni.getPlaca();
+		String idsocio = uni.getId_socio();
+		int tipo = uni.getTipo();
+		
+		vuni.getTextPlaca().setText(placa);
+		vuni.getTextSocio().setText(idsocio);
+		vuni.getcomboTipo().setSelectedIndex(tipo);
+		
+	}
 
 	// ///////////////////////////SET TIPO-CAPACIDAD//////////
 	public String capacidad() {

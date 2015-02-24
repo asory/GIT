@@ -174,7 +174,9 @@ public class VistaCargarRuta extends JFrame {
 	public int getIndiceCombo() {
 		return comboTipo.getSelectedIndex();
 	}
-
+	public JComboBox<?> getcomboTipo() {
+		return comboTipo;
+	}
 	public void blanquearCampos() {
 		textCod.setText("");
 		textRif.setText("");
@@ -193,7 +195,19 @@ public class VistaCargarRuta extends JFrame {
 	public JButton getBtnSalir() {
 		return btnSalir;
 	}
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
 
+	public JButton getBtnEliminar() {
+		return btnEliminar;
+	}
+	public void setComboTipo(JComboBox<?> comboTipo) {
+		this.comboTipo = comboTipo;
+	}
+	public JTextFieldValidator getTextDesc() {
+		return textDesc;
+	}
 	public void mostrarMensaje(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje);
 	}
