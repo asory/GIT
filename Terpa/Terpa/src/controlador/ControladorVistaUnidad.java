@@ -2,7 +2,6 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
 
 import vista.*;
@@ -21,17 +20,29 @@ public class ControladorVistaUnidad implements ActionListener {
 	private CooperativaDAO copDAO;
 	private SocioDAO socDAO;
 
-	public ControladorVistaUnidad(Terminal terminal) {
-		
-		uniDAO = new UnidadDAO();
-		copDAO = new CooperativaDAO();
-		vuni = new VistaUnidad();
+	public ControladorVistaUnidad() {
+
+		vuni = VistaUnidad.getInstancia();
 		vuni.setVisible(true);
 		vuni.setLocationRelativeTo(null);
 		vuni.activarListener(this);
-		ter = terminal;
+		
 	}
-
+	//SINGLETON
+		private static ControladorVistaUnidad instancia;
+		
+		
+		public static  ControladorVistaUnidad getInstancia(){
+				if (instancia == null){
+					instancia = new ControladorVistaUnidad() ;
+				}
+				return instancia;
+			}
+		public void iniciar(){
+			vuni.Limpiar();
+			vuni.setVisible(true);
+		}
+			
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

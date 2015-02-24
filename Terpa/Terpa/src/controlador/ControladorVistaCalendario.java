@@ -26,13 +26,29 @@ public class ControladorVistaCalendario implements ActionListener {
 			"Retorno", "Pasaje", "Seguro", "Status" };
 	DefaultTableModel model = new DefaultTableModel(null, columna);
 
-	public ControladorVistaCalendario(Terminal terminal) {
+	//SINGLETON
+	private static ControladorVistaCalendario  instancia;
+	
+	
+	public static ControladorVistaCalendario getInstancia(){
+			if (instancia == null){
+				instancia = new ControladorVistaCalendario() ;
+			}
+			return instancia;
+		}
+	public void iniciar(){
+		vistaCalendario.blanquearCampos();
+		vistaCalendario.setVisible(true);
+	}
+		
+		
+	public ControladorVistaCalendario() {
 
-		vistaCalendario = new VistaCalendario();
+		vistaCalendario =  VistaCalendario.getInstancia();
 		vistaCalendario.setLocation(480, 210);
 		vistaCalendario.setVisible(true);
 		vistaCalendario.activarListener(this);
-		this.terminal = terminal;
+		
 		vistaCalendario.getTable().setModel(model);
 
 	}

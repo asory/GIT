@@ -17,20 +17,34 @@ public class ControladorVistaCargarRuta implements ActionListener {
 
 	
 	private VistaCargarRuta vistaCargarRuta;
-	private Terminal terminal;
+
 	private RutaDAO rutDAO;
 	
-	public ControladorVistaCargarRuta(Terminal terminal) {
+	public ControladorVistaCargarRuta() {
 		
 		rutDAO = new RutaDAO();
-		vistaCargarRuta = new VistaCargarRuta();
+
+		vistaCargarRuta = VistaCargarRuta.getInstancia();
 		vistaCargarRuta.setLocation(480, 210);
 		vistaCargarRuta.setVisible(true);
 		vistaCargarRuta.activarListener(this);
-		this.terminal = terminal;
-
+		
 	}
-
+	//SINGLETON
+		private static ControladorVistaCargarRuta instancia;
+		
+		
+		public static  ControladorVistaCargarRuta getInstancia(){
+				if (instancia == null){
+					instancia = new ControladorVistaCargarRuta() ;
+				}
+				return instancia;
+			}
+			
+		public void iniciar(){
+			vistaCargarRuta.blanquearCampos();
+			vistaCargarRuta.setVisible(true);
+		}
 	public void actionPerformed(ActionEvent e) {
 		try {
 			if (e.getSource().equals(vistaCargarRuta.getBtnGuardar())) {

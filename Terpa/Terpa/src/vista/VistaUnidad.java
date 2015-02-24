@@ -39,6 +39,16 @@ public class VistaUnidad extends javax.swing.JFrame {
 	private JButton btnEliminar;
 	private JButton btnModificar;
 
+	// SINGLETON
+	private static VistaUnidad instancia;
+
+	public static VistaUnidad getInstancia() {
+		if (instancia == null) {
+			instancia = new VistaUnidad();
+		}
+		return instancia;
+	}
+
 	public VistaUnidad() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 611, 497);
@@ -119,50 +129,53 @@ public class VistaUnidad extends javax.swing.JFrame {
 		textNumero.setFont(new Font("Dialog", Font.BOLD, 12));
 		textNumero.setBounds(127, 57, 162, 23);
 		panel.add(textNumero);
-		textNumero.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
-		
+		textNumero
+				.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
+
 		textPlaca = new JTextFieldValidator();
 		textPlaca.setFont(new Font("Dialog", Font.BOLD, 12));
 		textPlaca.setBounds(127, 115, 162, 23);
 		panel.add(textPlaca);
-		textPlaca.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
-		
+		textPlaca
+				.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
+
 		textCapacidad = new JTextFieldValidator();
 		textCapacidad.setFont(new Font("Dialog", Font.BOLD, 12));
 		textCapacidad.setText(" ");
 		textCapacidad.setBounds(421, 241, 130, 23);
 		panel.add(textCapacidad);
-		textCapacidad.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
-		
+		textCapacidad
+				.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
+
 		textSocio = new JTextFieldValidator();
 		textSocio.setFont(new Font("Dialog", Font.BOLD, 12));
-		textSocio.setBounds(421, 176, 130, 23);      
+		textSocio.setBounds(421, 176, 130, 23);
 		panel.add(textSocio);
-		textSocio.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
-		
+		textSocio
+				.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
+
 		textRif = new JTextFieldValidator();
 		textRif.setFont(new Font("Dialog", Font.BOLD, 12));
 		textRif.setBounds(127, 176, 162, 23);
 		panel.add(textRif);
 		textRif.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
-		
+
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setForeground(Color.WHITE);
 		btnEliminar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnEliminar.setBackground(new Color(102, 204, 51));
 		btnEliminar.setBounds(195, 317, 113, 23);
 		panel.add(btnEliminar);
-		
+
 		btnModificar = new JButton("Modificar");
 		btnModificar.setForeground(Color.WHITE);
 		btnModificar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnModificar.setBackground(new Color(102, 204, 51));
 		btnModificar.setBounds(325, 317, 113, 23);
 		panel.add(btnModificar);
-		
-		
+
 	}
-	
+
 	// /////////////////////////////////////////////////////////////////////////////////////////
 	public void activarListener(ActionListener accion) {
 		btnBuscar.addActionListener(accion);
@@ -207,9 +220,11 @@ public class VistaUnidad extends javax.swing.JFrame {
 	public int getIndiceComboTipo() {
 		return comboTipo.getSelectedIndex();
 	}
+
 	public JComboBox<?> getcomboTipo() {
 		return comboTipo;
 	}
+
 	public JButton getbtnAgregar() {
 		return btnAgregar;
 	}
@@ -221,12 +236,15 @@ public class VistaUnidad extends javax.swing.JFrame {
 	public JButton getbtnSalir() {
 		return btnSalir;
 	}
+
 	public JButton getBtnEliminar() {
 		return btnEliminar;
 	}
+
 	public JButton getBtnModificar() {
 		return btnModificar;
 	}
+
 	public JTextFieldValidator getTextRif() {
 		return textRif;
 	}
@@ -242,16 +260,13 @@ public class VistaUnidad extends javax.swing.JFrame {
 	public JTextFieldValidator getTextPlaca() {
 		return textPlaca;
 	}
+
 	public void mostrarMensaje(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje);
 	}
 }
 
-
-
-/*Integrantes:
- * Rosa Piña C.I. 24.166.902
- * Edwin Lucena C.I. 21.256.626
- * Norielsy Freitez C.I. 20.668.899
- * Ana Ruiz  C.I. 21.296.217
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
  */

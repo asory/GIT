@@ -32,6 +32,19 @@ public class ControladorVistaViaje implements ActionListener {
 	DefaultTableModel model = new DefaultTableModel(null, columna);
 	ArrayList<Viaje> lViaje ;
 	
+	// SINGLETON
+	private static ControladorVistaViaje instancia;
+
+	public void iniciar() {
+		vviaje.setVisible(true);
+	}
+
+	public static ControladorVistaViaje getInstancia() {
+		if (instancia == null) {
+			instancia = new ControladorVistaViaje();
+		}
+		return instancia;
+	}
 	public ControladorVistaViaje() {
 		
 

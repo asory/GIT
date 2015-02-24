@@ -20,37 +20,50 @@ import vista.VistaReporte;
 
 public class ControladorReporte implements ActionListener {
 	private VistaReporte vreport;
-	private Terminal ter;
 	private Cooperativa coop;
 	private int opc;
 	private DefaultTableModel model;
 	private CooperativaDAO coopDao;
 	private ViajeDAO vDao;
 
-	// Memento
-	public void Recientes() {
-		ArrayList<String> rec = new ArrayList<String>();
-		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
-		for (int i = 0; i < ant.countMemento(); i++) {
+//	// Memento
+//	public void Recientes() {
+//		ArrayList<String> rec = new ArrayList<String>();
+//		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
+//		for (int i = 0; i < ant.countMemento(); i++) {
+//
+//			rec.add(ant.getMemento(i).toString());
+//		}
+//		for (int i = 0; i < rec.size(); i++) {
+//			// Añadir cada elemento del ArrayList en el modelo de la lista
+//
+//			model.addElement(rec.get(i));
+//
+//		}
+//		vreport.getComboMeme().setModel(model);
+//
+//	}
 
-			rec.add(ant.getMemento(i).toString());
+	//SINGLETON
+	private static ControladorReporte instancia;
+	
+	
+	public static ControladorReporte  getInstancia(){
+			if (instancia == null){
+				instancia = new ControladorReporte () ;
+			}
+			return instancia;
 		}
-		for (int i = 0; i < rec.size(); i++) {
-			// Añadir cada elemento del ArrayList en el modelo de la lista
-
-			model.addElement(rec.get(i));
-
-		}
-		vreport.getComboMeme().setModel(model);
-
+	public void iniciar(){
+		vreport.limpiar();
+		vreport.setVisible(true);
 	}
+	public ControladorReporte() {
 
-	public ControladorReporte(Terminal terminal) {
-
-		vreport = new VistaReporte();
+		vreport =VistaReporte.getInstancia();
 		vreport.setVisible(true);
 		vreport.activarListener(this);
-		ter = terminal;
+		
 
 	}
 

@@ -14,13 +14,28 @@ public class ControladorVistaCoop implements ActionListener {
 	private Terminal ter;
 	private CooperativaDAO copDAO;
 
-	public ControladorVistaCoop(Terminal terminal) {
+	// SINGLETON
+	private static ControladorVistaCoop instancia;
+
+	public static ControladorVistaCoop getInstancia() {
+		if (instancia == null) {
+			instancia = new ControladorVistaCoop();
+		}
+		return instancia;
+	}
+
+	public void iniciar() {
+		vcoop.Limpiar();
+		vcoop.setVisible(true);
+	}
+
+	public ControladorVistaCoop() {
 		copDAO = new CooperativaDAO();
 		vcoop = new VistaCoop();
 		vcoop.setVisible(true);
 		vcoop.setLocationRelativeTo(null);
 		vcoop.activarListener(this);
-		this.ter = terminal;
+
 	}
 
 	@Override
@@ -32,12 +47,12 @@ public class ControladorVistaCoop implements ActionListener {
 			else if (e.getSource().equals(vcoop.getBtnEliminar())) {
 				eliminar();
 			} else if (e.getSource().equals(vcoop.getBtnModificar())) {
-			 	modificar();
+				modificar();
 			} else if (e.getSource().equals(vcoop.getBtnBuscar())) {
 				Buscar();
 			} else if (e.getSource().equals(vcoop.getBtnAgregarSocio())) {
-			 new ControladorVistaSocio(ter);
-							vcoop.Limpiar();
+				ControladorVistaSocio cv = ControladorVistaSocio.getInstancia();
+				vcoop.Limpiar();
 			}
 
 			else if (e.getSource().equals(vcoop.getBtnSalir())) {
@@ -54,12 +69,13 @@ public class ControladorVistaCoop implements ActionListener {
 
 	public void agregarCoop() {
 
-		Cooperativa cop =  new  Cooperativa(vcoop.getTexNombreC(),vcoop.getTextRif());
-	
+		Cooperativa cop = new Cooperativa(vcoop.getTexNombreC(),
+				vcoop.getTextRif());
+
 		if (vcoop.getTexNombreC().isEmpty() || vcoop.getTextRif().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
 		} else {
-			
+
 			if (!copDAO.consultarCooperativa(cop)) {
 				copDAO.registrarCooperativa(cop);
 				vcoop.getBtnAgregarSocio().setVisible(true);
@@ -71,24 +87,25 @@ public class ControladorVistaCoop implements ActionListener {
 		}
 
 	}
-	
-	public void eliminar(){
-		
-		Cooperativa cop =  new  Cooperativa(vcoop.getTexNombreC(),vcoop.getTextRif());
-		
+
+	public void eliminar() {
+
+		Cooperativa cop = new Cooperativa(vcoop.getTexNombreC(),
+				vcoop.getTextRif());
+
 		if (copDAO.consultarCooperativa(cop)) {
 			copDAO.eliminarCooperativa(cop);
 			JOptionPane.showMessageDialog(null, "Cooperativa Eliminada ");
 			vcoop.Limpiar();
 		} else
-			JOptionPane.showMessageDialog(null,
-					"La Cooperativa no existe");
-		}
+			JOptionPane.showMessageDialog(null, "La Cooperativa no existe");
+	}
 
-	public void modificar(){
-	
-		Cooperativa cop =  new  Cooperativa(vcoop.getTexNombreC(),vcoop.getTextRif());
-		
+	public void modificar() {
+
+		Cooperativa cop = new Cooperativa(vcoop.getTexNombreC(),
+				vcoop.getTextRif());
+
 		if (vcoop.getTexNombreC().isEmpty() || vcoop.getTextRif().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
 		} else {
@@ -99,25 +116,20 @@ public class ControladorVistaCoop implements ActionListener {
 			} else
 				JOptionPane.showMessageDialog(null,
 						"La Cooperativa no se encuentra registrado");
-			}
+		}
 	}
-	
+
 	private void Buscar() {
-		
-		Cooperativa cop= copDAO.buscarCooperativa(vcoop.getTextRif());
-		
-		String nombre= cop.getNombre();
+
+		Cooperativa cop = copDAO.buscarCooperativa(vcoop.getTextRif());
+
+		String nombre = cop.getNombre();
 		vcoop.getTextNombreC().setText(nombre);
-		
+
 	}
 }
 
-
-
-
-/*Integrantes:
- * Rosa Piña C.I. 24.166.902
- * Edwin Lucena C.I. 21.256.626
- * Norielsy Freitez C.I. 20.668.899
- * Ana Ruiz  C.I. 21.296.217
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
  */
