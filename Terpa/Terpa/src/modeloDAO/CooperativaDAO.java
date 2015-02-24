@@ -70,7 +70,7 @@ public class CooperativaDAO extends ConexionDAO {
 		
 		boolean seEncuentra = false;
 
-		String tiraSQL = "select * from cooperativa where rif='"+ cop.getNombre() + "'and statusdb='"+ a + "'";
+		String tiraSQL ="select * from cooperativa where rif='"+cop.getNombre()+"'and statusdb='"+ a +"'";
 
 		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
 
