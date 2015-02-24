@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import javax.swing.JFormattedTextField;
-import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class VistaCoop extends JFrame {
@@ -17,13 +16,15 @@ public class VistaCoop extends JFrame {
 	private JPanel contentPane;
 	private JButton btnAgregar;
 	private JButton btnAgregarSocio;
-	private JButton btnSalir;
+	private JButton btnCancelar;
 	private JFormattedTextField textRif;
 	private JFormattedTextField textNombreC;
+	private JButton btnBuscar;
+	private JButton btnEliminar;
+	private JButton btnModificar;
 
 	// SINGLETON
 	private static VistaCoop instancia;
-	private JTextField textField;
 
 	public static VistaCoop getInstancia() {
 		if (instancia == null) {
@@ -35,7 +36,7 @@ public class VistaCoop extends JFrame {
 	public VistaCoop() {
 		setTitle("TERPA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 475, 422);
+		setBounds(100, 100, 599, 476);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -43,73 +44,84 @@ public class VistaCoop extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 0, 459, 384);
+		panel.setBounds(0, 0, 583, 438);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		btnAgregar = new JButton("AGREGAR");
+		btnAgregar = new JButton("Guardar");
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setBackground(new Color(102, 204, 51));
 		btnAgregar.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnAgregar.setBounds(59, 264, 89, 23);
+		btnAgregar.setBounds(63, 298, 89, 23);
 		panel.add(btnAgregar);
 
-		btnSalir = new JButton("CANCELAR");
-		btnSalir.setForeground(Color.WHITE);
-		btnSalir.setBackground(new Color(102, 204, 51));
-		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnSalir.setBounds(339, 264, 89, 23);
-		panel.add(btnSalir);
+		btnCancelar = new JButton("Salir");
+		btnCancelar.setForeground(Color.WHITE);
+		btnCancelar.setBackground(new Color(102, 204, 51));
+		btnCancelar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnCancelar.setBounds(447, 298, 89, 23);
+		panel.add(btnCancelar);
 
 		JLabel lblAsignarViaje = new JLabel(" AGREGAR COOPERATIVA");
 		lblAsignarViaje.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblAsignarViaje.setBounds(157, 11, 189, 52);
+		lblAsignarViaje.setBounds(233, 11, 189, 52);
 		panel.add(lblAsignarViaje);
 
 		JLabel lblRif = new JLabel("Rif :");
 		lblRif.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblRif.setBounds(32, 144, 32, 17);
+		lblRif.setBounds(99, 144, 32, 17);
 		panel.add(lblRif);
 
 		JLabel lblNombre = new JLabel("Nombre :");
 		lblNombre.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblNombre.setBounds(243, 142, 61, 20);
+		lblNombre.setBounds(99, 219, 61, 20);
 		panel.add(lblNombre);
 
 		btnAgregarSocio = new JButton("Agregar Socios");
 		btnAgregarSocio.setForeground(Color.WHITE);
 		btnAgregarSocio.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnAgregarSocio.setBackground(new Color(102, 204, 51));
-		btnAgregarSocio.setBounds(183, 263, 121, 25);
+		btnAgregarSocio.setBounds(243, 358, 121, 25);
 		btnAgregarSocio.setVisible(false);
 		panel.add(btnAgregarSocio);
 
 		textRif = new JFormattedTextField();
-		textRif.setBounds(75, 143, 101, 20);
+		textRif.setBounds(170, 143, 126, 20);
 		panel.add(textRif);
 
 		textNombreC = new JFormattedTextField();
-		textNombreC.setBounds(301, 143, 115, 20);
+		textNombreC.setBounds(170, 220, 297, 20);
 		panel.add(textNombreC);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(303, 193, 89, 23);
-		panel.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(59, 210, 89, 23);
-		panel.add(btnNewButton_1);
-		
-		textField = new JTextField();
-		textField.setBounds(181, 90, 86, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setForeground(Color.WHITE);
+		btnBuscar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnBuscar.setBackground(new Color(102, 204, 51));
+		btnBuscar.setBounds(322, 141, 89, 23);
+		panel.add(btnBuscar);
+
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setForeground(Color.WHITE);
+		btnEliminar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnEliminar.setBackground(new Color(102, 204, 51));
+		btnEliminar.setBounds(191, 298, 89, 23);
+		panel.add(btnEliminar);
+
+		btnModificar = new JButton("Modificar");
+		btnModificar.setForeground(Color.WHITE);
+		btnModificar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnModificar.setBackground(new Color(102, 204, 51));
+		btnModificar.setBounds(322, 298, 89, 23);
+		panel.add(btnModificar);
 	}
 
 	public void activarListener(ActionListener accion) {
 		btnAgregar.addActionListener(accion);
 		btnAgregarSocio.addActionListener(accion);
-		btnSalir.addActionListener(accion);
+		btnCancelar.addActionListener(accion);
+		btnEliminar.addActionListener(accion);
+		btnModificar.addActionListener(accion);
+		btnBuscar.addActionListener(accion);
 
 	}
 
@@ -135,10 +147,34 @@ public class VistaCoop extends JFrame {
 	}
 
 	public JButton getBtnSalir() {
-		return btnSalir;
+		return btnCancelar;
 	}
 
-	public void setTextRif(JFormattedTextField textRif) {
-		this.textRif = textRif;
+	/**
+	 * @return the btnBuscar
+	 */
+	public JButton getBtnBuscar() {
+		return btnBuscar;
 	}
+
+	/**
+	 * @return the btnEliminar
+	 */
+	public JButton getBtnEliminar() {
+		return btnEliminar;
+	}
+
+	/**
+	 * @return the textNombreC
+	 */
+	public JFormattedTextField getTextNombreC() {
+		return textNombreC;
+	}
+
+	
 }
+
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
+ */

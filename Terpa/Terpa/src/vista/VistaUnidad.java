@@ -37,6 +37,8 @@ public class VistaUnidad extends javax.swing.JFrame {
 	private JTextFieldValidator textCapacidad;
 	private JComboBox<?> comboTipo;
 	private DefaultComboBoxModel<?> jComboBoxModel;
+	private JButton btnEliminar;
+	private JButton btnModificar;
 
 	//SINGLETON
 	private static VistaUnidad instancia;
@@ -66,56 +68,51 @@ public class VistaUnidad extends javax.swing.JFrame {
 		btnBuscar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnBuscar.setForeground(Color.WHITE);
 		btnBuscar.setBackground(new Color(102, 204, 51));
-		btnBuscar.setBounds(371, 57, 89, 23);
+		btnBuscar.setBounds(322, 57, 89, 23);
 		panel.add(btnBuscar);
 
-		JLabel lblRifCoop = new JLabel("RIF. de cooperativa:");
+		JLabel lblRifCoop = new JLabel("RIF Cop.:");
 		lblRifCoop.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblRifCoop.setBounds(37, 52, 130, 32);
+		lblRifCoop.setBounds(65, 171, 130, 32);
 		panel.add(lblRifCoop);
-
-		JLabel lblCoop = new JLabel("Cooperativa:");
-		lblCoop.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblCoop.setBounds(37, 108, 80, 32);
-		panel.add(lblCoop);
 
 		JLabel lblNumero = new JLabel("Numero:");
 		lblNumero.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblNumero.setBounds(62, 168, 52, 38);
+		lblNumero.setBounds(65, 49, 52, 38);
 		panel.add(lblNumero);
 
 		JLabel lblPlaca = new JLabel("Placa:");
 		lblPlaca.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblPlaca.setBounds(74, 266, 43, 32);
+		lblPlaca.setBounds(65, 112, 43, 32);
 		panel.add(lblPlaca);
 
 		JLabel lblTipo = new JLabel("Tipo:");
 		lblTipo.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblTipo.setBounds(74, 217, 43, 38);
+		lblTipo.setBounds(65, 233, 43, 38);
 		panel.add(lblTipo);
 
 		JLabel lblCapacidad = new JLabel("Capacidad:");
 		lblCapacidad.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblCapacidad.setBounds(309, 220, 68, 32);
+		lblCapacidad.setBounds(322, 236, 68, 32);
 		panel.add(lblCapacidad);
 
 		JLabel lblSociodueo = new JLabel("IdSocio(Due\u00F1o):");
 		lblSociodueo.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblSociodueo.setBounds(299, 168, 89, 38);
+		lblSociodueo.setBounds(322, 168, 89, 38);
 		panel.add(lblSociodueo);
 
-		btnAgregar = new JButton("Agregar Otro");
+		btnAgregar = new JButton("Guardar");
 		btnAgregar.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setBackground(new Color(102, 204, 51));
-		btnAgregar.setBounds(47, 317, 113, 23);
+		btnAgregar.setBounds(65, 317, 113, 23);
 		panel.add(btnAgregar);
 
 		btnSalir = new JButton("Salir");
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(new Color(102, 204, 51));
-		btnSalir.setBounds(428, 317, 89, 23);
+		btnSalir.setBounds(462, 317, 89, 23);
 		panel.add(btnSalir);
 
 		JLabel lblCargarUnidad = new JLabel("CARGAR UNIDAD");
@@ -126,46 +123,53 @@ public class VistaUnidad extends javax.swing.JFrame {
 		String[] items = { "Seleccione", "Carro", "Ranchera", "Vans", "Encava",
 				"Buseta ", "Bus", "Buscama" };
 		comboTipo = new JComboBox<Object>(items);
-		comboTipo.setBounds(127, 227, 149, 23);
+		comboTipo.setBounds(127, 242, 162, 23);
 		panel.add(comboTipo);
 
 		textNumero = new JTextFieldValidator();
 		textNumero.setFont(new Font("Dialog", Font.BOLD, 12));
-		textNumero.setBounds(129, 177, 147, 23);
+		textNumero.setBounds(127, 57, 162, 23);
 		panel.add(textNumero);
 		textNumero.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
 		
 		textPlaca = new JTextFieldValidator();
 		textPlaca.setFont(new Font("Dialog", Font.BOLD, 12));
-		textPlaca.setBounds(127, 273, 149, 20);
+		textPlaca.setBounds(127, 115, 162, 23);
 		panel.add(textPlaca);
 		textPlaca.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
 		
 		textCapacidad = new JTextFieldValidator();
 		textCapacidad.setFont(new Font("Dialog", Font.BOLD, 12));
 		textCapacidad.setText(" ");
-		textCapacidad.setBounds(398, 227, 130, 23);
+		textCapacidad.setBounds(421, 241, 130, 23);
 		panel.add(textCapacidad);
 		textCapacidad.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
 		
 		textSocio = new JTextFieldValidator();
 		textSocio.setFont(new Font("Dialog", Font.BOLD, 12));
-		textSocio.setBounds(398, 178, 130, 23);      
+		textSocio.setBounds(421, 176, 130, 23);      
 		panel.add(textSocio);
 		textSocio.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
 		
-		textNombre = new JTextFieldValidator();
-		textNombre.setText("  ");
-		textNombre.setFont(new Font("Dialog", Font.BOLD, 12));
-		textNombre.setBounds(131, 112, 386, 23);
-		panel.add(textNombre);
-		textNombre.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_ESPACIOS_Y_NUMEROS);
-		
 		textRif = new JTextFieldValidator();
 		textRif.setFont(new Font("Dialog", Font.BOLD, 12));
-		textRif.setBounds(153, 58, 205, 23);
+		textRif.setBounds(127, 176, 162, 23);
 		panel.add(textRif);
 		textRif.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setForeground(Color.WHITE);
+		btnEliminar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnEliminar.setBackground(new Color(102, 204, 51));
+		btnEliminar.setBounds(195, 317, 113, 23);
+		panel.add(btnEliminar);
+		
+		btnModificar = new JButton("Modificar");
+		btnModificar.setForeground(Color.WHITE);
+		btnModificar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnModificar.setBackground(new Color(102, 204, 51));
+		btnModificar.setBounds(325, 317, 113, 23);
+		panel.add(btnModificar);
 		
 		
 	}
@@ -175,6 +179,8 @@ public class VistaUnidad extends javax.swing.JFrame {
 		btnBuscar.addActionListener(accion);
 		btnAgregar.addActionListener(accion);
 		btnSalir.addActionListener(accion);
+		btnEliminar.addActionListener(accion);
+		btnModificar.addActionListener(accion);
 	}
 
 	public void Limpiar() {
@@ -188,10 +194,6 @@ public class VistaUnidad extends javax.swing.JFrame {
 
 	public String getTextRif() {
 		return textRif.getText();
-	}
-
-	public JTextFieldValidator getTextNombre() {
-		return textNombre;
 	}
 
 	public String getTextNumero() {
@@ -235,3 +237,12 @@ public class VistaUnidad extends javax.swing.JFrame {
 		JOptionPane.showMessageDialog(this, mensaje);
 	}
 }
+
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import modelo.*;
-import modelo.dao.*;
+import modeloDAO.CooperativaDAO;
 import vista.VistaCoop;
 
 public class ControladorVistaCoop implements ActionListener {
@@ -15,27 +15,12 @@ public class ControladorVistaCoop implements ActionListener {
 	private CooperativaDAO copDAO;
 
 	public ControladorVistaCoop(Terminal terminal) {
-
-		vcoop = VistaCoop.getInstancia();
+		copDAO = new CooperativaDAO();
+		vcoop = new VistaCoop();
 		vcoop.setVisible(true);
 		vcoop.setLocationRelativeTo(null);
 		vcoop.activarListener(this);
 		this.ter = terminal;
-	}
-
-	// SINGLETON
-	private static ControladorVistaCoop instancia;
-
-	public static ControladorVistaCoop getInstancia(Terminal ter) {
-		if (instancia == null) {
-			instancia = new ControladorVistaCoop(ter);
-		}
-		return instancia;
-	}
-
-	public void iniciar() {
-		vcoop.Limpiar();
-		vcoop.setVisible(true);
 	}
 
 	@Override
@@ -44,15 +29,16 @@ public class ControladorVistaCoop implements ActionListener {
 		try {
 			if (e.getSource().equals(vcoop.getBtnAgregar()))
 				agregarCoop();
-
+			else if (e.getSource().equals(vcoop.getBtnBuscar()))
+				Buscar();
 			else if (e.getSource().equals(vcoop.getBtnAgregarSocio())) {
-				ControladorVistaSocio.getInstancia(ter);
+				new ControladorVistaSocio(ter);
 				vcoop.Limpiar();
 			}
 
 			else if (e.getSource().equals(vcoop.getBtnSalir())) {
 
-				vcoop.Limpiar();
+				vcoop.dispose();
 
 			}
 
@@ -62,27 +48,38 @@ public class ControladorVistaCoop implements ActionListener {
 		}
 	}
 
+	private void Buscar() {
+		Cooperativa cop= copDAO.buscarCooperativa(vcoop.getTextRif());
+		
+		String nombre= cop.getNombre();
+		vcoop.getTextNombreC().setText(nombre);
+		
+	}
+
 	public void agregarCoop() {
+
+		Cooperativa cop = new Cooperativa(vcoop.getTexNombreC(),
+				vcoop.getTextRif());
 
 		if (vcoop.getTexNombreC().isEmpty() || vcoop.getTextRif().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
 		} else {
-			String rif = vcoop.getTextRif();
-			String nombre = vcoop.getTexNombreC();
-			Cooperativa coop = new Cooperativa(nombre, rif);
-			if (copDAO.buscarCooperativa(rif) == null)
-			// ter.VerificarCoop(rif) == false)
-			{
-				copDAO.registrarCooperativa(coop);
-				vcoop.getBtnAgregarSocio().setVisible(true);
-				JOptionPane.showMessageDialog(null, "Cooperativa Registrada ");
-				vcoop.Limpiar();
-			} else
-				JOptionPane.showMessageDialog(null,
-						"La Cooperativa ya esta registrada");
 
+			 if (copDAO.consultarCooperativa(cop)== false ) {
+			copDAO.registrarCooperativa(cop);
+			vcoop.getBtnAgregarSocio().setVisible(true);
+			JOptionPane.showMessageDialog(null, "Cooperativa Registrada ");
+			vcoop.Limpiar();
+			
+			  } else JOptionPane.showMessageDialog(null,
+			  "La Cooperativa ya esta registrada");
+			 
 		}
 
 	}
-
 }
+
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
+ */

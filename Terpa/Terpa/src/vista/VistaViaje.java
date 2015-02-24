@@ -17,15 +17,9 @@ import java.util.Date;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 import javax.swing.JScrollPane;
-
 import bean.JTextFieldValidator;
-
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.LineBorder;
-
-
 
 @SuppressWarnings("serial")
 public class VistaViaje extends JFrame {
@@ -39,16 +33,17 @@ public class VistaViaje extends JFrame {
 	private JTextFieldValidator textCantidad;
 	private JTable table;
 	
-
+	
 	// SINGLETON
-	private static VistaViaje instancia;
+		private static VistaViaje instancia;
 
-	public static VistaViaje getInstancia() {
-		if (instancia == null) {
-			instancia = new VistaViaje();
+		public static VistaViaje getInstancia() {
+			if (instancia == null) {
+				instancia = new VistaViaje();
+			}
+			return instancia;
 		}
-		return instancia;
-	}
+
 
 	public VistaViaje() {
 
@@ -112,57 +107,60 @@ public class VistaViaje extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 131, 700, 267);
 		panel.add(scrollPane);
-
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setEditingColumn(0);
-		table.setEditingRow(0);
-		table.setEnabled(false);
-		table.computeVisibleRect(getBounds());
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		table.setFont(new Font("Arial", Font.BOLD, 12));
-		table.setName("Viajes");
-		table.setSelectionBackground(Color.DARK_GRAY);
-		table.setSelectionForeground(new Color(255, 255, 255));
-		table.setGridColor(Color.BLACK);
-		table.setAutoCreateRowSorter(true);
-		table.setFillsViewportHeight(true);
-		table.setBackground(Color.LIGHT_GRAY);
-		table.setShowHorizontalLines(true);
-		table.setShowVerticalLines(true);
-		table.setShowGrid(true);
-		table.setAutoscrolls(true);// *
-		table.setColumnSelectionAllowed(true);
-		table.setCellSelectionEnabled(true);
-		table.setForeground(Color.WHITE);
-
+		
+			
+			table = new JTable();
+			scrollPane.setViewportView(table);
+			table.setEditingColumn(0);
+			table.setEditingRow(0);
+			table.setEnabled(false);
+			table.computeVisibleRect(getBounds());
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+			table.setFont(new Font("Arial", Font.BOLD, 12));
+			table.setName("Viajes");
+			table.setSelectionBackground(Color.DARK_GRAY);
+			table.setSelectionForeground(new Color(255, 255, 255));
+			table.setGridColor(Color.BLACK);
+			table.setAutoCreateRowSorter(true);
+			table.setFillsViewportHeight(true);
+			table.setBackground(Color.LIGHT_GRAY);
+			table.setShowHorizontalLines(true);
+			table.setShowVerticalLines(true);
+			table.setShowGrid(true);
+			table.setAutoscrolls(true);// *
+			table.setColumnSelectionAllowed(true);
+			table.setCellSelectionEnabled(true);
+			table.setForeground(Color.WHITE);
+	
+		
 		JLabel lblViajesDeLa = new JLabel("VIAJES ");
 		lblViajesDeLa.setFont(new Font("Dialog", Font.BOLD, 13));
 		lblViajesDeLa.setBounds(256, 116, 176, 14);
 		panel.add(lblViajesDeLa);
-
+		
 		textDias = new JTextFieldValidator();
 		textDias.setToolTipText("Para cuantos dias desea generar los viajes (empezando desde la fecha seleccionada ) ");
 		textDias.setTipoCaracteresPermitidos(textDias.SOLO_NUMEROS);
 		textDias.setBounds(539, 47, 41, 20);
 		panel.add(textDias);
-
+		
 		textCantidad = new JTextFieldValidator();
 		textCantidad.setToolTipText("Nro de viaje a generar");
 		textCantidad.setTipoCaracteresPermitidos(textCantidad.SOLO_NUMEROS);
 		textCantidad.setBounds(539, 79, 41, 20);
 		panel.add(textCantidad);
-
+		
 		JLabel lblDias = new JLabel("Dias ");
 		lblDias.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblDias.setBounds(496, 46, 33, 20);
 		panel.add(lblDias);
-
+		
 		JLabel lblNewLabel = new JLabel("Cantidad");
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblNewLabel.setBounds(488, 80, 75, 16);
 		panel.add(lblNewLabel);
 		
+	
 	}
 
 	public JTable getTable() {
@@ -207,7 +205,15 @@ public class VistaViaje extends JFrame {
 		TextvRif.setText("");
 		textCantidad.setText("");
 		textDias.setText("");
-
+		
 	}
-
 }
+
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

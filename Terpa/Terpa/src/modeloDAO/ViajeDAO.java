@@ -26,18 +26,37 @@ public class ViajeDAO extends ConexionDAO {
 	public void registrarViaje(Viaje via) {
 
 		String tiraSQL = "INSERT INTO viaje"
-				+ "(id_viaje,fecha_salida,fecha_retorno,ruta,vehiculo,chofer,costo,statusdb)"
-				+ "VALUES ('" + via.getIdviaje() + "'," + "'"
-				+ via.getFecha_salida() + "'," + "'" + via.getFecha_retorno()
-				+ "'," + "'" + via.getRuta() + "'," + "'" + via.getVehiculo()
-				+ "'," + "'" + via.getChofer() + "'," + "'" + via.getCosto()
-				+ "'," +via.getStatus() + "',"+ "'A')";
+				+ "(id_viaje,fecha_salida,fecha_retorno,ruta,vehiculo,chofer,costo,status,statusdb)"
+				+ "VALUES ('"
+				+ via.getIdviaje()
+				+ "',"
+				+ "'"
+				+ via.getFecha_salida()
+				+ "',"
+				+ "'"
+				+ via.getFecha_retorno()
+				+ "',"
+				+ "'"
+				+ via.getRuta()
+				+ "',"
+				+ "'"
+				+ via.getVehiculo()
+				+ "',"
+				+ "'"
+				+ via.getChofer()
+				+ "',"
+				+ "'"
+				+ via.getCosto()
+				+ "',"
+				+ via.getStatus()
+				+ "',"
+				+ "'A')";
 		Conexion.ejecutar(tiraSQL);
 
 	}
 
 	public void eliminarViaje(Viaje via) {
-		String tiraSQL = "update viaje set status='E' where id_viaje='"
+		String tiraSQL = "update viaje set statusdb='E' where id_viaje='"
 				+ via.getIdviaje() + "'";
 
 		Conexion.ejecutar(tiraSQL);
@@ -48,7 +67,7 @@ public class ViajeDAO extends ConexionDAO {
 
 		String tiraSQL = "update viaje set " + "vehiculo='" + via.getVehiculo()
 				+ "'," + "chofer='" + via.getChofer() + "'"
-				+ "where id_viaje='" + via.getIdviaje() + "' and status!='E'";
+				+ "where id_viaje='" + via.getIdviaje() + "' and statusdb='A'";
 
 		Conexion.ejecutar(tiraSQL);
 
@@ -60,7 +79,7 @@ public class ViajeDAO extends ConexionDAO {
 		choDAO = new ChoferDAO();
 
 		String tiraSQL = "select * from viaje where id_viaje = '" + iddado
-				+ "' and status='A'";
+				+ "' and statusdb='A'";
 		ResultSet rsViaje = Conexion.consultar(tiraSQL);
 		try {
 			while (rsViaje.next()) {
@@ -71,12 +90,12 @@ public class ViajeDAO extends ConexionDAO {
 				String idunidad = rsViaje.getString("vehiculo");
 				String idchofer = rsViaje.getString("chofer");
 				String status = rsViaje.getString("status");
-
+				float costo = rsViaje.getFloat("costo");
 				Unidad vehiculo = uniDAO.buscarUnidad(idunidad);
 				Chofer chofer = choDAO.buscarChofer(idchofer);
 
-				Viaje via = new Viaje(id, fechasalida, fecharetorno, ruta,
-						vehiculo, chofer, status); // ARREGLAR CONSTRUCTOR VIAJE
+				Viaje via = new Viaje(id, fechasalida, fecharetorno, vehiculo,
+						chofer, costo, ruta, status);
 				return via;
 			}
 		} catch (SQLException e) {
@@ -89,10 +108,10 @@ public class ViajeDAO extends ConexionDAO {
 
 		boolean seEncuentra = false;
 
-		String tiraSQL = "select id_viaje,fecha_salida,fecha_retorno,ruta,vehiculo,chofer,costo,statusdb"
+		String tiraSQL = "select id_viaje,fecha_salida,fecha_retorno,ruta,vehiculo,chofer,costo,status"
 				+ " from viaje where id_viaje ='"
 				+ via.getIdviaje()
-				+ "' and status='A'";
+				+ "' and statusdb='A'";
 
 		ResultSet rsViaje = Conexion.consultar(tiraSQL);
 
@@ -109,14 +128,15 @@ public class ViajeDAO extends ConexionDAO {
 		return seEncuentra;
 	}
 
-	public List<Viaje> Llenarlistviajes() {
+	public ArrayList<Viaje> Llenarlistviajes(String rif) {
 
 		uniDAO = new UnidadDAO();
 		choDAO = new ChoferDAO();
 
 		ArrayList<Viaje> lviaj = new ArrayList<Viaje>();
 
-		String tiraSQL = "select * from viaje where status='A'";
+		String tiraSQL = "select * from viaje where rifcoop='" + rif
+				+ "' and statusdb='A'";
 
 		ResultSet rs = Conexion.consultar(tiraSQL);
 
@@ -129,12 +149,13 @@ public class ViajeDAO extends ConexionDAO {
 				String idunidad = rs.getString("vehiculo");
 				String idchofer = rs.getString("chofer");
 				String status = rs.getString("status");
+				float costo = rs.getFloat("costo");
 
 				Unidad vehiculo = uniDAO.buscarUnidad(idunidad);
 				Chofer chofer = choDAO.buscarChofer(idchofer);
 
-				lviaj.add(new Viaje(id, fechasalida, fecharetorno, ruta,
-						vehiculo, chofer, status));
+				lviaj.add(new Viaje(id, fechasalida, fecharetorno, vehiculo,
+						chofer, costo, ruta, status));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

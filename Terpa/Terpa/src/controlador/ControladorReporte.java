@@ -5,11 +5,14 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import vista.*;
 import modelo.*;
+import modeloDAO.*;
+import memento.*;
 
 public class ControladorReporte implements ActionListener {
 	private VistaReporte vreport;
@@ -17,26 +20,30 @@ public class ControladorReporte implements ActionListener {
 	private Cooperativa coop;
 	private int opc;
 	private DefaultTableModel model;
+	private CooperativaDAO coopDao;
+	private ViajeDAO vDao;
 
-	
-	//SINGLETON
-	private static ControladorReporte instancia;
-	
-	
-	public static ControladorReporte  getInstancia(Terminal ter){
-			if (instancia == null){
-				instancia = new ControladorReporte (ter) ;
-			}
-			return instancia;
+	// Memento
+	public void Recientes() {
+		ArrayList<String> rec = new ArrayList<String>();
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
+		for (int i = 0; i < ant.countMemento(); i++) {
+
+			rec.add(ant.getMemento(i).toString());
 		}
-	public void iniciar(){
-		vreport.limpiar();
-		vreport.setVisible(true);
+		for (int i = 0; i < rec.size(); i++) {
+			// Añadir cada elemento del ArrayList en el modelo de la lista
+
+			model.addElement(rec.get(i));
+
+		}
+		vreport.getComboMeme().setModel(model);
+
 	}
-		
+
 	public ControladorReporte(Terminal terminal) {
 
-		vreport =VistaReporte.getInstancia();
+		vreport = new VistaReporte();
 		vreport.setVisible(true);
 		vreport.activarListener(this);
 		ter = terminal;
@@ -46,12 +53,13 @@ public class ControladorReporte implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-		 if (e.getSource().equals(vreport.getBtnGenerar())) {
+			if (e.getSource().equals(vreport.getBtnGenerar())) {
 
 				opc = vreport.getindex();
 				String rif = vreport.getTextvrif().getText();
+				coopDao.buscarCooperativa(rif);
 
-				if (rif == "" || !ter.VerificarCoop(rif))
+				if (rif == "" || coopDao.buscarCooperativa(rif) == null)
 					JOptionPane.showMessageDialog(null,
 							" Introduzca RIF VALIDO");
 
@@ -61,12 +69,12 @@ public class ControladorReporte implements ActionListener {
 								" Seleccione una opcion ");
 					if (opc == 3) {
 
-						llenarTablaMulta(asignarcolumna(opc));
+						llenarTablaMulta(asignarcolumna(opc, rif));
 
 					} else if (vreport.getTextFiltrar().equalsIgnoreCase(""))
 						JOptionPane.showMessageDialog(null, " Introduzca ID ");
 					else
-						llenarTablaViajes(opc, asignarcolumna(opc));
+						llenarTablaViajes(opc, asignarcolumna(opc, rif));
 				}
 
 			} else if (e.getSource().equals(vreport.getBtnCancelar())) {
@@ -81,13 +89,11 @@ public class ControladorReporte implements ActionListener {
 		}
 	};
 
-	public DefaultTableModel asignarcolumna(int tipo) {
+	public DefaultTableModel asignarcolumna(int tipo, String rif) {
 
-		// int tipo = vreport.getindex();// (int)combo.getSelectedIndex();
 		String[] columna = null;
 
-		coop = ter.BuscarCoop(vreport.getTextvrif().getText());
-		ArrayList<Viaje> lViaje = coop.getlViaje();
+		ArrayList<Viaje> lViaje = vDao.Llenarlistviajes(rif);
 		int size = 0;
 
 		switch (tipo) {
@@ -128,9 +134,9 @@ public class ControladorReporte implements ActionListener {
 			String buscar = vreport.getTextFiltrar();
 			boolean llenar = false;// evita q la tabla se llene sino cumple con
 									// las condiciones del switch
-			coop = ter.BuscarCoop(vreport.getTextvrif().getText());
-			ArrayList<Viaje> lViaje = coop.getlViaje();
-		
+
+			ArrayList<Viaje> lViaje = vDao.Llenarlistviajes(vreport
+					.getTextvrif().getText());
 
 			for (int i = 0; i < lViaje.size(); i++) {
 
@@ -189,14 +195,16 @@ public class ControladorReporte implements ActionListener {
 
 	public void llenarTablaMulta(DefaultTableModel model) {
 		try {
+			String rif = vreport.getTextvrif().getText();
+			MultaDAO mDao = new MultaDAO();
 
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
-			ArrayList<Multa> lMulta = coop.getlMulta();
+			ArrayList<Multa> lMulta = mDao.Llenarlistmult(rif);
 
 			for (int i = 0; i < lMulta.size(); i++) {
 				Multa multa = lMulta.get(i);
 
-				coop = ter.BuscarCoop(vreport.getTextvrif().getText());
+				coop = coopDao.buscarCooperativa(rif);
 				vreport.setLblTitulo("LISTADO DE MULTAS " + coop.getNombre());
 
 				model.setValueAt(multa.getNro(), i, 0);
@@ -214,20 +222,24 @@ public class ControladorReporte implements ActionListener {
 		}
 	}
 
-	public String Status(String string) {
+	public String Status(int i) {
 		String sts = "";
-		switch (string) {
-		case "1":
+		switch (i) {
+		case 1:
 			sts = "SALIO";
 			break;
-		case "2":
+		case 2:
 			sts = "NO SALIO";
 			break;
-		case "3":
+		case 3:
 			sts = "Cancelado ";
 			break;
 		}
 		return sts;
 	}
-
 }
+
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
+ */

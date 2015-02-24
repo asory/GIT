@@ -1,4 +1,4 @@
-package controlador;
+package controlador; 
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import modelo.*;
+import modeloDAO.CooperativaDAO;
+import modeloDAO.SocioDAO;
 import vista.*;
 
 public class ControladorVistaSocio implements ActionListener {
@@ -13,31 +15,19 @@ public class ControladorVistaSocio implements ActionListener {
 	private VistaSocio vsoc;
 	private Socio soc;
 	private Cooperativa coop;
-	private  Terminal term;
+	private Terminal term;
+	private SocioDAO socDAO;
+	private CooperativaDAO copDAO;
 
 	public ControladorVistaSocio(Terminal terminal) {
-		term = terminal;
-		vsoc = VistaSocio.getInstancia();
+		
+		socDAO = new SocioDAO();
+		vsoc = new VistaSocio();
 		vsoc.setVisible(true);
 		vsoc.activarListener(this);
-		
+		term = terminal;
 	}
-	//SINGLETON
-	private static ControladorVistaSocio instancia;
-	
-	
-	public static  ControladorVistaSocio getInstancia(Terminal term){
-			if (instancia == null){
-				instancia = new ControladorVistaSocio(term) ;
-			}
-			return instancia;
-		}
-	public void iniciar(){
-		vsoc.blanquearCampos();
-		vsoc.setVisible(true);
-	}
-		
-		
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
@@ -48,17 +38,17 @@ public class ControladorVistaSocio implements ActionListener {
 				vsoc.getBtnAgregarUnidad().setVisible(true);
 
 			} else if (e.getSource().equals(vsoc.getBtnAgregarCho())) {
-				ControladorVistaChofer.getInstancia(term);
+				new ControladorVistaChofer(term);
 				
 			} else if (e.getSource().equals(vsoc.getBtnAgregarUnidad())) {
-				 ControladorVistaUnidad.getInstancia(term);
+				new ControladorVistaUnidad(term);
 				
-			} else if (e.getSource().equals(vsoc.getBtnBuscarCoop())) {
-				BuscarCooperativa(term);
+			} else if (e.getSource().equals(vsoc.getBtnBuscar())) {
+				
 			}
 
 			else if (e.getSource().equals(vsoc.getBtnSalir())) {
-				vsoc.blanquearCampos();
+				vsoc.dispose();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -68,73 +58,50 @@ public class ControladorVistaSocio implements ActionListener {
 
 	// ///************* Boton Guardar Socio ***************************///
 	private void agregarSocio() {
-		try {
-			if (vsoc.getRifCoop() == "" || vsoc.getNombreS().getText() == ""
+		
+		Socio soc = new Socio(vsoc.getNombreS(), vsoc.getTextApellidoS(), vsoc.getTelefonoS(), vsoc.getCiS(),
+				vsoc.getIndiceCombo(), vsoc.getTextID());
+		
+		
+		
+		if (vsoc.getNombreS() == ""
 					|| vsoc.getCiS() == "" || vsoc.getIndiceCombo() == 0
-					|| vsoc.getTelefonoS().getText() == ""
-					|| vsoc.getTextID().getText() == ""
-					|| vsoc.getTextID().getText() == "")
+					|| vsoc.getTelefonoS() == ""
+					|| vsoc.getTextID() == ""
+					|| vsoc.getTextApellidoS() == ""
+					|| vsoc.getRifCoop() == "")
 				JOptionPane.showMessageDialog(null,
 						"Debe rellenar todos los campos");
 
 			else {
-
-				String rif = vsoc.getRifCoop();
-				String id = vsoc.getTextID().getText();
 				
-				if (term.VerificarCoop(rif) && !ValidarSocio(rif,id)) {
-
-					coop = term.BuscarCoop(rif);
-					String nombre = vsoc.getNombreS().getText();
-					String apellido = vsoc.getTextApellidoS().getText();
-					String cedula = vsoc.getCiS();
-					int cargo = vsoc.getIndiceCombo();
-					String telefono = vsoc.getTelefonoS().getText();
-					
-					soc = new Socio(nombre, apellido, telefono, cedula, cargo,
-							id);
-					coop.agregarSocio(soc);
-					vsoc.mostrarMensaje("El Socio ha sido guardada con exito");
+				String rifdado = vsoc.getRifCoop();
+				Cooperativa cop = copDAO.buscarCooperativa(rifdado);
+						
+				if (copDAO.consultarCooperativa(cop)); {
+				
+				 if (!socDAO.consultarSocio(soc)) {
+					 
+					socDAO.registrarSocio(soc);
+					vsoc.mostrarMensaje("El Socio ha sido guardado con exito");
 					vsoc.blanquearCampos();
-
-				} else
-					vsoc.mostrarMensaje("El Socio ya existe");
+					} else
+						vsoc.mostrarMensaje("El Socio ya existe");
+				}
+					vsoc.mostrarMensaje("La Cooperativa no existe");
+									
 			}
-		} catch (Exception e) {
-			vsoc.mostrarMensaje("No se pudo guardar el Socio, verifique que los datos sean correctos");
-			vsoc.blanquearCampos();
-		}
 	}
 
-	// ///************* Boton Buscar Cooperativa ***************************///
-	public void BuscarCooperativa(Terminal term) {
-		coop = term.BuscarCoop(vsoc.getRifCoop());
-
-		if (!term.getlCoop().contains(coop)) {
-
-			vsoc.mostrarMensaje("La Cooperativa no existe");
-
-		} else
-
-			vsoc.getCoop().setText(coop.getNombre());
-	}
-
-	// /**************** Validar que el Socio exista ***********************///
-
-	public boolean ValidarSocio(String rif,String id) {
-		boolean v = false;
-		coop = term.BuscarCoop(rif);
-
-		if (coop.getlSocio() == null || coop.getlSocio().isEmpty())
-			v = false;
-		else
-			for (int i = 0; i < coop.getlChofer().size(); i++) {
-				if (id == coop.getlSocio().get(i)
-						.getId_socio())
-					
-				v = true; // lo encontro
-			}
-		return v; // no lo encontro
-	}
 
 }
+
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */
+

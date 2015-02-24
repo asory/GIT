@@ -185,12 +185,12 @@ public class Cooperativa {
 
 	}
 
-	public String randomStatusVi() {
+	public int randomStatusVi() {
 		int random = 0;
 
 		random = (int) Math.floor(Math.random() * 2 + 1);
-		String ran = Integer.toString(random);// // CONVIERTE DE ENTERO A STRING
-		return ran;
+		
+		return random;
 
 	}
 
@@ -233,7 +233,7 @@ public class Cooperativa {
 			viaje = lViaje.get(j);
 			if (viaje.getChofer().getStatus()
 					|| viaje.getVehiculo().getstatus()) {
-				viaje.setStatus("3");
+				viaje.setStatus(3);
 			}
 		}
 

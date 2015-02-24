@@ -2,9 +2,14 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JOptionPane;
+
 import vista.*;
 import modelo.*;
+import modeloDAO.CooperativaDAO;
+import modeloDAO.SocioDAO;
+import modeloDAO.UnidadDAO;
 
 public class ControladorVistaUnidad implements ActionListener {
 
@@ -12,31 +17,21 @@ public class ControladorVistaUnidad implements ActionListener {
 	private Socio soc;
 	private Terminal ter;
 	private Cooperativa coop;
+	private UnidadDAO uniDAO;
+	private CooperativaDAO copDAO;
+	private SocioDAO socDAO;
 
 	public ControladorVistaUnidad(Terminal terminal) {
-
-		vuni = VistaUnidad.getInstancia();
+		
+		uniDAO = new UnidadDAO();
+		copDAO = new CooperativaDAO();
+		vuni = new VistaUnidad();
 		vuni.setVisible(true);
 		vuni.setLocationRelativeTo(null);
 		vuni.activarListener(this);
 		ter = terminal;
 	}
-	//SINGLETON
-	private static ControladorVistaUnidad instancia;
-	
-	
-	public static  ControladorVistaUnidad getInstancia(Terminal ter){
-			if (instancia == null){
-				instancia = new ControladorVistaUnidad(ter) ;
-			}
-			return instancia;
-		}
-	public void iniciar(){
-		vuni.Limpiar();
-		vuni.setVisible(true);
-	}
-		
-		
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -48,7 +43,7 @@ public class ControladorVistaUnidad implements ActionListener {
 				agregarUni();
 
 			else if (e.getSource().equals(vuni.getbtnBuscar())) {
-				BuscarCooperativa(ter);
+				//Buscar();
 			}
 
 			else if (e.getSource().equals(vuni.getbtnSalir())) {
@@ -66,93 +61,43 @@ public class ControladorVistaUnidad implements ActionListener {
 	// ///////////////////// AGREGAR UNIDAD /////////////////////////
 
 	public void agregarUni() {
-		try {
+		
+		Unidad uni = new Unidad(vuni.getTextPlaca(), vuni.getIndiceComboTipo(), false, vuni.getTextSocio(), Integer.parseInt(vuni.getTextNumero()));
+
 			if (vuni.getTextRif().isEmpty()
-					|| vuni.getTextNombre().equals("")// .isEmpty()
-					|| vuni.getTextNumero() == "0 " // ////////error eno
-													// reconoce
-													// el tipo de dato int
+					|| vuni.getTextNumero() == "0 " 
 					|| vuni.getTextSocio().equals("")
 					|| vuni.getTextPlaca().equals("")
-					|| vuni.getIndiceComboTipo() == 0)
-
-				JOptionPane
-						.showMessageDialog(null,
-								"Debe llenar todos los campos para guardar una nueva unidad");
-
-			else {
-
-				Cooperativa coop = ter.BuscarCoop(vuni.getTextRif());
-
-				if (!ter.VerificarCoop(vuni.getTextRif()))
-					vuni.mostrarMensaje("Cooperativa no existe");
-
-				int numeroid = Integer.parseInt(vuni.getTextNumero());
-				String id_socio = vuni.getTextSocio();
-				int tipo = vuni.getIndiceComboTipo();
-				String placa = vuni.getTextPlaca();
-
-				Unidad uni = new Unidad(placa, tipo, false, id_socio, numeroid);
-				if (ValidarSocio(coop) && !ValidarNumero(numeroid, coop)) {
-					soc.agregarUnidad(uni);
-					vuni.mostrarMensaje("La Unidad ha sido guardada con exito");
-				} else
-					vuni.mostrarMensaje("La Unidad ya existe");
-				vuni.Limpiar();
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+					|| vuni.getIndiceComboTipo() == 0) {
+				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+			} else {
+				String rifdado = vuni.getTextRif();
+				Cooperativa cop = copDAO.buscarCooperativa(rifdado);
+						
+				if (copDAO.consultarCooperativa(cop)); {
+				
+				String iddado = vuni.getTextSocio();	
+				Socio soc = socDAO.buscarSocio(iddado);
+				
+				 if (socDAO.consultarSocio(soc)) {
+					 
+					if (!uniDAO.consultarUnidad(uni)){
+						//if (!uniDAO.ValidarNumero(uni)){
+						uniDAO.registrarUnidad(uni);
+						vuni.mostrarMensaje("La unidad ha sido guardada con exito");
+						vuni.Limpiar();
+						} else
+							vuni.mostrarMensaje("El numero ya existe");
+					} else
+						vuni.mostrarMensaje("La Unidad ya existe");
+				//} else
+					vuni.mostrarMensaje("El Socio no existe");
+				} 
+					vuni.mostrarMensaje("Cooperativa no existe");					
 		}
-	}
+}
 
-	// ///////////////////////////BUSCAR COOPERATIVA
-	// ///////////////////////////////////////////
-	public void BuscarCooperativa(Terminal term) {
 
-		coop = ter.BuscarCoop(vuni.getTextRif());
-
-		if (!ter.getlCoop().contains(coop)) {
-
-			vuni.mostrarMensaje("La Cooperativa no existe");
-
-		} else
-
-			vuni.getTextNombre().setText(coop.getNombre());
-	}
-
-	// //////////// VALIDAR NUMERO//////////////////////////////////////
-	public boolean ValidarNumero(int idu, Cooperativa coop) {
-		boolean v = false;
-
-		soc = coop.BuscarSocio(vuni.getTextSocio());
-
-		if (soc.getlUnidad() == null || soc.getlUnidad().isEmpty())
-			v = false;
-		else
-			for (int i = 0; i < soc.getlUnidad().size(); i++) {
-
-				if (idu == soc.getlUnidad().get(i).getId())
-
-					v = true; // lo encontro
-			}
-		return v; // no lo encontro
-	}
-
-	// //////////VALIDAR SOCIO////////////////
-	public boolean ValidarSocio(Cooperativa coop) {
-		boolean v = false;
-
-		if (coop.getlSocio() == null || coop.getlSocio().isEmpty())
-			v = false;
-		else
-			for (int i = 0; i < coop.getlSocio().size(); i++) {
-				if (vuni.getTextSocio() == coop.getlSocio().get(i)
-						.getId_socio())
-					;
-				v = true; // lo encontro
-			}
-		return v; // no lo encontro
-	}
 
 	// ///////////////////////////SET TIPO-CAPACIDAD//////////
 	public String capacidad() {

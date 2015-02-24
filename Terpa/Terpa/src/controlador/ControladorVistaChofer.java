@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import modelo.*;
+import modeloDAO.ChoferDAO;
+import modeloDAO.CooperativaDAO;
+import modeloDAO.SocioDAO;
 import vista.*;
 
 public class ControladorVistaChofer implements ActionListener {
@@ -13,30 +16,20 @@ public class ControladorVistaChofer implements ActionListener {
 	private VistaChofer vcho;
 	private Cooperativa coop;
 	private Terminal term;
+	private ChoferDAO choDAO;
+	private CooperativaDAO copDAO;
+	private SocioDAO socDAO;
 
 	public ControladorVistaChofer(Terminal ter) {
-		vcho = VistaChofer.getInstancia();
+		choDAO = new ChoferDAO();
+		copDAO = new CooperativaDAO();
+		socDAO = new SocioDAO();
+		vcho = new VistaChofer();
 		vcho.setVisible(true);
 		vcho.activarListener(this);
 		term = ter;
 	}
-	//SINGLETON
-	private static  ControladorVistaChofer instancia;
-	
-	
-	public static  ControladorVistaChofer getInstancia(Terminal term){
-			if (instancia == null){
-				instancia = new ControladorVistaChofer (term) ;
-			}
-			
-			return instancia;
-		}
-	public void iniciar(){
-		vcho.blanquearCampos();;
-		vcho.setVisible(true);
-	}
-		
-		
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
@@ -44,10 +37,13 @@ public class ControladorVistaChofer implements ActionListener {
 		try {
 			if (actionCommand.equals("Guardar"))
 				agregarChofer();
-
-
-			else if (e.getSource().equals(vcho.getBtnBuscarCoop())) {
-				BuscarCooperativa(term);
+			
+			else if (e.getSource().equals(vcho.getBtnEliminar())) {
+				eliminar();
+			} else if (e.getSource().equals(vcho.getBtnModificar())) {
+			 	modificar();
+			} else if (e.getSource().equals(vcho.getBtnBuscarCho())) {
+				Buscar();
 			}
 
 			else if (e.getSource().equals(vcho.getBtnSalir())) {
@@ -62,89 +58,94 @@ public class ControladorVistaChofer implements ActionListener {
 
 	// ///************* Boton Guardar Chofer ***************************///
 	private void agregarChofer() {
-		try {
-			if (vcho.getRifCoop() == "" || vcho.getNombreC().getText() == ""
-					|| vcho.getCiC() == ""
-					|| vcho.getApellidoC().getText() == ""
-					|| vcho.getTelefonoC().getText() == ""
-					|| vcho.getSocioC() == "" || vcho.getIdC() == "")
-				JOptionPane.showMessageDialog(vcho,
-						"Debe rellenar todos los campos");
+		
+		Chofer cho = new Chofer(vcho.getNombreC(), vcho.getApellidoC(), vcho.getTelefonoC(), vcho.getCiC(),
+				vcho.getIdC(), false, vcho.getSocioC());
+		
+			if (vcho.getRifCoop().isEmpty()
+					|| vcho.getCiC().isEmpty()
+					|| vcho.getApellidoC().isEmpty()
+					|| vcho.getTelefonoC().isEmpty()
+					|| vcho.getSocioC().isEmpty() || vcho.getIdC().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+			} else {
+				String rifdado = vcho.getRifCoop();
+				Cooperativa cop = copDAO.buscarCooperativa(rifdado);
+						
+				if (copDAO.consultarCooperativa(cop)==false) {
+				
+				String iddado = vcho.getSocioC();	
+				Socio soc = socDAO.buscarSocio(iddado);
 
-			else {
-				coop = term.BuscarCoop(vcho.getRifCoop());
-				if (!term.VerificarCoop(vcho.getRifCoop()))
-					vcho.mostrarMensaje("Cooperativa no existe");
-
-				String nombrec = vcho.getNombreC().getText();
-				String apellidoc = vcho.getApellidoC().getText();
-				String cedulac = vcho.getCiC();
-				String telefonoc = vcho.getTelefonoC().getText();
-				String socioc = vcho.getSocioC();
-				String idc = vcho.getIdC();
-
-				Chofer cho = new Chofer(nombrec, apellidoc, telefonoc, cedulac,
-						idc, false, socioc);
-
-				if (!ValidarChofer() && !ValidarSocio()) {
-					coop.agregarChofer(cho);
-					vcho.mostrarMensaje("El Chofer ha sido guardada con exito");
+				if (!choDAO.consultarChofer(cho)){
+				
+				 if (socDAO.consultarSocio(soc)) {
+					 
+					choDAO.registrarChofer(cho);
+					vcho.mostrarMensaje("El Chofer ha sido guardado con exito");
+					vcho.blanquearCampos();
+					} else
+						vcho.mostrarMensaje("El socio no existe");
 				} else
-					vcho.mostrarMensaje("El chofer ya existe");
-
-				vcho.blanquearCampos();
+					vcho.mostrarMensaje("El Chofer ya existe");
+				} 
+					vcho.mostrarMensaje("Cooperativa no existe");					
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+	}
+
+	public void eliminar(){
+		
+		Chofer cho = new Chofer(vcho.getNombreC(), vcho.getApellidoC(), vcho.getTelefonoC(), vcho.getCiC(),
+				vcho.getIdC(), false, vcho.getSocioC());
+		
+		if(choDAO.consultarChofer(cho)){
+			choDAO.eliminarChofer(cho);
+			vcho.mostrarMensaje("El Chofer ha sido eliminado con exito");
+			vcho.blanquearCampos();
+		} else
+			vcho.mostrarMensaje("El Chofer ya se ha eliminado");
+	}
+	
+	public void modificar(){
+		
+		Chofer cho = new Chofer(vcho.getNombreC(), vcho.getApellidoC(), vcho.getTelefonoC(), vcho.getCiC(),
+				vcho.getIdC(), false, vcho.getSocioC());
+		
+		if (vcho.getRifCoop().isEmpty()
+				|| vcho.getCiC().isEmpty()
+				|| vcho.getApellidoC().isEmpty()
+				|| vcho.getTelefonoC().isEmpty()
+				|| vcho.getSocioC().isEmpty() || vcho.getIdC().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+		} else {
+			if(choDAO.consultarChofer(cho)){
+				choDAO.actualizarChofer(cho);
+				vcho.mostrarMensaje("El Chofer ha sido modificado con exito");
+				vcho.blanquearCampos();
+			} else
+				vcho.mostrarMensaje("El Chofer no ha sido registrado");
 		}
 	}
-
-	// ///************* Boton Buscar Cooperativa
-	// ******************************///
-	public void BuscarCooperativa(Terminal term) {
-		coop = term.BuscarCoop(vcho.getRifCoop());
-
-		if (!term.getlCoop().contains(coop)) {
-
-			vcho.mostrarMensaje("La Cooperativa no existe");
-
-		} else
-
-			vcho.getCoop().setText(coop.getNombre());
+	
+	public void Buscar(){
+		
+		Chofer chofer = choDAO.buscarChofer(vcho.getTextCiC().getText());
+		
+		//if(choDAO.consultarChofer(chofer)){
+					
+			vcho.getTextNombreC().setText(chofer.getNombre());
+			vcho.getTextCiC().setText(chofer.getCi());
+			vcho.getTextApellidoC().setText(chofer.getApellido());
+			vcho.getTextTelefonoC().setText(chofer.getTelefono());
+			vcho.getTextSocioC().setText(chofer.getId_Jefe());
+		//}
+		vcho.mostrarMensaje("El Chofer no existe");
+		
 	}
-
-	// /**************** Validar que el Chofer no exista
-	// ***********************///
-	public boolean ValidarChofer() {
-		boolean v = false;
-		Cooperativa coop = new Cooperativa();
-
-		if (coop.getlChofer() == null || coop.getlChofer().isEmpty())
-			v = false;
-		else
-			for (int i = 0; i < coop.getlChofer().size(); i++) {
-				if (vcho.getIdC() == coop.getlChofer().get(i).getId_chofer())
-					;
-				v = true; // lo encontro
-			}
-		return v; // no lo encontro
-	}
-
-	// /**************** Validar que el Socio exista
-	// ***************************///
-	public boolean ValidarSocio() {
-		boolean v = false;
-		Cooperativa coop = new Cooperativa();
-
-		if (coop.getlChofer() == null || coop.getlChofer().isEmpty())
-			v = false;
-		else
-			for (int i = 0; i < coop.getlChofer().size(); i++) {
-				if (vcho.getSocioC() == coop.getlSocio().get(i).getId_socio())
-					;
-				v = true; // lo encontro
-			}
-		return v; // no lo encontro
-	}
-
 }
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

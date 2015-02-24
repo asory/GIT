@@ -9,61 +9,33 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 
 import vista.VistaViaje;
-import memento.*;
 import modelo.*;
+import modeloDAO.*;
 
 public class ControladorVistaViaje implements ActionListener {
 
 	private VistaViaje vviaje;
 	private Cooperativa coop;
-	private Terminal ter;
-	//private String state;
-
+	private CooperativaDAO copDao;
+	private ViajeDAO vDao;
+	
+	
 	Viaje viaje = new Viaje();
 	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
 			"Retorno", "Pasaje", "Seguro", "Status" };
 	DefaultTableModel model = new DefaultTableModel(null, columna);
+	ArrayList<Viaje> lViaje ;
+	
+	public ControladorVistaViaje() {
+		
 
-	// MEMENTO
-
-	/*private Caretaker ant = new Caretaker();
-
-	public Memento backup(String state) {
-
-		return new Memento(state);
-	}
-
-	public void restore(Memento m) {
-		state = m.getSavedState();
-
-	}
-*/
-	// SINGLETON
-	private static ControladorVistaViaje instancia;
-
-	public void iniciar() {
-		vviaje.setVisible(true);
-	}
-
-	public static ControladorVistaViaje getInstancia(Terminal ter) {
-		if (instancia == null) {
-			instancia = new ControladorVistaViaje(ter);
-		}
-		return instancia;
-	}
-
-	public ControladorVistaViaje(Terminal terminal) {
-
-		vviaje = VistaViaje.getInstancia();
+		vviaje = new VistaViaje();
 		vviaje.setVisible(true);
 		vviaje.activarListener(this);
-		this.ter = terminal;
 		vviaje.getTable().setModel(model);
 	}
 
@@ -73,14 +45,13 @@ public class ControladorVistaViaje implements ActionListener {
 
 			if (e.getSource().equals(vviaje.getBtnGenerar()))
 
-				asignarViajes(ter);
+				asignarViajes();
 
 			else if (e.getActionCommand().equals("Nuevo")) {
 
 				vviaje.Limpiar();
 				vviaje.getBtnGenerar().setEnabled(true);
-				vviaje.getTable()
-						.setModel(new DefaultTableModel(null, columna));
+				vviaje.getTable().setModel(new DefaultTableModel(null, columna));
 			}
 
 		} catch (Exception ex) {
@@ -90,17 +61,16 @@ public class ControladorVistaViaje implements ActionListener {
 
 	}
 
-	private void asignarViajes(Terminal ter) {
+	private void asignarViajes() {
 
 		try {
-			if (vviaje.getRif() == "" || vviaje.getTextDias().getText() == ""
-					|| vviaje.getTextCantidad().getText() == "")
+			if (vviaje.getRif() == "" || vviaje.getTextDias().getText()=="" || vviaje.getTextCantidad().getText()=="")
 				JOptionPane.showMessageDialog(null,
 						"Debe llenar todos los campos");
 			else {
 
 				String rif = vviaje.getRif();
-				if (ter.VerificarCoop(rif) == false) {
+				if (copDao.buscarCooperativa(rif)==null ) {
 					JOptionPane.showMessageDialog(null,
 							"La Cooperativa no esta registrada");
 					vviaje.Limpiar();
@@ -110,12 +80,11 @@ public class ControladorVistaViaje implements ActionListener {
 
 				} else {
 					int i = 0;
-					int nroViajes = Integer.parseInt(vviaje.getTextCantidad()
-							.getText());
+					int nroViajes= Integer.parseInt(vviaje.getTextCantidad().getText());
 					do {
 						// obtenemos condiciones del viaje
 
-						coop = ter.BuscarCoop(rif);
+						coop =copDao.buscarCooperativa(rif);
 
 						Date fs = randomSalida(vviaje.getFechaI());
 						Ruta ruta = coop.randomRuta();
@@ -130,7 +99,7 @@ public class ControladorVistaViaje implements ActionListener {
 						cho = VerificarChofer(cho, fs);
 						float costo = asignarCosto();//
 						// decide si el viaje salio o no
-						String Stats = coop.randomStatusVi();
+						int Stats = coop.randomStatusVi();
 
 						// ********** se asignan las variables al viaje*********
 						String codv = "v" + "" + i + ""
@@ -149,20 +118,17 @@ public class ControladorVistaViaje implements ActionListener {
 						viaje.setRuta(ruta);
 						viaje.setStatus(Stats);
 
-						coop.agregarViaje(viaje);
+						vDao.registrarViaje(viaje);
 						multar(fs, viaje, coop);
 
 						i++;
 					} while (i < nroViajes);
-
-					coop.Ordenar();
+					
+                    coop.Ordenar();
 					coop.quitarmulta();
 					coop.cancelarViaje();
 					llenarTabla();
 					vviaje.getBtnGenerar().setEnabled(false);
-					// MEMENTO
-
-			//		ant.addMemento(backup(rif));
 
 				}
 			}
@@ -174,8 +140,8 @@ public class ControladorVistaViaje implements ActionListener {
 	public void llenarTabla() {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
-
-			ArrayList<Viaje> lViaje = coop.getlViaje();
+			lViaje= vDao.Llenarlistviajes(vviaje.getRif());
+			
 			model.setNumRows(lViaje.size());
 
 			for (int i = 0; i < lViaje.size(); i++) {
@@ -227,7 +193,9 @@ public class ControladorVistaViaje implements ActionListener {
 	public Date randomSalida(Date fecha) {
 
 		int random = 0;
-		int max = Integer.parseInt(vviaje.getTextDias().getText());
+		int max= Integer.parseInt(vviaje.getTextDias().getText());
+		
+		
 
 		random = (int) Math.floor(Math.random() * max + 0);
 
@@ -272,11 +240,11 @@ public class ControladorVistaViaje implements ActionListener {
 
 	// **************Verifican si ya han retornado*********************
 	public Unidad VerificarUnidad(Unidad uni, Date fs) {
-
+		lViaje= vDao.Llenarlistviajes(vviaje.getRif());
 		boolean v;
 		do {
-			for (int i = 0; i < coop.getlViaje().size(); i++) {
-				Viaje viaje = coop.getlViaje().get(i);
+			for (int i = 0; i <lViaje.size(); i++) {
+				Viaje viaje = lViaje.get(i);
 
 				if ((viaje.getVehiculo().equals(uni))
 						&& (viaje.getFecha_retorno().after(fs))) {
@@ -290,10 +258,11 @@ public class ControladorVistaViaje implements ActionListener {
 	}
 
 	public Chofer VerificarChofer(Chofer cho, Date fs) {
+		lViaje= vDao.Llenarlistviajes(vviaje.getRif());
 		boolean v = false;
 		do {
-			for (int i = 0; i < coop.getlViaje().size(); i++) {
-				Viaje viaje = coop.getlViaje().get(i);
+			for (int i = 0; i < lViaje.size(); i++) {
+				Viaje viaje = lViaje.get(i);
 
 				if ((viaje.getChofer().getId_chofer()
 						.equals(cho.getId_chofer()))
@@ -324,18 +293,17 @@ public class ControladorVistaViaje implements ActionListener {
 			int mf = feriado.getMes();
 
 			if ((df == calendar.get(Calendar.DAY_OF_MONTH)) && (mf == cm)) {
-				if (viaje.getStatus().equals("2")) {
+				if (viaje.getStatus()==2) {
 					viaje.getChofer().setStatus(true);
 					viaje.getVehiculo().setStatus(true);
 
-					// id compuesta por: M + id del chofer + la id de la unidad
-					// multada
+					// id compuesta por: M + id del chofer + la id de la unidad multada
 					String idmulta = "M" + viaje.getChofer().getId_chofer()
 							+ viaje.getVehiculo().getId() + "";
 					// Crea una multa y la agrega a la lista de coop
-					Date iniciom = modificarDias(viaje.getFecha_salida(), 1);
-					Date finm = modificarDias(iniciom, 3);
-					Multa multa = new Multa(iniciom, finm, idmulta,
+					Date iniciom=  modificarDias(viaje.getFecha_salida(),1);
+					Date finm= modificarDias(iniciom,3);
+					Multa multa = new Multa( iniciom,finm,idmulta,
 							viaje.getVehiculo(), viaje.getChofer());
 					coop.agregarMulta(multa);
 
@@ -348,21 +316,29 @@ public class ControladorVistaViaje implements ActionListener {
 
 	}
 
-	public String Status(String string) {
+	public String Status(int i) {
 		String sts = "";
-		switch (string) {
-		case "1":
+		switch (i) {
+		case 1:
 			sts = "SALIO";
 			break;
-		case "2":
+		case 2:
 			sts = "NO SALIO";
 			break;
-		case "3":
+		case 3:
 			sts = "Cancelado ";
 			break;
 		}
 		return sts;
 	}
-
-	
 }
+
+
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

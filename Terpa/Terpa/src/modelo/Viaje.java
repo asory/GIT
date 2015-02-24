@@ -3,23 +3,23 @@ package modelo;
 import java.util.Date;
 
 public class Viaje {
-    private String idviaje;
+	private String idviaje;
 	private Date fecha_salida;
 	private Date fecha_retorno;
 	private Unidad vehiculo;
 	private Chofer chofer;
 	private Float costo;
 	private Ruta ruta;
-	private String Status;// 1-Salio, 2-No salio 3- Multado(viaje en los no
+	private int Status;// 1-Salio, 2-No salio 3- Multado(viaje en los no
 							// salio por estar multado)
-	
 
 	public Viaje() {
 
 	}
-	
-	public Viaje(String id, Date fechasalida, Date fecharetorno, String ruta2,
-			Unidad vehiculo, Chofer chofer, String status) {
+
+	public Viaje(String id, Date fechasalida, Date fecharetorno,
+			Unidad vehiculo, Chofer chofer, float costo, String ruta,
+			String status) {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -30,7 +30,6 @@ public class Viaje {
 	public Chofer getChofer() {
 		return chofer;
 	}
-
 
 	public Float getCosto() {
 		return costo;
@@ -68,7 +67,7 @@ public class Viaje {
 		this.ruta = ruta;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return Status;
 	}
 
@@ -76,7 +75,7 @@ public class Viaje {
 		this.costo = costo;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.Status = status;
 	}
 
@@ -89,7 +88,6 @@ public class Viaje {
 	}
 
 	// *************************************************************************
-
 
 	public float CalSeguro(float monto) {
 		float seguro = 0;
@@ -122,5 +120,4 @@ public class Viaje {
 
 	}
 
-	
 }

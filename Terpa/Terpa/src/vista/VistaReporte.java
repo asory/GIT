@@ -20,9 +20,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
-
 import javax.swing.JButton;
+
 import bean.JTextFieldValidator;
+
+import javax.swing.JTextArea;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
 public class VistaReporte extends JFrame {
@@ -38,6 +45,7 @@ public class VistaReporte extends JFrame {
 	private DefaultComboBoxModel<?> jComboBoxModel;
 	private JTextFieldValidator textvrif;
 	private JButton btnCancelar;
+	private JComboBox<String> comboMeme;
 
 	// SINGLETON
 	private static VistaReporte instancia;
@@ -74,7 +82,7 @@ public class VistaReporte extends JFrame {
 		contentPane.add(lblFiltrar);
 
 		textFiltrar = new JTextField();
-		textFiltrar.setBounds(472, 61, 94, 20);
+		textFiltrar.setBounds(486, 60, 94, 20);
 		contentPane.add(textFiltrar);
 		textFiltrar.setColumns(10);
 
@@ -85,7 +93,7 @@ public class VistaReporte extends JFrame {
 		contentPane.add(comboFiltro);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(21, 100, 700, 267);
+		scrollPane.setBounds(21, 117, 674, 250);
 		contentPane.add(scrollPane);
 
 		table = new JTable();
@@ -95,11 +103,11 @@ public class VistaReporte extends JFrame {
 		table.setFillsViewportHeight(true);
 		table.setBackground(Color.LIGHT_GRAY);
 		table.setEnabled(false);
-		scrollPane.setViewportView(table);
+		scrollPane.setColumnHeaderView(table);
 
 		lblID = new JLabel("ID : ");
 		lblID.setFont(new Font("Dialog", Font.BOLD, 15));
-		lblID.setBounds(438, 62, 72, 14);
+		lblID.setBounds(458, 62, 72, 14);
 		contentPane.add(lblID);
 
 		btnGenerar = new JButton("GENERAR");
@@ -107,17 +115,21 @@ public class VistaReporte extends JFrame {
 		contentPane.add(btnGenerar);
 
 		textvrif = new JTextFieldValidator();
-		textvrif.setBounds(321, 61, 94, 20);
+		textvrif.setBounds(324, 60, 94, 20);
 		contentPane.add(textvrif);
 
 		lblRifCooperativa = new JLabel("RIF Cooperativa");
 		lblRifCooperativa.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblRifCooperativa.setBounds(228, 62, 88, 16);
+		lblRifCooperativa.setBounds(218, 62, 88, 16);
 		contentPane.add(lblRifCooperativa);
 
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(594, 378, 89, 23);
 		contentPane.add(btnCancelar);
+		
+		comboMeme = new JComboBox<String>();
+		comboMeme.setBounds(321, 58, 119, 25);
+		contentPane.add(comboMeme);
 
 	}
 
@@ -125,6 +137,7 @@ public class VistaReporte extends JFrame {
 		comboFiltro.addActionListener(e);
 		btnGenerar.addActionListener(e);
 		btnCancelar.addActionListener(e);
+		comboMeme.addActionListener(e);
 	}
 
 	public JTable getTable() {
@@ -177,6 +190,20 @@ public class VistaReporte extends JFrame {
 		return comboFiltro;
 	}
 
+	/**
+	 * @return the comboMeme
+	 */
+	public JComboBox<String> getComboMeme() {
+		return comboMeme;
+	}
+
+	/**
+	 * @param comboMeme the comboMeme to set
+	 */
+	public void setComboMeme(JComboBox<String> comboMeme) {
+		this.comboMeme = comboMeme;
+	}
+
 	public String getStringCmbFiltro() {
 		return (String) comboFiltro.getSelectedItem();
 	}
@@ -186,3 +213,11 @@ public class VistaReporte extends JFrame {
 		return comboFiltro.getSelectedIndex();
 	}
 }
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

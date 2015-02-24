@@ -15,27 +15,30 @@ import bean.JTextFieldValidator;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+
 
 @SuppressWarnings("serial")
 public class VistaSocio extends JFrame {
 
 	private JPanel contentPane;
-	private JButton btnBuscarCoop;//
+	private JButton btnBuscar;//
 	private JButton btnGuardarS;//
 	private JButton btnSalir;//
 	private JButton btnAgregarUnidad;
 	private JButton btnAgregarCho;
-
-	private JTextFieldValidator textRifCoop;
-	private JTextFieldValidator textCoop;
 	private JTextFieldValidator textCiS;
 	private JTextFieldValidator textNombreS;
 	private JTextFieldValidator textTelefonoS;
-	private JTextFieldValidator textID;
+	private JTextFieldValidator textID;	
 	private JTextFieldValidator textApellidoS;
-
+	
+	
 	private JComboBox comboCargo;
 	private DefaultComboBoxModel<?> jComboBoxModel;
+	private JButton btnEliminar;
+	private JButton btnModificar;
+	private JTextField textIDCoop;
 
 	// SINGLETON
 
@@ -68,87 +71,77 @@ public class VistaSocio extends JFrame {
 		lblCargarSocio.setBounds(187, 32, 104, 14);
 		panel.add(lblCargarSocio);
 
-		JLabel lblRifCoop = new JLabel("Rif Cooperativa :");
-		lblRifCoop.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblRifCoop.setBounds(10, 82, 104, 14);
-		panel.add(lblRifCoop);
-
-		btnBuscarCoop = new JButton("Buscar");
-		btnBuscarCoop.setForeground(Color.WHITE);
-		btnBuscarCoop.setBackground(new Color(102, 204, 51));
-		btnBuscarCoop.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnBuscarCoop.setBounds(224, 78, 87, 23);
-		panel.add(btnBuscarCoop);
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setForeground(Color.WHITE);
+		btnBuscar.setBackground(new Color(102, 204, 51));
+		btnBuscar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnBuscar.setBounds(245, 78, 87, 23);
+		panel.add(btnBuscar);
 
 		JLabel lblNombreS = new JLabel("Nombre :");
 		lblNombreS.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblNombreS.setBounds(45, 148, 54, 14);
+		lblNombreS.setBounds(45, 128, 54, 14);
 		panel.add(lblNombreS);
 
 		JLabel lblCiS = new JLabel("Cedula :");
 		lblCiS.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblCiS.setBounds(245, 183, 46, 14);
+		lblCiS.setBounds(245, 180, 46, 14);
 		panel.add(lblCiS);
 
 		JLabel lblCargoS = new JLabel("Cargo :");
 		lblCargoS.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblCargoS.setBounds(53, 191, 46, 18);
+		lblCargoS.setBounds(45, 178, 46, 18);
 		panel.add(lblCargoS);
 
 		JLabel lblTalefonoS = new JLabel("Telefono :");
 		lblTalefonoS.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblTalefonoS.setBounds(243, 226, 56, 18);
+		lblTalefonoS.setBounds(45, 230, 56, 18);
 		panel.add(lblTalefonoS);
 
-		btnSalir = new JButton("Cancelar");
+		btnSalir = new JButton("Salir");
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(new Color(102, 204, 51));
 		btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
-
+		btnSalir.setBounds(344, 280, 89, 23);
+		panel.add(btnSalir);
+		
 		btnGuardarS = new JButton("Guardar");
 		btnGuardarS.setForeground(Color.WHITE);
 		btnGuardarS.setBackground(new Color(102, 204, 51));
 		btnGuardarS.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnGuardarS.setBounds(113, 280, 89, 23);
+		btnGuardarS.setBounds(45, 280, 89, 23);
 		panel.add(btnGuardarS);
-		btnSalir.setBounds(259, 280, 89, 23);
-		panel.add(btnSalir);
-
-		textRifCoop = new JTextFieldValidator();
-		textRifCoop.setToolTipText("J1234");
-		textRifCoop.setBounds(112, 81, 102, 20);
-		panel.add(textRifCoop);
-
-		textCoop = new JTextFieldValidator();
-		textCoop.setBounds(333, 80, 102, 19);
-		panel.add(textCoop);
 
 		textNombreS = new JTextFieldValidator();
-		textNombreS.setBounds(98, 147, 104, 17);
+		textNombreS.setBounds(109, 125, 117, 23);
 		panel.add(textNombreS);
-
+		textNombreS.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_ESPACIOS_Y_NUMEROS);
+		
 		textCiS = new JTextFieldValidator();
-		textCiS.setBounds(299, 180, 104, 23);
+		textCiS.setBounds(311, 177, 104, 23);
 		panel.add(textCiS);
+		textCiS.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
 
 		textTelefonoS = new JTextFieldValidator();
-		textTelefonoS.setBounds(299, 225, 104, 23);
+		textTelefonoS.setBounds(111, 229, 115, 23);
 		panel.add(textTelefonoS);
+		textTelefonoS.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
 
 		JLabel IDS = new JLabel("ID :");
 		IDS.setFont(new Font("Dialog", Font.BOLD, 12));
-		IDS.setBounds(74, 230, 25, 14);
+		IDS.setBounds(45, 82, 25, 14);
 		panel.add(IDS);
-
+		
 		JLabel lblApellido = new JLabel("Apellido :");
 		lblApellido.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblApellido.setBounds(243, 145, 51, 16);
+		lblApellido.setBounds(245, 127, 51, 16);
 		panel.add(lblApellido);
-
-		textApellidoS = new JTextFieldValidator();
-		textApellidoS.setBounds(299, 146, 104, 20);
+		
+	    textApellidoS = new JTextFieldValidator();
+		textApellidoS.setBounds(311, 125, 104, 23);
 		panel.add(textApellidoS);
-
+		textApellidoS.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_ESPACIOS_Y_NUMEROS);
+		
 		btnAgregarCho = new JButton("Agregar Chofer");
 		btnAgregarCho.setVisible(false);
 		btnAgregarCho.setForeground(Color.WHITE);
@@ -156,33 +149,58 @@ public class VistaSocio extends JFrame {
 		btnAgregarCho.setBackground(new Color(102, 204, 51));
 		btnAgregarCho.setBounds(83, 314, 119, 25);
 		panel.add(btnAgregarCho);
-
+		
 		btnAgregarUnidad = new JButton("Agregar Unidad");
 		btnAgregarUnidad.setVisible(false);
 		btnAgregarUnidad.setForeground(Color.WHITE);
 		btnAgregarUnidad.setFont(new Font("Dialog", Font.BOLD, 12));
 		btnAgregarUnidad.setBackground(new Color(102, 204, 51));
-		btnAgregarUnidad.setBounds(250, 314, 121, 25);
+		btnAgregarUnidad.setBounds(275, 314, 121, 25);
 		panel.add(btnAgregarUnidad);
-
-		String[] items = { "Seleccione", "Presidente", "Vice Presidente",
-				"Tesorero", "Secretario", "Sin Cargo " };
+		
+		String[] items =  {"Seleccione", "Presidente", "Vice Presidente", "Tesorero", "Secretario", "Sin Cargo "};
 		comboCargo = new JComboBox<Object>(items);
 		comboCargo.setBackground(Color.WHITE);
 		comboCargo.setFont(new Font("Dialog", Font.BOLD, 12));
-		comboCargo.setBounds(98, 191, 104, 20);
+		comboCargo.setBounds(111, 177, 104, 20);
 		panel.add(comboCargo);
-
+		
 		textID = new JTextFieldValidator();
 		textID.setToolTipText("S xx");
-		textID.setBounds(98, 226, 104, 20);
+		textID.setBounds(109, 79, 117, 23);
 		panel.add(textID);
+		textID.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setForeground(Color.WHITE);
+		btnEliminar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnEliminar.setBackground(new Color(102, 204, 51));
+		btnEliminar.setBounds(144, 281, 89, 23);
+		panel.add(btnEliminar);
+		
+		btnModificar = new JButton("Modificar");
+		btnModificar.setForeground(Color.WHITE);
+		btnModificar.setFont(new Font("Dialog", Font.BOLD, 12));
+		btnModificar.setBackground(new Color(102, 204, 51));
+		btnModificar.setBounds(245, 281, 89, 23);
+		panel.add(btnModificar);
+		
+		JLabel lblIdCoop = new JLabel("RIF Coop.:");
+		lblIdCoop.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblIdCoop.setBounds(245, 230, 61, 18);
+		panel.add(lblIdCoop);
+		
+		textIDCoop = new JTextField();
+		textIDCoop.setBounds(311, 230, 104, 20);
+		panel.add(textIDCoop);
+		textIDCoop.setColumns(10);
+
 	}
 
 	// /////////===========================================///////////////
 
 	public void activarListener(ActionListener accion) {
-		btnBuscarCoop.addActionListener(accion);
+		btnBuscar.addActionListener(accion);
 		btnGuardarS.addActionListener(accion);
 		btnSalir.addActionListener(accion);
 		btnAgregarUnidad.addActionListener(accion);
@@ -190,21 +208,15 @@ public class VistaSocio extends JFrame {
 		comboCargo.addActionListener(accion);
 	}
 
-	public String getRifCoop() {
-		return textRifCoop.getText();
-	}
-
-	public JTextFieldValidator getCoop() {
-		return textCoop;
-	}
-
+	
 	public String getCiS() {
 		return textCiS.getText();
 	}
 
-	public JTextFieldValidator getNombreS() {
-		return textNombreS;
+	public String getNombreS() {
+		return textNombreS.getText();
 	}
+
 
 	public JButton getBtnAgregarUnidad() {
 		return btnAgregarUnidad;
@@ -214,20 +226,23 @@ public class VistaSocio extends JFrame {
 		return btnAgregarCho;
 	}
 
-	public JTextFieldValidator getTextApellidoS() {
-		return textApellidoS;
+	public String getTextApellidoS() {
+		return textApellidoS.getText();
 	}
 
-	public JTextFieldValidator getTelefonoS() {
-		return textTelefonoS;
+	public String getTelefonoS() {
+		return textTelefonoS.getText();
+	}
+	
+	public String getTextID() {
+		return textID.getText();
+	}
+	public String getRifCoop() {
+		return textIDCoop.getText();
 	}
 
-	public JTextFieldValidator getTextID() {
-		return textID;
-	}
-
-	public JButton getBtnBuscarCoop() {
-		return btnBuscarCoop;
+	public JButton getBtnBuscar() {
+		return btnBuscar;
 	}
 
 	public JButton getBtnGuardarS() {
@@ -239,19 +254,18 @@ public class VistaSocio extends JFrame {
 	}
 
 	public void blanquearCampos() {
-		textRifCoop.setText("");
-		textCoop.setText("");
+
 		textNombreS.setText("");
 		textCiS.setText("");
 		textTelefonoS.setText("");
 		textID.setText("");
 		textApellidoS.setText("");
 		comboCargo.setSelectedIndex(0);
-
+		
 	}
-
+	
 	public String getComboCargo() {
-		return (String) comboCargo.getSelectedItem();
+		return (String)comboCargo.getSelectedItem();
 	}
 
 	public int getIndiceCombo() {

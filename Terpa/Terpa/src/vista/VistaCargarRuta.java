@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
@@ -20,13 +21,9 @@ import bean.JTextFieldValidator;
 public class VistaCargarRuta extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel lblRifCooperativa;
 	private JLabel lblCargarRuta;
 	private JLabel lblCdigo;
 	private JLabel lblTipo;
-	private JLabel lblNombreCoop;
-	private JTextFieldValidator textRIF;
-	private JTextFieldValidator textNombreCoop;
 	private JTextFieldValidator textCod;
 	private JTextFieldValidator textDesc;
 	private JComboBox<?> comboTipo;
@@ -35,6 +32,10 @@ public class VistaCargarRuta extends JFrame {
 	private JButton btnBuscar;
 	private JLabel lblDesc;
 	private DefaultComboBoxModel<?> jComboBoxModel;
+	private JButton btnModificar;
+	private JButton btnEliminar;
+	private JTextField textRif;
+	private JTextField textNombreCoop;
 
 	//SINGLETON
 	private static VistaCargarRuta instancia;
@@ -59,10 +60,6 @@ public class VistaCargarRuta extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		lblRifCooperativa = new JLabel("RIF Cooperativa:");
-		lblRifCooperativa.setBounds(68, 70, 123, 15);
-		contentPane.add(lblRifCooperativa);
-
 		lblCargarRuta = new JLabel("CARGAR RUTA");
 		lblCargarRuta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCargarRuta.setBounds(286, 12, 110, 15);
@@ -71,21 +68,21 @@ public class VistaCargarRuta extends JFrame {
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setForeground(Color.WHITE);
 		btnBuscar.setBackground(new Color(102, 204, 51));
-		btnBuscar.setBounds(452, 65, 117, 25);
+		btnBuscar.setBounds(384, 65, 117, 25);
 		contentPane.add(btnBuscar);
 
-		lblCdigo = new JLabel("Código:");
-		lblCdigo.setBounds(131, 208, 60, 15);
+		lblCdigo = new JLabel("Codigo:");
+		lblCdigo.setBounds(131, 70, 60, 15);
 		contentPane.add(lblCdigo);
 
-		lblDesc = new JLabel("Descripción:");
-		lblDesc.setBounds(96, 275, 95, 15);
+		lblDesc = new JLabel("Descripcion:");
+		lblDesc.setBounds(96, 255, 95, 15);
 		contentPane.add(lblDesc);
 
 		btnGuardar = new JButton("Guardar");
 		btnGuardar.setForeground(Color.WHITE);
 		btnGuardar.setBackground(new Color(102, 204, 51));
-		btnGuardar.setBounds(209, 344, 95, 25);
+		btnGuardar.setBounds(96, 344, 95, 25);
 		contentPane.add(btnGuardar);
 
 		btnSalir = new JButton("Salir");
@@ -98,37 +95,44 @@ public class VistaCargarRuta extends JFrame {
 		String[] items = { "Seleccione", "Nacional", "Regional" };
 		comboTipo = new JComboBox<Object>(items);
 		comboTipo.setBackground(Color.WHITE);
-		comboTipo.setBounds(452, 203, 117, 24);
+		comboTipo.setBounds(209, 156, 117, 24);
 		contentPane.add(comboTipo);
 
 		lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(398, 208, 70, 15);
+		lblTipo.setBounds(131, 161, 70, 15);
 		contentPane.add(lblTipo);
 
-		lblNombreCoop = new JLabel("Nombre Cooperativa:");
-		lblNombreCoop.setBounds(41, 138, 150, 15);
-		contentPane.add(lblNombreCoop);
-
-		textRIF = new JTextFieldValidator();
-		textRIF.setBounds(209, 68, 187, 24);
-		contentPane.add(textRIF);
-		textRIF.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
-
-		textNombreCoop = new JTextFieldValidator();
-		textNombreCoop.setBounds(209, 136, 360, 24);
-		contentPane.add(textNombreCoop);
-		textNombreCoop
-				.setTipoCaracteresPermitidos(JTextFieldValidator.LETRAS_ESPACIOS_Y_NUMEROS);
-
 		textCod = new JTextFieldValidator();
-		textCod.setBounds(209, 206, 135, 24);
+		textCod.setBounds(209, 65, 135, 24);
 		contentPane.add(textCod);
 		textCod.setTipoCaracteresPermitidos(JTextFieldValidator.SOLO_NUMEROS);
 
 		textDesc = new JTextFieldValidator();
-		textDesc.setBounds(209, 273, 360, 24);
+		textDesc.setBounds(209, 250, 360, 24);
 		contentPane.add(textDesc);
 		textDesc.setTipoCaracteresPermitidos(JTextFieldValidator.CUALQUIER_CARACTER);
+		
+		btnModificar = new JButton("Modificar");
+		btnModificar.setForeground(Color.WHITE);
+		btnModificar.setBackground(new Color(102, 204, 51));
+		btnModificar.setBounds(348, 345, 95, 25);
+		contentPane.add(btnModificar);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setForeground(Color.WHITE);
+		btnEliminar.setBackground(new Color(102, 204, 51));
+		btnEliminar.setBounds(222, 345, 95, 25);
+		contentPane.add(btnEliminar);
+		
+		textRif = new JTextField();
+		textRif.setBounds(370, 144, 131, 20);
+		contentPane.add(textRif);
+		textRif.setColumns(10);
+		
+		textNombreCoop = new JTextField();
+		textNombreCoop.setColumns(10);
+		textNombreCoop.setBounds(370, 175, 131, 20);
+		contentPane.add(textNombreCoop);
 	}
 
 	public void activarListener(ActionListener accion) {
@@ -138,7 +142,7 @@ public class VistaCargarRuta extends JFrame {
 	}
 
 	public String getRIF() {
-		return textRIF.getText();
+		return textRif.getText();
 	}
 
 	public String getNombreCoop() {
@@ -149,14 +153,16 @@ public class VistaCargarRuta extends JFrame {
 		return textCod.getText();
 	}
 
-	public JTextFieldValidator getTextNombreCoop() {
+	public JTextField getTextNombreCoop() {
 		return textNombreCoop;
 	}
 
 	public void setTextNombreCoop(JTextFieldValidator textNombreCoop) {
 		this.textNombreCoop = textNombreCoop;
 	}
-
+	public void settexNombrecoop(String n){
+		this.textNombreCoop.setText(n);
+	}
 	public String getDesc() {
 		return textDesc.getText();
 	}
@@ -171,7 +177,7 @@ public class VistaCargarRuta extends JFrame {
 
 	public void blanquearCampos() {
 		textCod.setText("");
-		textRIF.setText("");
+		textRif.setText("");
 		textNombreCoop.setText("");
 		textDesc.setText("");
 	}
@@ -192,3 +198,11 @@ public class VistaCargarRuta extends JFrame {
 		JOptionPane.showMessageDialog(this, mensaje);
 	}
 }
+
+
+/*Integrantes:
+ * Rosa Pi�a C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

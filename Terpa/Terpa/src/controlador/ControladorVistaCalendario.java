@@ -19,32 +19,16 @@ public class ControladorVistaCalendario implements ActionListener {
 	private VistaCalendario vistaCalendario;
 	private Cooperativa coop;
 	private Viaje viaje;
-	private  Terminal terminal;
+	private Terminal terminal;
 	private Vector<String> vecv = new Vector<String>();
 
 	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
 			"Retorno", "Pasaje", "Seguro", "Status" };
 	DefaultTableModel model = new DefaultTableModel(null, columna);
 
-	//SINGLETON
-	private static ControladorVistaCalendario  instancia;
-	
-	
-	public static ControladorVistaCalendario getInstancia(Terminal terminal){
-			if (instancia == null){
-				instancia = new ControladorVistaCalendario(terminal) ;
-			}
-			return instancia;
-		}
-	public void iniciar(){
-		vistaCalendario.blanquearCampos();
-		vistaCalendario.setVisible(true);
-	}
-		
-		
 	public ControladorVistaCalendario(Terminal terminal) {
 
-		vistaCalendario =  VistaCalendario.getInstancia();
+		vistaCalendario = new VistaCalendario();
 		vistaCalendario.setLocation(480, 210);
 		vistaCalendario.setVisible(true);
 		vistaCalendario.activarListener(this);
@@ -146,19 +130,28 @@ public class ControladorVistaCalendario implements ActionListener {
 		return resp;
 	}
 
-	public String Status(String string) {
+	public String Status(int i) {
 		String sts = "";
-		switch (string) {
-		case "1":
+		switch (i) {
+		case 1:
 			sts = "SALIO";
 			break;
-		case "2":
+		case 2:
 			sts = "NO SALIO";
 			break;
-		case "3":
+		case 3:
 			sts = "Cancelado ";
 			break;
 		}
 		return sts;
 	}
 }
+
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

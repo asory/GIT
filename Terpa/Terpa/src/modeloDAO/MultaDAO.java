@@ -23,14 +23,14 @@ public class MultaDAO extends ConexionDAO {
 		super();
 	}
 
-	public void registrarMulta(Multa mul) {
+	public void registrarMulta(Multa mul, String rifcoop) {
 
 		String tiraSQL = "INSERT INTO multa"
 				+ "(nro,fecha_in,fecha_fin,unidad,c_asignado,statusdb)"
 				+ "VALUES ('" + mul.getNro() + "'," + "'" + mul.getFecha_in()
 				+ "'," + "'" + mul.getFecha_fin() + "'," + "'"
 				+ mul.getUnidad() + "'," + "'" + mul.getC_Asignado() + "',"
-				+ "'A')";
+				+ "'A','" + rifcoop + "')";
 		Conexion.ejecutar(tiraSQL);
 
 	}
@@ -81,14 +81,14 @@ public class MultaDAO extends ConexionDAO {
 		return null;
 	}
 
-	public List<Multa> Llenarlistmult() {
+	public ArrayList<Multa> Llenarlistmult(String rif) {
 
 		uniDAO = new UnidadDAO();
 		choDAO = new ChoferDAO();
 
 		ArrayList<Multa> lmult = new ArrayList<Multa>();
 
-		String tiraSQL = "select * from multa where status='A'";
+		String tiraSQL = "select * from multa where statusdb='A'";
 
 		ResultSet rs = Conexion.consultar(tiraSQL);
 

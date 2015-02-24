@@ -2,50 +2,40 @@ package controlador;
 
 import modelo.Feriado;
 import modelo.Terminal;
+import modeloDAO.FeriadoDAO;
 import vista.VistaCargarFeriado;
+import vista.VistaCargarRuta;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+
+import javax.swing.JOptionPane;
 
 public class ControladorVistaCargarFeriado implements ActionListener {
 	
 	private VistaCargarFeriado vistaCargarFeriado;
 	private Terminal terminal;
+	private FeriadoDAO ferDAO;
 	
-	//SINGLETON
-	private static ControladorVistaCargarFeriado instancia;
-	
-	
-	public static  ControladorVistaCargarFeriado getInstancia(Terminal terminal){
-			if (instancia == null){
-				instancia = new ControladorVistaCargarFeriado(terminal) ;
-			}
-			return instancia;
-		}
-		
-		
+
 	public ControladorVistaCargarFeriado(Terminal terminal) {
 		
-		vistaCargarFeriado= VistaCargarFeriado.getInstancia();
+		ferDAO = new FeriadoDAO();
+		vistaCargarFeriado= new VistaCargarFeriado();
 		vistaCargarFeriado.setLocation(480,210);
 		vistaCargarFeriado.setVisible(true);
 		vistaCargarFeriado.activarListener(this);
 		this.terminal = terminal;
 		
 	}
-	
-	public void iniciar(){
-		vistaCargarFeriado.blanquearCampos();
-		vistaCargarFeriado.setVisible(true);
-	}
-		
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
 		try {
 			if (actionCommand.equals("Guardar")) {
-				agregarFeriado(terminal);
+				agregarFeriado();
 			} else if (actionCommand.equals("Salir")) {
 				vistaCargarFeriado.dispose();
 			}
@@ -55,41 +45,44 @@ public class ControladorVistaCargarFeriado implements ActionListener {
 
 	}
 
-	public void agregarFeriado(Terminal terminal) {
-		try
-		{
-			if(vistaCargarFeriado.getFecha().equals(null) || 
-					vistaCargarFeriado.getDesc().equals(""))
-			    		
-			    	//Deben estar todos los campos llenos para poder incluir el dia feriado
-				vistaCargarFeriado.mostrarMensaje("Debe llenar todos los datos para guardar un nuevo día feriado");
-			    	else
-			    	{
-			    		Calendar calendar = Calendar.getInstance();
-			    		calendar.setTime(vistaCargarFeriado.getFecha());
-			    		int dia = calendar.get(Calendar.DAY_OF_MONTH);
-			    		int mes = calendar.get(Calendar.MONTH);
-			    		String desc = vistaCargarFeriado.getDesc();
-	
-			    		Feriado feriado = new Feriado(dia,mes,desc);
-			    		
-			    		if (!terminal.getlFeriado().contains(feriado)) {
-			    			terminal.agregarFeriado(feriado);
-			    	
-			    		vistaCargarFeriado.mostrarMensaje("El día feriado ha sido guardado con éxito");
-			    		vistaCargarFeriado.blanquearCampos();
-			    		}else 
-			    			vistaCargarFeriado.mostrarMensaje("El día feriado ya existe");
-			    	}
-		}catch(Exception e)
-		{
-			vistaCargarFeriado.mostrarMensaje("No se pudo guardar el día feriado, verifique que los datos sean correctos");
-			vistaCargarFeriado.blanquearCampos();
-		}
-			 
+	public void agregarFeriado() {
 		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(vistaCargarFeriado.getFecha());
+		int dia = calendar.get(Calendar.DAY_OF_MONTH);
+		int mes = calendar.get(Calendar.MONTH);
+		
+		Feriado fer = new Feriado(dia, mes, vistaCargarFeriado.getDesc());
+		
+		
+		
+		if(vistaCargarFeriado.getFecha().equals(null) || 
+				vistaCargarFeriado.getDesc().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+		} else {
+			
+			//if (!ferDAO.consultarFeriado(fer)) {
+				ferDAO.registrarFeriado(fer);
+				
+				JOptionPane.showMessageDialog(null, "Dia Feriado Registrado ");
+				vistaCargarFeriado.blanquearCampos();
+			//} else
+				JOptionPane.showMessageDialog(null,
+						"El Dia Feriado ya existe");
+		}
+
 	}
 	
 
-
 }
+
+
+
+
+
+/*Integrantes:
+ * Rosa Pi�a C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */

@@ -16,11 +16,10 @@ public class ControladorMenuP implements ActionListener {
 
 	private VistaMenuP vistaMenuP;
 	private Terminal ter;
-	
 
 	public ControladorMenuP() {
 
-		vistaMenuP = VistaMenuP.getInstancia();
+		vistaMenuP = new VistaMenuP();
 		vistaMenuP.setLocationRelativeTo(null);
 		vistaMenuP.setVisible(true);
 		vistaMenuP.activarListener(this);
@@ -36,51 +35,36 @@ public class ControladorMenuP implements ActionListener {
 		try {
 
 			if (actionC.equals("COOPERATIVA")) {
-				ControladorVistaCoop cvc = ControladorVistaCoop
-						.getInstancia(ter);
-				cvc.iniciar();
+				new ControladorVistaCoop(ter);
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpRuta())) {
-				ControladorVistaCargarRuta cvr = ControladorVistaCargarRuta
-						.getInstancia(ter);
-				cvr.iniciar();
+				new ControladorVistaCargarRuta(ter);
+
 			} else if (e.getSource().equals(vistaMenuP.getMpSocio())) {
-				ControladorVistaSocio cv = ControladorVistaSocio
-						.getInstancia(ter);
-				cv.iniciar();
+				new ControladorVistaSocio(ter);
+
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpUnidad())) {
-				ControladorVistaUnidad cv = ControladorVistaUnidad
-						.getInstancia(ter);
-				cv.iniciar();
+				new ControladorVistaUnidad(ter);
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpChofer())) {
-				ControladorVistaChofer cv = ControladorVistaChofer
-						.getInstancia(ter);
-				cv.iniciar();
+				new ControladorVistaChofer(ter);
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpCalendario())) {
-				ControladorVistaCalendario cv = ControladorVistaCalendario
-						.getInstancia(ter);
-				cv.iniciar();
+				new ControladorVistaCalendario(ter);
 			} else if (e.getSource().equals(vistaMenuP.getMpFeriado())) {
-				ControladorVistaCargarFeriado cv = ControladorVistaCargarFeriado
-						.getInstancia(ter);
-				cv.iniciar();
+				new ControladorVistaCargarFeriado(ter);
 			}
 
 			else if (e.getSource().equals(vistaMenuP.getMpViajes())) {
-				ControladorReporte cv = ControladorReporte.getInstancia(ter);
-				cv.iniciar();
+				new ControladorReporte(ter);
 
 			} else if (e.getSource().equals(vistaMenuP.getBtnAsignar())) {
-				ControladorVistaViaje cv = ControladorVistaViaje
-						.getInstancia(ter);
-				cv.iniciar();
+				new ControladorVistaViaje(ter);
 
 			} else if (actionC.equals("SALIR")) {
 				System.exit(0);
@@ -212,5 +196,10 @@ public class ControladorMenuP implements ActionListener {
 
 	}
 
-	
 }
+
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
+ */
+

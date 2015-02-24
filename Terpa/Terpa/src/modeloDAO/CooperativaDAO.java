@@ -13,12 +13,13 @@ public class CooperativaDAO extends ConexionDAO {
 		super();
 	}
 
-	public void registrarCooperativa(Cooperativa cop) {
+	public boolean registrarCooperativa(Cooperativa cop) {
+		char a = 'A';
+		String tiraSQL = "INSERT INTO cooperativa " + "VALUES (' "
+				+ cop.getRif() + "','" + cop.getNombre() + "','" + a + "'  )";
 
-		String tiraSQL = "INSERT INTO cooperativa " + "(rif,nombre,statusdb) "
-				+ "VALUES (' " + cop.getRif() + "','" + cop.getNombre() + "','" + "'A')";
-
-		Conexion.ejecutar(tiraSQL);
+		boolean r = Conexion.ejecutar(tiraSQL);
+		return r;
 	}
 
 	public void eliminarCooperativa(Cooperativa cop) {
@@ -29,81 +30,99 @@ public class CooperativaDAO extends ConexionDAO {
 
 	}
 
-	public void actualizarCooperativa(Cooperativa cop) {
+	public boolean actualizarCooperativa(Cooperativa cop) {
 
 		String tiraSQL = "update cooperativa set " + "nombre='"
 				+ cop.getNombre() + "' " + "where rif='" + cop.getRif()
-				+ "' and status!='E'";
+				+ "' and statusdb='A'";
 
-		Conexion.ejecutar(tiraSQL);
+		boolean r = Conexion.ejecutar(tiraSQL);
+		return r;
 
 	}
 
 	public Cooperativa buscarCooperativa(String rifdado) {
+			char a='A';
+			
+			String tiraSQL = "select * from cooperativa where rif = '" + rifdado + "' and statusdb='" + a + "'";
+			ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
+			try {
+				while (rsCooperativa.next()) {
+					String rif = rsCooperativa.getString("rif");
+					String nombre = rsCooperativa.getString("nombre");
 
-		String tiraSQL = "select * from cooperativa where rif = '" + rifdado
-				+ "' and status='A'";
-		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
-		try {
-			while (rsCooperativa.next()) {
-				String rif = rsCooperativa.getString("rif");
-				String nombre = rsCooperativa.getString("nombre");
-
-				Cooperativa cop = new Cooperativa(rif, nombre);
-				return cop;
+					Cooperativa cop = new Cooperativa(rif,nombre);
+					return cop;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return null;
 		}
-		return null;
-	}
+	
+//		Cooperativa cop = new Cooperativa();
+//		String tiraSQL = "select * from cooperativa where rif = '" + rifdado
+//				+ "' and statusdb='A'" + "";
+//		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
+//		try {
+//			while (rsCooperativa.next()) {
+//				String rif = rsCooperativa.getString("rif");
+//				String nombre = rsCooperativa.getString("nombre");
+//
+//				cop.setRif(rif);
+//				cop.setNombre(nombre);
+//
+//			} 
+//				
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return cop;
+//
+//	}
 
 	public boolean consultarCooperativa(Cooperativa cop) {
 
 		boolean seEncuentra = false;
 
-		String tiraSQL = "select rif,nombre,statusdb" + " from cooperativa where rif ='"
-				+ cop.getNombre() + "' and status='A'";
+		String tiraSQL = "select rif,nombre from cooperativa where rif ='"+cop.getRif()+"' and statusdb='A' " ;
 
 		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
 
 		try {
-			if (rsCooperativa.next()) {
+			if (rsCooperativa.getRow()>0) {
 				seEncuentra = true;
 
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
 
 		return seEncuentra;
 	}
 
-	public List<Cooperativa> Llenarlistcoop()
-	 {
-	 ArrayList<Cooperativa> lcoop= new ArrayList<Cooperativa>();
-	
-	 String tiraSQL= "select * from cooperativa where status='A'";
-	
-	 ResultSet rs= Conexion.consultar(tiraSQL);
-	 String nombre="";
-	 String rif="";
+	public List<Cooperativa> Llenarlistcoop() {
+		ArrayList<Cooperativa> lcoop = new ArrayList<Cooperativa>();
 
-	
-	 try {
-		while(rs.next())
-		 {
-		  rif= rs.getString("rif");
-		  nombre= rs.getString("nombre");
-		
-		 lcoop.add(new Cooperativa(rif,nombre));
-		 }
-	} catch (SQLException e) {
-				e.printStackTrace();
+		String tiraSQL = "select * from cooperativa where statusdb='A'";
+
+		ResultSet rs = Conexion.consultar(tiraSQL);
+		String nombre = "";
+		String rif = "";
+
+		try {
+			while (rs.next()) {
+				rif = rs.getString("rif");
+				nombre = rs.getString("nombre");
+
+				lcoop.add(new Cooperativa(rif, nombre));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lcoop;
 	}
-	
-	 return lcoop;
-	 }
 
 }

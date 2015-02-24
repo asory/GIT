@@ -43,7 +43,7 @@ public class ChoferDAO extends ConexionDAO {
             		"nombre='" + cho.getNombre() + "'," +
                     "apellido='"+ cho.getApellido() + "'," + 
                     "telefono='" + cho.getTelefono() +  "' " +
-                    "where id_chofer='" + cho.getId_chofer() + "' and status!='E'";
+                    "where id_chofer='" + cho.getId_chofer() + "'";
             
             Conexion.ejecutar(tiraSQL);
     
@@ -51,7 +51,7 @@ public class ChoferDAO extends ConexionDAO {
 	
 	public Chofer buscarChofer(String idchofer) {
 		
-		 String tiraSQL= "select * from chofer where id_chofer = '" + idchofer + "' and status='A'";
+		 String tiraSQL= "select * from chofer where id_chofer = '" + idchofer + "' and statusdb='A'";
 		 ResultSet rsChofer= Conexion.consultar(tiraSQL);
 		 try {
 			 while (rsChofer.next()){
@@ -77,7 +77,7 @@ public class ChoferDAO extends ConexionDAO {
 		boolean seEncuentra= false;
             
             String tiraSQL= "select id_chofer,cedula,nombre,apellido,telefono,id_jefe,status,statusdb" +
-    " from chofer where id_chofer ='" + cho.getId_chofer() + "' and status='A'";
+    " from chofer where id_chofer ='" + cho.getId_chofer() + "' and statusdb='A'";
             
             ResultSet rsChofer= Conexion.consultar(tiraSQL);
             

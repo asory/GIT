@@ -17,6 +17,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 
 import javax.swing.SwingConstants;
+import bean.Login2;
+import javax.swing.JDesktopPane;
+import java.awt.BorderLayout;
+import bean.Login3;
 
 @SuppressWarnings("serial")
 public class VistaMenuP extends JFrame {
@@ -32,9 +36,25 @@ public class VistaMenuP extends JFrame {
 	JMenuItem mpCalendario;
 	JButton btnAsignar;
 	JButton btnSalir;
-
+	JButton btnEntrar;
+	Login3 login3;
 	// SINGLETON
 	private static VistaMenuP instancia;
+	private Login2 login2 = new Login2();
+
+	/**
+	 * @return the login2
+	 */
+	public Login2 getLogin2() {
+		return login2;
+	}
+
+	/**
+	 * @param login2 the login2 to set
+	 */
+	public void setLogin2(Login2 login2) {
+		this.login2 = login2;
+	}
 
 	public static VistaMenuP getInstancia() {
 		if (instancia == null) {
@@ -44,6 +64,11 @@ public class VistaMenuP extends JFrame {
 	}
 
 	public VistaMenuP() {
+		login3.main(null);		
+		//Login2.main(null);
+		//login2.setLocationRelativeTo(mpFeriado);
+		//login2.getTextField().setText("hola");
+		
 		try {
 			setTitle("TERPA");
 			setForeground(Color.WHITE);
@@ -67,6 +92,7 @@ public class VistaMenuP extends JFrame {
 			panel.setLayout(null);
 
 			JMenuBar menuBar = new JMenuBar();
+			menuBar.setEnabled(false);
 			menuBar.setBackground(new Color(102, 204, 51));
 			menuBar.setBounds(0, 0, 459, 27);
 			panel.add(menuBar);
@@ -135,7 +161,10 @@ public class VistaMenuP extends JFrame {
 			btnSalir.setFont(new Font("Dialog", Font.BOLD, 12));
 			btnSalir.setBounds(360, 350, 89, 23);
 			panel.add(btnSalir);
-
+			
+			login3 = new Login3();
+			login3.setBounds(175, 159, 0, 0);
+						
 		} catch (Exception e) {
 			// add your error handling code here
 			e.printStackTrace();
@@ -198,6 +227,13 @@ public class VistaMenuP extends JFrame {
 	public JButton getBtnAsignar() {
 		return btnAsignar;
 	}
-
-
 }
+
+
+
+/*Integrantes:
+ * Rosa Piña C.I. 24.166.902
+ * Edwin Lucena C.I. 21.256.626
+ * Norielsy Freitez C.I. 20.668.899
+ * Ana Ruiz  C.I. 21.296.217
+ */
