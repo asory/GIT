@@ -36,7 +36,9 @@ public class VistaMenuP extends JFrame {
 	JButton btnAsignar;
 	JButton btnSalir;
 	JButton btnEntrar;
-	Login3 login3;
+	//Login3 login3;
+	
+	
 	// SINGLETON
 	private static VistaMenuP instancia;
 	
@@ -49,7 +51,7 @@ public class VistaMenuP extends JFrame {
 	}
 
 	public VistaMenuP() {
-		login3.main(null);		
+		//Login3.main(null);		
 		
 		try {
 			setTitle("TERPA");
@@ -143,9 +145,9 @@ public class VistaMenuP extends JFrame {
 			btnSalir.setBounds(360, 350, 89, 23);
 			panel.add(btnSalir);
 			
-			login3 = new Login3();
-			login3.setBounds(175, 159, 0, 0);
-						
+//			login3 = new Login3();
+//			login3.setBounds(175, 159, 0, 0);
+//						
 		} catch (Exception e) {
 			// add your error handling code here
 			e.printStackTrace();

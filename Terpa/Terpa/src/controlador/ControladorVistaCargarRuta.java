@@ -2,7 +2,6 @@ package controlador;
 
 import modelo.Chofer;
 import modelo.Ruta;
-import modelo.Terminal;
 import modelo.Cooperativa;
 import modeloDAO.CooperativaDAO;
 import modeloDAO.RutaDAO;

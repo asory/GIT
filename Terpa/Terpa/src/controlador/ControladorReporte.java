@@ -11,11 +11,11 @@ import javax.swing.table.DefaultTableModel;
 
 import modelo.Cooperativa;
 import modelo.Multa;
-import modelo.Terminal;
 import modelo.Viaje;
 import modeloDAO.CooperativaDAO;
 import modeloDAO.MultaDAO;
 import modeloDAO.ViajeDAO;
+import memento.*;
 import vista.VistaReporte;
 
 public class ControladorReporte implements ActionListener {
@@ -26,47 +26,78 @@ public class ControladorReporte implements ActionListener {
 	private CooperativaDAO coopDao;
 	private ViajeDAO vDao;
 
-//	// Memento
-//	public void Recientes() {
-//		ArrayList<String> rec = new ArrayList<String>();
-//		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
-//		for (int i = 0; i < ant.countMemento(); i++) {
-//
-//			rec.add(ant.getMemento(i).toString());
-//		}
-//		for (int i = 0; i < rec.size(); i++) {
-//			// Añadir cada elemento del ArrayList en el modelo de la lista
-//
-//			model.addElement(rec.get(i));
-//
-//		}
-//		vreport.getComboMeme().setModel(model);
-//
-//	}
+	// Memento{
+	private String state;
+	private Caretaker care;
 
-	//SINGLETON
-	private static ControladorReporte instancia;
-	
-	
-	public static ControladorReporte  getInstancia(){
-			if (instancia == null){
-				instancia = new ControladorReporte () ;
-			}
-			return instancia;
+	public void set(String state) {
+
+		this.state = state;
+	}
+
+	public Memento saveToMemento() {
+
+		return new Memento(state);
+	}
+
+	public void restoreFromMemento(Memento m) {
+		state = m.getSavedState();
+
+	}
+
+	// hace uso de la lista de memento en caretaker
+	// para llenar el combobox con las coop usadas recientemente
+	public void CargarRecientes() {
+
+		ArrayList<String> rec = new ArrayList<String>();
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
+
+		int i = 0;
+		while (i < 5) {
+
+			rec.add(care.getMemento(i).toString());
+			// Añadir cada elemento del ArrayList en el modelo del combo
+			model.addElement(rec.get(i));
 		}
-	public void iniciar(){
+
+		vreport.getComboMeme().setModel(model);
+
+	}
+
+	public void backup() {
+		state = vreport.getTextvrif().getText();
+
+		care.addMemento(saveToMemento());
+	}
+
+//} Memento
+	
+	
+	// SINGLETON
+	private static ControladorReporte instancia;
+
+	public static ControladorReporte getInstancia() {
+		if (instancia == null) {
+			instancia = new ControladorReporte();
+		}
+		return instancia;
+	}
+
+	public void iniciar() {
 		vreport.limpiar();
 		vreport.setVisible(true);
 	}
+	// SINGLETON
+	
+	
 	public ControladorReporte() {
 
-		vreport =VistaReporte.getInstancia();
+		vreport = VistaReporte.getInstancia();
 		vreport.setVisible(true);
 		vreport.activarListener(this);
-		
 
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
@@ -81,6 +112,7 @@ public class ControladorReporte implements ActionListener {
 							" Introduzca RIF VALIDO");
 
 				else {
+					backup();// // MEMENTO
 					if (opc == 0)
 						JOptionPane.showMessageDialog(null,
 								" Seleccione una opcion ");
@@ -99,6 +131,10 @@ public class ControladorReporte implements ActionListener {
 				vreport.getTable().setModel(new DefaultTableModel());
 				vreport.activar();
 
+			} else if (e.getSource().equals(vreport.getComboMeme())) {
+				int index = vreport.getComboMeme().getSelectedIndex();
+				restoreFromMemento(care.getMemento(index));///retorna el nombre de la coop seleccionada
+				vreport.getTextvrif().setText(state);// setea 
 			}
 
 		} catch (Exception ex) {
@@ -109,7 +145,6 @@ public class ControladorReporte implements ActionListener {
 	public DefaultTableModel asignarcolumna(int tipo, String rif) {
 
 		String[] columna = null;
-
 		ArrayList<Viaje> lViaje = vDao.Llenarlistviajes(rif);
 		int size = 0;
 
@@ -151,7 +186,7 @@ public class ControladorReporte implements ActionListener {
 			String buscar = vreport.getTextFiltrar();
 			boolean llenar = false;// evita q la tabla se llene sino cumple con
 									// las condiciones del switch
-		
+
 			ArrayList<Viaje> lViaje = vDao.Llenarlistviajes(vreport
 					.getTextvrif().getText());
 
@@ -256,11 +291,7 @@ public class ControladorReporte implements ActionListener {
 	}
 }
 
-
-
-/*Integrantes:
- * Rosa Piña C.I. 24.166.902
- * Edwin Lucena C.I. 21.256.626
- * Norielsy Freitez C.I. 20.668.899
- * Ana Ruiz  C.I. 21.296.217
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
  */

@@ -11,7 +11,6 @@ import vista.VistaCoop;
 
 public class ControladorVistaCoop implements ActionListener {
 	private VistaCoop vcoop;
-	private Terminal ter;
 	private CooperativaDAO copDAO;
 
 	// SINGLETON

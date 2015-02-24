@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
+
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Cooperativa;
-import modelo.Terminal;
 import modelo.Viaje;
+import modeloDAO.CooperativaDAO;
+import modeloDAO.ViajeDAO;
 import vista.VistaCalendario;
 
 public class ControladorVistaCalendario implements ActionListener {
@@ -19,36 +21,35 @@ public class ControladorVistaCalendario implements ActionListener {
 	private VistaCalendario vistaCalendario;
 	private Cooperativa coop;
 	private Viaje viaje;
-	private Terminal terminal;
+
 	private Vector<String> vecv = new Vector<String>();
 
 	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
 			"Retorno", "Pasaje", "Seguro", "Status" };
 	DefaultTableModel model = new DefaultTableModel(null, columna);
 
-	//SINGLETON
-	private static ControladorVistaCalendario  instancia;
-	
-	
-	public static ControladorVistaCalendario getInstancia(){
-			if (instancia == null){
-				instancia = new ControladorVistaCalendario() ;
-			}
-			return instancia;
+	// SINGLETON
+	private static ControladorVistaCalendario instancia;
+
+	public static ControladorVistaCalendario getInstancia() {
+		if (instancia == null) {
+			instancia = new ControladorVistaCalendario();
 		}
-	public void iniciar(){
+		return instancia;
+	}
+
+	public void iniciar() {
 		vistaCalendario.blanquearCampos();
 		vistaCalendario.setVisible(true);
 	}
-		
-		
+
 	public ControladorVistaCalendario() {
 
-		vistaCalendario =  VistaCalendario.getInstancia();
+		vistaCalendario = VistaCalendario.getInstancia();
 		vistaCalendario.setLocation(480, 210);
 		vistaCalendario.setVisible(true);
 		vistaCalendario.activarListener(this);
-		
+
 		vistaCalendario.getTable().setModel(model);
 
 	}
@@ -66,7 +67,7 @@ public class ControladorVistaCalendario implements ActionListener {
 			} else if (actionCommand.equals("Salir")) {
 				vistaCalendario.dispose();
 			} else if (actionCommand.equals("Generar Calendario")) {
-				GenerarCalendario(terminal);
+				GenerarCalendario();
 				vistaCalendario.getBtnGenerarCalendario().setEnabled(false);
 			}
 
@@ -76,10 +77,11 @@ public class ControladorVistaCalendario implements ActionListener {
 
 	}
 
-	public void GenerarCalendario(Terminal terminal) {
-
-		for (int i = 0; i < terminal.getlCoop().size(); i++) {
-			coop = terminal.getlCoop().get(i);
+	public void GenerarCalendario() {
+		CooperativaDAO coopDao = new CooperativaDAO();
+		ArrayList<Cooperativa> lCoop = coopDao.Llenarlistcoop();
+		for (int i = 0; i < lCoop.size(); i++) {
+			coop = lCoop.get(i);
 			for (int j = 1; j < coop.getlViaje().size(); j++) {
 				viaje = coop.getlViaje().get(j);
 				if (verificarFecha(viaje.getFecha_salida()))
@@ -94,10 +96,11 @@ public class ControladorVistaCalendario implements ActionListener {
 
 	public void llenarTabla(Cooperativa coop, int i) {
 
+		ViajeDAO vDao = new ViajeDAO();
+		ArrayList<Viaje> lViaje = vDao.Llenarlistviajes(coop.getRif());
 		try {
 			vecv.clear();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
-			ArrayList<Viaje> lViaje = coop.getlViaje();
 			viaje = lViaje.get(i);
 
 			vecv.add(viaje.getIdviaje());
@@ -159,7 +162,7 @@ public class ControladorVistaCalendario implements ActionListener {
 			break;
 		}
 		return sts;
-	
+
 	}
 }
 
