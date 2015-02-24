@@ -87,29 +87,28 @@ public class ControladorVistaUnidad implements ActionListener {
 			String rifdado = vuni.getRif();
 			Cooperativa cop = copDAO.buscarCooperativa(rifdado);
 
-			if (copDAO.consultarCooperativa(cop))
-				;
+			if (copDAO.consultarCooperativa(cop))	;
 			{
 
 				String iddado = vuni.getSocio();
 				String rifcoop = vuni.getRif();
 				Socio soc = socDAO.buscarSocio(iddado, rifcoop);
 
-				if (socDAO.consultarSocio(soc, rifcoop)) {
+			//	if (socDAO.consultarSocio(soc, rifcoop)) {
 
-					if (!uniDAO.consultarUnidad(uni)) {
-						if (!uniDAO.ValidarNumero(uni)) {
+					//if (!uniDAO.consultarUnidad(uni)) {
+					//	if (!uniDAO.ValidarNumero(uni)) {
 							uniDAO.registrarUnidad(uni);
 							vuni.mostrarMensaje("La unidad ha sido guardada con exito");
 							vuni.Limpiar();
-						} else
-							vuni.mostrarMensaje("El numero ya existe");
-					} else
-						vuni.mostrarMensaje("La Unidad ya existe");
-				} else
-					vuni.mostrarMensaje("El Socio no existe");
-			}
-			vuni.mostrarMensaje("Cooperativa no existe");
+//						} else
+//							vuni.mostrarMensaje("El numero ya existe");
+//					} else
+//						vuni.mostrarMensaje("La Unidad ya existe");
+//				} else
+//					vuni.mostrarMensaje("El Socio no existe");
+		}
+//			vuni.mostrarMensaje("Cooperativa no existe");
 		}
 	}
 

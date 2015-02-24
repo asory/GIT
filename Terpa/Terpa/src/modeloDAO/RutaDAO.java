@@ -18,7 +18,7 @@ public class RutaDAO extends ConexionDAO {
 		char a = 'A';
 
 		String tiraSQL = "INSERT INTO ruta "
-				+ "(codigo,destino,tipo,statusdb) " + "VALUES ('"
+				+ "(codigo,destino,tipo,status) " + "VALUES ('"
 				+ rut.getCodigo() + "'," + "'" + rut.getDestino() + "'," + "'"
 				+ rut.getTipo() + "'," + "'" + a + "')";
 
@@ -27,7 +27,7 @@ public class RutaDAO extends ConexionDAO {
 	}
 
 	public void eliminarRuta(Ruta rut) {
-		String tiraSQL = "update ruta set statusdb='E' where codigo='"
+		String tiraSQL = "update ruta set status='E' where codigo='"
 				+ rut.getCodigo() + "'";
 
 		Conexion.ejecutar(tiraSQL);
@@ -40,7 +40,7 @@ public class RutaDAO extends ConexionDAO {
 
 		String tiraSQL = "update ruta set " + "destino='" + rut.getDestino()
 				+ "', " + "tipo= '" + rut.getTipo() + "' " + "where codigo='"
-				+ rut.getCodigo() + "' and statusdb='" + a + "'";
+				+ rut.getCodigo() + "' and status='" + a + "'";
 
 		Conexion.ejecutar(tiraSQL);
 
@@ -50,8 +50,7 @@ public class RutaDAO extends ConexionDAO {
 
 		char a = 'A';
 		Ruta rut = new Ruta();
-		String tiraSQL = "select * from ruta where codigo = '" + coddado
-				+ "' and statusdb='" + a + "'";
+		String tiraSQL = "select * from ruta where codigo ='" +coddado+ "' and status='" + a + "'";
 		ResultSet rsRuta = Conexion.consultar(tiraSQL);
 		try {
 			while (rsRuta.next()) {
@@ -77,7 +76,7 @@ public class RutaDAO extends ConexionDAO {
 		boolean seEncuentra = false;
 
 		String tiraSQL = "select * from ruta where codigo ='" + rut.getCodigo()
-				+ "' and statusdb='" + a + "'";
+				+ "' and status='" + a + "'";
 
 		ResultSet rsRuta = Conexion.consultar(tiraSQL);
 
@@ -99,7 +98,7 @@ public class RutaDAO extends ConexionDAO {
 
 		ArrayList<Ruta> lfer = new ArrayList<Ruta>();
 
-		String tiraSQL = "select * from Ruta where statusdb='" + a + "'";
+		String tiraSQL = "select * from Ruta where status='" + a + "'";
 
 		ResultSet rs = Conexion.consultar(tiraSQL);
 

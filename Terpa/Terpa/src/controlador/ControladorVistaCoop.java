@@ -75,7 +75,7 @@ public class ControladorVistaCoop implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
 		} else {
 
-			if (!copDAO.consultarCooperativa(cop)) {
+			if (copDAO.consultarCooperativa(cop)== false) {
 				copDAO.registrarCooperativa(cop);
 				vcoop.getBtnAgregarSocio().setVisible(true);
 				JOptionPane.showMessageDialog(null, "Cooperativa Registrada ");
@@ -96,8 +96,8 @@ public class ControladorVistaCoop implements ActionListener {
 			copDAO.eliminarCooperativa(cop);
 			JOptionPane.showMessageDialog(null, "Cooperativa Eliminada ");
 			vcoop.Limpiar();
-		} else
-			JOptionPane.showMessageDialog(null, "La Cooperativa no existe");
+		} 
+		
 	}
 
 	public void modificar() {

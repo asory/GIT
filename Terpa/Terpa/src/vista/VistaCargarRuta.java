@@ -139,6 +139,8 @@ public class VistaCargarRuta extends JFrame {
 		btnBuscar.addActionListener(accion);
 		btnGuardar.addActionListener(accion);
 		btnSalir.addActionListener(accion);
+		btnEliminar.addActionListener(accion);
+		btnModificar.addActionListener(accion);
 	}
 
 	public String getRIF() {

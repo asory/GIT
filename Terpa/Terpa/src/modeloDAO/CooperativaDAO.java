@@ -19,7 +19,7 @@ public class CooperativaDAO extends ConexionDAO {
 		
 		String tiraSQL = "INSERT INTO cooperativa "
 				+ "(rif,nombre,statusdb) "
-				+ "VALUES (' " + cop.getRif() + "','" + cop.getNombre() + "','" + a + "')";
+				+ "VALUES ('" +cop.getRif() + "','" +cop.getNombre() + "','" + a + "')";
 
 		Conexion.ejecutar(tiraSQL);
 	}
@@ -47,7 +47,7 @@ public class CooperativaDAO extends ConexionDAO {
 		
 		char a='A';
 		Cooperativa cop = new Cooperativa();
-		String tiraSQL = "select * from cooperativa where rif = '"+rifdado+"' and statusdb='" +a+ "'";
+		String tiraSQL = "select * from cooperativa where rif ='"+rifdado+"' and statusdb='" +a+ "'";
 		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
 		try {
 			while (rsCooperativa.next()) {
@@ -70,7 +70,7 @@ public class CooperativaDAO extends ConexionDAO {
 		
 		boolean seEncuentra = false;
 
-		String tiraSQL ="select * from cooperativa where rif='"+cop.getNombre()+"'and statusdb='"+ a +"'";
+		String tiraSQL ="select * from cooperativa where rif= '"+cop.getRif()+"'and statusdb='"+ a +"'";
 
 		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
 
