@@ -82,8 +82,10 @@ public class ControladorVistaCalendario implements ActionListener {
 		ArrayList<Cooperativa> lCoop = coopDao.Llenarlistcoop();
 		for (int i = 0; i < lCoop.size(); i++) {
 			coop = lCoop.get(i);
-			for (int j = 1; j < coop.getlViaje().size(); j++) {
-				viaje = coop.getlViaje().get(j);
+			ViajeDAO vDao = new ViajeDAO();
+			ArrayList<Viaje> lViaje = vDao.Llenarlistviajes(coop.getRif());
+			for (int j = 1; j < lViaje.size(); j++) {
+				viaje = lViaje.get(j);
 				if (verificarFecha(viaje.getFecha_salida()))
 					llenarTabla(coop, j);
 

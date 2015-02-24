@@ -15,11 +15,9 @@ public class ControladorVistaSocio implements ActionListener {
 	private VistaSocio vsoc;
 	private Socio soc;
 	private Cooperativa coop;
-	
 	private SocioDAO socDAO;
 	private CooperativaDAO copDAO;
-	
-	
+
 	// SINGLETON
 	private static ControladorVistaSocio instancia;
 
@@ -41,7 +39,7 @@ public class ControladorVistaSocio implements ActionListener {
 		vsoc = VistaSocio.getInstancia();
 		vsoc.setVisible(true);
 		vsoc.activarListener(this);
-		
+
 	}
 
 	@Override
@@ -55,7 +53,8 @@ public class ControladorVistaSocio implements ActionListener {
 
 			} else if (e.getSource().equals(vsoc.getBtnAgregarCho())) {
 				ControladorVistaChofer cv = ControladorVistaChofer
-						.getInstancia();;
+						.getInstancia();
+				;
 
 			} else if (e.getSource().equals(vsoc.getBtnAgregarUnidad())) {
 				ControladorVistaUnidad cv = ControladorVistaUnidad

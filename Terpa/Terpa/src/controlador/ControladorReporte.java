@@ -70,9 +70,8 @@ public class ControladorReporte implements ActionListener {
 		care.addMemento(saveToMemento());
 	}
 
-//} Memento
-	
-	
+	// } Memento
+
 	// SINGLETON
 	private static ControladorReporte instancia;
 
@@ -87,9 +86,9 @@ public class ControladorReporte implements ActionListener {
 		vreport.limpiar();
 		vreport.setVisible(true);
 	}
+
 	// SINGLETON
-	
-	
+
 	public ControladorReporte() {
 
 		vreport = VistaReporte.getInstancia();
@@ -97,7 +96,7 @@ public class ControladorReporte implements ActionListener {
 		vreport.activarListener(this);
 
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
@@ -133,8 +132,10 @@ public class ControladorReporte implements ActionListener {
 
 			} else if (e.getSource().equals(vreport.getComboMeme())) {
 				int index = vreport.getComboMeme().getSelectedIndex();
-				restoreFromMemento(care.getMemento(index));///retorna el nombre de la coop seleccionada
-				vreport.getTextvrif().setText(state);// setea 
+				restoreFromMemento(care.getMemento(index));// /retorna el nombre
+															// de la coop
+															// seleccionada
+				vreport.getTextvrif().setText(state);// setea
 			}
 
 		} catch (Exception ex) {
@@ -165,8 +166,10 @@ public class ControladorReporte implements ActionListener {
 
 			break;
 		case 3:
+			MultaDAO mDao = new MultaDAO();
 
-			size = coop.getlMulta().size();
+			ArrayList<Multa> lMulta = mDao.Llenarlistmult(vreport.getTextvrif().getText());
+			size = lMulta.size();
 			String[] c = { "Multa", "Cooperativa", "Inicio ", "Fin", "Unidad",
 					"Chofer" };
 			columna = c;

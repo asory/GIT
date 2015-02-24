@@ -2,6 +2,8 @@ package modeloDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import modelo.Chofer;
 import bean.Conexion;
@@ -107,5 +109,33 @@ public class ChoferDAO extends ConexionDAO {
             
             return seEncuentra;
     }
+	
+	public List<Chofer> Llenarlistrut() {
+		char a = 'A';
 
+		ArrayList<Chofer> lfer = new ArrayList<Chofer>();
+
+		String tiraSQL = "select * from Chofer where statusdb='" + a + "'";
+
+		ResultSet rsChofer= Conexion.consultar(tiraSQL);
+		 try {
+			 while (rsChofer.next()){
+				 String id = rsChofer.getString("id_chofer");
+				 String ced = rsChofer.getString("cedula");
+				 String nombre = rsChofer.getString("nombre");
+				 String apellido = rsChofer.getString("apellido");
+				 String telef = rsChofer.getString("telefono");
+				 String idjefe = rsChofer.getString("id_jefe");
+				 boolean status = rsChofer.getBoolean("status");
+				 
+				 
+				lfer.add(new Chofer(id,ced,nombre,apellido,telef,status,idjefe));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return lfer;
+	}
 }

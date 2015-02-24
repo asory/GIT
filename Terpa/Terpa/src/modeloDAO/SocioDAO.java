@@ -2,7 +2,10 @@ package modeloDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import modelo.Socio;
 import modelo.Socio;
 import bean.Conexion;
 
@@ -106,4 +109,31 @@ public class SocioDAO extends ConexionDAO {
             
             return seEncuentra;
     }
+	public List<Socio> Llenarlistrut() {
+		char a = 'A';
+
+		ArrayList<Socio> lfer = new ArrayList<Socio>();
+
+		String tiraSQL = "select * from Socio where statusdb='" + a + "'";
+
+		ResultSet rsSocio= Conexion.consultar(tiraSQL);
+		 try {
+			 while (rsSocio.next()){
+				 String id = rsSocio.getString("id_socio");
+				 String ced = rsSocio.getString("cedula");
+				 String nombre = rsSocio.getString("nombre");
+				 String apellido = rsSocio.getString("apellido");
+				 String telef = rsSocio.getString("telefono");
+				 int cargo = rsSocio.getInt("cargo");
+				 
+				 
+				lfer.add(new Socio(id,ced,nombre,apellido,cargo,telef));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return lfer;
+	}
 }

@@ -26,16 +26,13 @@ public class ControladorVistaViaje implements ActionListener {
 	private CooperativaDAO copDao;
 	private ViajeDAO vDao;
 	private MultaDAO mDao;
-	
 
-	
-	
 	Viaje viaje = new Viaje();
 	String[] columna = { "ID Viaje", "Destino", "Unidad", "Chofer", "Salida",
 			"Retorno", "Pasaje", "Seguro", "Status" };
 	DefaultTableModel model = new DefaultTableModel(null, columna);
-	ArrayList<Viaje> lViaje ;
-	
+	ArrayList<Viaje> lViaje;
+
 	// SINGLETON
 	private static ControladorVistaViaje instancia;
 
@@ -49,8 +46,8 @@ public class ControladorVistaViaje implements ActionListener {
 		}
 		return instancia;
 	}
+
 	public ControladorVistaViaje() {
-		
 
 		vviaje = new VistaViaje();
 		vviaje.setVisible(true);
@@ -70,7 +67,8 @@ public class ControladorVistaViaje implements ActionListener {
 
 				vviaje.Limpiar();
 				vviaje.getBtnGenerar().setEnabled(true);
-				vviaje.getTable().setModel(new DefaultTableModel(null, columna));
+				vviaje.getTable()
+						.setModel(new DefaultTableModel(null, columna));
 			}
 
 		} catch (Exception ex) {
@@ -83,13 +81,14 @@ public class ControladorVistaViaje implements ActionListener {
 	private void asignarViajes() {
 
 		try {
-			if (vviaje.getRif() == "" || vviaje.getTextDias().getText()=="" || vviaje.getTextCantidad().getText()=="")
+			if (vviaje.getRif() == "" || vviaje.getTextDias().getText() == ""
+					|| vviaje.getTextCantidad().getText() == "")
 				JOptionPane.showMessageDialog(null,
 						"Debe llenar todos los campos");
 			else {
 
 				String rif = vviaje.getRif();
-				if (copDao.buscarCooperativa(rif)==null ) {
+				if (copDao.buscarCooperativa(rif) == null) {
 					JOptionPane.showMessageDialog(null,
 							"La Cooperativa no esta registrada");
 					vviaje.Limpiar();
@@ -99,18 +98,19 @@ public class ControladorVistaViaje implements ActionListener {
 
 				} else {
 					int i = 0;
-					int nroViajes= Integer.parseInt(vviaje.getTextCantidad().getText());
+					int nroViajes = Integer.parseInt(vviaje.getTextCantidad()
+							.getText());
 					do {
 						// obtenemos condiciones del viaje
 
-						coop =copDao.buscarCooperativa(rif);
+						coop = copDao.buscarCooperativa(rif);
 
 						Date fs = randomSalida(vviaje.getFechaI());
 						Ruta ruta = randomRuta();
 						Date fr = asignarRetorno(ruta, fs);
 						Unidad uni = ramdomSocio().randomUnidad();// asigna
-																		// unidad
-																		// aleatoria
+																	// unidad
+																	// aleatoria
 
 						// / verifica la unidad y retorna una q este disponible
 						uni = VerificarUnidad(uni, fs);
@@ -142,8 +142,8 @@ public class ControladorVistaViaje implements ActionListener {
 
 						i++;
 					} while (i < nroViajes);
-					
-                   Ordenar();
+
+					Ordenar();
 					quitarmulta();
 					cancelarViaje();
 					llenarTabla();
@@ -159,8 +159,8 @@ public class ControladorVistaViaje implements ActionListener {
 	public void llenarTabla() {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
-			lViaje= vDao.Llenarlistviajes(vviaje.getRif());
-			
+			lViaje = vDao.Llenarlistviajes(vviaje.getRif());
+
 			model.setNumRows(lViaje.size());
 
 			for (int i = 0; i < lViaje.size(); i++) {
@@ -212,9 +212,7 @@ public class ControladorVistaViaje implements ActionListener {
 	public Date randomSalida(Date fecha) {
 
 		int random = 0;
-		int max= Integer.parseInt(vviaje.getTextDias().getText());
-		
-		
+		int max = Integer.parseInt(vviaje.getTextDias().getText());
 
 		random = (int) Math.floor(Math.random() * max + 0);
 
@@ -259,10 +257,10 @@ public class ControladorVistaViaje implements ActionListener {
 
 	// **************Verifican si ya han retornado*********************
 	public Unidad VerificarUnidad(Unidad uni, Date fs) {
-		lViaje= vDao.Llenarlistviajes(vviaje.getRif());
+		lViaje = vDao.Llenarlistviajes(vviaje.getRif());
 		boolean v;
 		do {
-			for (int i = 0; i <lViaje.size(); i++) {
+			for (int i = 0; i < lViaje.size(); i++) {
 				Viaje viaje = lViaje.get(i);
 
 				if ((viaje.getVehiculo().equals(uni))
@@ -277,7 +275,7 @@ public class ControladorVistaViaje implements ActionListener {
 	}
 
 	public Chofer VerificarChofer(Chofer cho, Date fs) {
-		lViaje= vDao.Llenarlistviajes(vviaje.getRif());
+		lViaje = vDao.Llenarlistviajes(vviaje.getRif());
 		boolean v = false;
 		do {
 			for (int i = 0; i < lViaje.size(); i++) {
@@ -303,7 +301,7 @@ public class ControladorVistaViaje implements ActionListener {
 	public void multar(Date pferiado, Viaje viaje, Cooperativa coop) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(pferiado);
-		 FeriadoDAO fDao= new FeriadoDAO();
+		FeriadoDAO fDao = new FeriadoDAO();
 		List<Feriado> lFeriado = fDao.Llenarlistfer();
 		int cm = calendar.get(Calendar.MONTH) + 1;// calendar maneja los meses
 													// desd 0
@@ -313,19 +311,20 @@ public class ControladorVistaViaje implements ActionListener {
 			int mf = feriado.getMes();
 
 			if ((df == calendar.get(Calendar.DAY_OF_MONTH)) && (mf == cm)) {
-				if (viaje.getStatus()==2) {
+				if (viaje.getStatus() == 2) {
 					viaje.getChofer().setStatus(true);
 					viaje.getVehiculo().setStatus(true);
 
-					// id compuesta por: M + id del chofer + la id de la unidad multada
+					// id compuesta por: M + id del chofer + la id de la unidad
+					// multada
 					String idmulta = "M" + viaje.getChofer().getId_chofer()
 							+ viaje.getVehiculo().getId() + "";
 					// Crea una multa y la agrega a la lista de coop
-					Date iniciom=  modificarDias(viaje.getFecha_salida(),1);
-					Date finm= modificarDias(iniciom,3);
-					Multa multa = new Multa( iniciom,finm,idmulta,
+					Date iniciom = modificarDias(viaje.getFecha_salida(), 1);
+					Date finm = modificarDias(iniciom, 3);
+					Multa multa = new Multa(iniciom, finm, idmulta,
 							viaje.getVehiculo(), viaje.getChofer());
-					
+
 					mDao.registrarMulta(multa, vviaje.getRif());
 
 					i = lFeriado.size();
@@ -353,114 +352,109 @@ public class ControladorVistaViaje implements ActionListener {
 		return sts;
 	}
 
+	// *****************
 
+	// ** METODOS PARA Valores de VIAJE ***///
+	// *******************RANDOM **************************
+	// / retorna un objecto aleatorio
+	public Socio ramdomSocio() {
+		int random = 0;
+		SocioDAO sdao = new SocioDAO();
+		List<Socio> lSocio = sdao.Llenarlistrut();
+		random = (int) Math.floor(Math.random() * lSocio.size());
+		Socio socio = lSocio.get(random);
+		return socio;
 
-// *****************
-
-// ** METODOS PARA Valores de VIAJE ***///
-// *******************RANDOM **************************
-// / retorna un objecto aleatorio
-public Socio ramdomSocio() {
-	int random = 0;
-SocioDAO sdao= new SocioDAO();
-lSocio= sdao.
-	random = (int) Math.floor(Math.random() * getlSocio().size());
-	Socio socio = getlSocio().get(random);
-	return socio;
-
-}
-
-public int randomStatusVi() {
-	int random = 0;
-
-	random = (int) Math.floor(Math.random() * 2 + 1);
-	
-	return random;
-
-}
-
-public Chofer randomChofer() {
-ChoferDAO cdao=new ChoferDAO();
-
-	int random = 0;
-
-	random = (int) Math.floor(Math.random() * getlChofer.size());
-	Chofer cho = lChofer.get(random);
-	return cho;
-}
-
-public Ruta randomRuta() {
-RutaDAO rDao= new RutaDAO();
-List<Ruta> lRuta = rDao.Llenarlistrut();
-	int random = 0;
-
-	random = (int) Math.floor(Math.random() * lRuta.size());
-	Ruta ruta = lRuta.get(random);
-	return ruta;
-}
-
-// ****************Ordenar
-public void Ordenar() {
-
-	Collections.sort(lViaje, new Comparator<Viaje>() {
-
-		@Override
-		public int compare(Viaje o1, Viaje o2) {
-			return o1.getFecha_salida().compareTo(o2.getFecha_salida());
-		}
-
-	});
-}
-
-// **********************Cancelar viaje por Multa ************************
-public void cancelarViaje() {
-
-	Viaje viaje = new Viaje();
-	for (int j = 0; j < lViaje.size(); j++) {
-		viaje = lViaje.get(j);
-		if (viaje.getChofer().getStatus()
-				|| viaje.getVehiculo().getstatus()) {
-			viaje.setStatus(3);
-		}
 	}
 
-}
+	public int randomStatusVi() {
+		int random = 0;
 
-// *******************Quitar Multa *************
-public void quitarmulta() {
-	MultaDAO mDao=new MultaDAO();
-	
-	ArrayList<Multa> lMulta = mDao.Llenarlistmult(vviaje.getRif()) ;
-	
-	Viaje viaje = new Viaje();
-	Multa multa = new Multa();
-	int i = 0;
-	if (!lMulta.isEmpty()) {
-		for (int j = 0; j < lViaje.size(); j++) {
-			viaje = lViaje.get(j);
-			while (i < lMulta.size()) {
+		random = (int) Math.floor(Math.random() * 2 + 1);
 
-				multa = lMulta.get(i);
+		return random;
 
-				if (viaje.getFecha_salida().before(multa.getFecha_in())
-						|| viaje.getFecha_salida().after(
-								multa.getFecha_fin())) {
-					viaje.getChofer().setStatus(false);
-					viaje.getVehiculo().setStatus(false);
-				}
-				i++;
+	}
+
+	public Chofer randomChofer() {
+		ChoferDAO cdao = new ChoferDAO();
+		List<Chofer> lChofer = cdao.Llenarlistrut();
+
+		int random = 0;
+
+		random = (int) Math.floor(Math.random() * lChofer.size());
+		Chofer cho = lChofer.get(random);
+		return cho;
+	}
+
+	public Ruta randomRuta() {
+		RutaDAO rDao = new RutaDAO();
+		List<Ruta> lRuta = rDao.Llenarlistrut();
+		int random = 0;
+
+		random = (int) Math.floor(Math.random() * lRuta.size());
+		Ruta ruta = lRuta.get(random);
+		return ruta;
+	}
+
+	// ****************Ordenar
+	public void Ordenar() {
+
+		Collections.sort(lViaje, new Comparator<Viaje>() {
+
+			@Override
+			public int compare(Viaje o1, Viaje o2) {
+				return o1.getFecha_salida().compareTo(o2.getFecha_salida());
 			}
 
+		});
+	}
+
+	// **********************Cancelar viaje por Multa ************************
+	public void cancelarViaje() {
+
+		Viaje viaje = new Viaje();
+		for (int j = 0; j < lViaje.size(); j++) {
+			viaje = lViaje.get(j);
+			if (viaje.getChofer().getStatus()
+					|| viaje.getVehiculo().getstatus()) {
+				viaje.setStatus(3);
+			}
+		}
+
+	}
+
+	// *******************Quitar Multa *************
+	public void quitarmulta() {
+		MultaDAO mDao = new MultaDAO();
+
+		ArrayList<Multa> lMulta = mDao.Llenarlistmult(vviaje.getRif());
+
+		Viaje viaje = new Viaje();
+		Multa multa = new Multa();
+		int i = 0;
+		if (!lMulta.isEmpty()) {
+			for (int j = 0; j < lViaje.size(); j++) {
+				viaje = lViaje.get(j);
+				while (i < lMulta.size()) {
+
+					multa = lMulta.get(i);
+
+					if (viaje.getFecha_salida().before(multa.getFecha_in())
+							|| viaje.getFecha_salida().after(
+									multa.getFecha_fin())) {
+						viaje.getChofer().setStatus(false);
+						viaje.getVehiculo().setStatus(false);
+					}
+					i++;
+				}
+
+			}
 		}
 	}
 }
-}
 
-
-
-/*Integrantes:
- * Rosa Piña C.I. 24.166.902
- * Edwin Lucena C.I. 21.256.626
- * Norielsy Freitez C.I. 20.668.899
- * Ana Ruiz  C.I. 21.296.217
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
  */
