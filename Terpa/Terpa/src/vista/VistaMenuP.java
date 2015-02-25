@@ -80,7 +80,7 @@ public class VistaMenuP extends JFrame {
 			menuBar.setBounds(0, 0, 459, 27);
 			panel.add(menuBar);
 
-			JMenu mnCargar = new JMenu("AGREGAR");
+			mnCargar = new JMenu("AGREGAR");
 			mnCargar.setDelay(0);
 			mnCargar.setBackground(new Color(102, 204, 51));
 			mnCargar.setFont(new Font("Dialog", Font.BOLD, 12));
@@ -146,7 +146,7 @@ public class VistaMenuP extends JFrame {
 			panel.add(btnSalir);
 			
 			login3_1 = new Login3();
-			login3_1.setBounds(0, 0, 182, 25);
+			login3_1.setBounds(0, 0, 104, 18);
 			contentPane.add(login3_1);
 			login3_1.setAlwaysOnTop(true);
 			login3_1.setAutoRequestFocus(true);
@@ -216,6 +216,27 @@ public class VistaMenuP extends JFrame {
 
 	public JButton getBtnAsignar() {
 		return btnAsignar;
+	}
+
+	/**
+	 * @return the login3_1
+	 */
+	public Login3 getLogin3_1() {
+		return login3_1;
+	}
+
+	/**
+	 * @return the mnCargar
+	 */
+	public JMenu getMnCargar() {
+		return mnCargar;
+	}
+
+	/**
+	 * @param login3_1 the login3_1 to set
+	 */
+	public void setLogin3_1(Login3 login3_1) {
+		this.login3_1 = login3_1;
 	}
 }
 
