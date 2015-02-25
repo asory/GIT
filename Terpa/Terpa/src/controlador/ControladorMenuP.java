@@ -23,7 +23,7 @@ public class ControladorMenuP implements ActionListener {
 		vistaMenuP.setVisible(true);
 		vistaMenuP.activarListener(this);
 
-		// cargar();
+	
 	}
 
 	@Override

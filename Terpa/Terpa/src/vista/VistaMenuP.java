@@ -146,7 +146,7 @@ public class VistaMenuP extends JFrame {
 			panel.add(btnSalir);
 			
 			login3_1 = new Login3();
-			login3_1.setBounds(0, 0, 104, 18);
+			login3_1.setBounds(0, 0, 182, 25);
 			contentPane.add(login3_1);
 			login3_1.setAlwaysOnTop(true);
 			login3_1.setAutoRequestFocus(true);

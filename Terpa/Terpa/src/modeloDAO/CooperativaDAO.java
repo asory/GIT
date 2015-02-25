@@ -15,17 +15,18 @@ public class CooperativaDAO extends ConexionDAO {
 
 	public void registrarCooperativa(Cooperativa cop) {
 
-		char a='A';
-		
-		String tiraSQL = "INSERT INTO cooperativa "
-				+ "(rif,nombre,statusdb) "
-				+ "VALUES ('" +cop.getRif() + "','" +cop.getNombre() + "','" + a + "')";
+		char a = 'A';
+
+		String tiraSQL = "INSERT INTO cooperativa " + "(rif,nombre,statusdb) "
+				+ "VALUES ('" + cop.getRif() + "','" + cop.getNombre() + "','"
+				+ a + "')";
 
 		Conexion.ejecutar(tiraSQL);
 	}
 
 	public void eliminarCooperativa(Cooperativa cop) {
-		String tiraSQL = "update cooperativa set statusdb='E' where rif='" + cop.getRif() + "'";
+		String tiraSQL = "update cooperativa set statusdb='E' where rif='"
+				+ cop.getRif() + "'";
 
 		Conexion.ejecutar(tiraSQL);
 
@@ -33,21 +34,22 @@ public class CooperativaDAO extends ConexionDAO {
 
 	public void actualizarCooperativa(Cooperativa cop) {
 
-		char a='A';
-		
-		String tiraSQL = "update cooperativa set "
-				+ "nombre='" + cop.getNombre() + "' where rif='" + cop.getRif() + "' and statusdb='" + a + "'";
+		char a = 'A';
+
+		String tiraSQL = "update cooperativa set " + "nombre='"
+				+ cop.getNombre() + "' where rif='" + cop.getRif()
+				+ "' and statusdb='" + a + "'";
 
 		Conexion.ejecutar(tiraSQL);
 
 	}
 
-	
 	public Cooperativa buscarCooperativa(String rifdado) {
-		
-		char a='A';
+
+		char a = 'A';
 		Cooperativa cop = new Cooperativa();
-		String tiraSQL = "select * from cooperativa where rif ='"+rifdado+"' and statusdb='" +a+ "'";
+		String tiraSQL = "select * from cooperativa where rif ='" + rifdado
+				+ "' and statusdb='" + a + "'";
 		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
 		try {
 			while (rsCooperativa.next()) {
@@ -55,8 +57,8 @@ public class CooperativaDAO extends ConexionDAO {
 				String nombre = rsCooperativa.getString("nombre");
 				cop.setRif(rif);
 				cop.setNombre(nombre);
-			} 
-				
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -66,11 +68,12 @@ public class CooperativaDAO extends ConexionDAO {
 
 	public boolean consultarCooperativa(Cooperativa cop) {
 
-		char a='A';
-		
-		boolean seEncuentra = false;
+		char a = 'A';
 
-		String tiraSQL ="select * from cooperativa where rif= '"+cop.getRif()+"'and statusdb='"+ a +"'";
+		boolean seEncuentra;
+
+		String tiraSQL = "select * from cooperativa where rif= '"
+				+ cop.getRif() + "'and statusdb='" + a + "'";
 
 		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
 
@@ -79,27 +82,26 @@ public class CooperativaDAO extends ConexionDAO {
 				seEncuentra = true;
 
 			}
+			seEncuentra = false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+						e.printStackTrace();
 		}
 
 		return seEncuentra;
 	}
 
-	public ArrayList<Cooperativa> Llenarlistcoop()
-	 {
-		char a='A';
-		
-	 ArrayList<Cooperativa> lcoop= new ArrayList<Cooperativa>();
-	
-	 String tiraSQL= "select * from cooperativa where statusdb='" + a + "'";
-	
-	 ResultSet rs= Conexion.consultar(tiraSQL);
-	 String nombre="";
-	 String rif="";
+	public ArrayList<Cooperativa> Llenarlistcoop() {
+		char a = 'A';
 
-	 try {
+		ArrayList<Cooperativa> lcoop = new ArrayList<Cooperativa>();
+
+		String tiraSQL = "select * from cooperativa where statusdb='" + a + "'";
+
+		ResultSet rs = Conexion.consultar(tiraSQL);
+		String nombre = "";
+		String rif = "";
+
+		try {
 			while (rs.next()) {
 				rif = rs.getString("rif");
 				nombre = rs.getString("nombre");
@@ -110,7 +112,7 @@ public class CooperativaDAO extends ConexionDAO {
 			e.printStackTrace();
 		}
 
-		 return lcoop;
-	 }
+		return lcoop;
+	}
 
 }
