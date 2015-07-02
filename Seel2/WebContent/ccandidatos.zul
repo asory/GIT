@@ -1,0 +1,39 @@
+<?page title="" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Agregar Candidato" border="none" >
+<vbox> 
+    <grid  >
+    <rows sclass="narrow">
+    	<row>
+    		Nombre:
+    		<textbox id="nombreCan" value="" />
+    	</row>
+    	<row>
+    		Apellido:
+    		<textbox id="apellidoCan" value="" />
+    	</row>
+    	<row>
+    		Edad:
+    		<textbox id="edad" value="" />
+    	</row>
+    	<row>
+    		Descripcion:
+    		<textbox id="descripcion" value="" />
+    	</row>
+    	<row>
+    		Propuesta:
+    		<fileupload id="propuesta" />
+    	</row>
+    	<row>
+    		Imagen
+    		<fileupload id="imagenperfil" />
+    	</row>
+    </rows>
+    </grid>	
+	  <hbox>
+	    	       <button label="Agregar" id="btnAgregar"></button>
+	  </hbox>
+	</vbox>  
+
+</window>
+</zk>

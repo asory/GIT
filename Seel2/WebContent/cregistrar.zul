@@ -1,0 +1,100 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window>
+  
+<grid fixedLayout="true">
+
+    <columns>
+        <column label="Información" width="150px" />
+        <column label="Personal" />
+    </columns>
+    <rows>
+        <row>
+            <label value="Usuario" width="150px" />
+            <textbox id="usuario" width="150px" />
+        </row>
+        <row>
+            Contraseña
+            <textbox id="password" type="password"  width="150px" />
+        </row>
+        <row>
+            Vuelva a tipear la Contraseña
+            <textbox id="repassword" type="password" width="150px" />
+        </row>
+              
+        <row>
+           Nombre
+          
+            <vbox>
+                <textbox width="250px"
+                    />
+                <hbox>
+                    <label value="Apellido :" />
+                    <textbox id="Apellido"
+                        width="150px" />
+                </hbox>
+            </vbox>
+       </row>
+        
+        <row>
+            Edad:
+            <intbox constraint="no negative,no zero"
+                width="150px" />
+        </row>
+        <row>
+            Teléfono:
+            <intbox constraint="no negative,no zero" width="150px"
+                 />
+        </row>
+        
+        <row>
+        
+            País:
+         <textbox id="pais"  width="150px" />
+        
+        </row>
+        
+        
+        <row>
+            Fecha de Nacimiento:
+            <hbox>
+                <datebox id="db" width="150px" />
+                <listbox
+                    onSelect="db.setFormat(self.selectedItem.value)" mold="select"
+                    rows="1">
+                    <listitem label="Default" value="" />
+                    <listitem label="yyyy/MM/dd hh:mm a" value="yyyy/MM/dd hh:mm a" />
+                    <listitem label="yyyy/MM/dd" value="yyyy/MM/dd" />
+                    <listitem label="MM-dd-yy" value="MM-dd-yy" />
+                </listbox>
+            </hbox>
+        </row>
+        <row>
+            Dirección
+            <vbox>
+                <textbox width="250px"
+                    />
+                <hbox>
+                    <label value="Codigo Postal :" />
+                    <intbox constraint="no negative,no zero"
+                        width="150px" />
+                </hbox>
+            </vbox>
+        </row>
+        <row>
+            E-mail:
+            <textbox width="150px" 
+                constraint="/.+@.+\.[a-z]+/: Por favor ingrese un email valido" />
+        </row>
+       
+        
+    </rows>
+    
+</grid>
+       <hbox>
+	      <button label="Aceptar" id="btnRegistro"></button>
+	      <button label="Atrás" id="btnAtras"></button>
+	      <button label="Cancelar" id="btnCancelar"></button>
+	  </hbox>
+</window>
+</zk>

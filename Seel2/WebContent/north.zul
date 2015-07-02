@@ -1,0 +1,16 @@
+<?page title="" contentType="text/html;charset=UTF-8"?>
+<zk>
+	
+		<image id="xx" src="/imagen/logo2.png" width="600" height="300"
+			align="center"></image>
+			CREA TU ELECCION DE FORMA FACIL Y SENCILLA E INTEGRA A TUS
+		AMIGOS
+		<menubar width="1255px" height="2000" >
+
+			<menuitem label="Inicio" id="inicio"/>
+			<menuitem label="Registro"/>
+			<menuitem label="Contacto"/>
+		</menubar>
+		
+
+</zk>

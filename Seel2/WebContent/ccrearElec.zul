@@ -1,0 +1,43 @@
+<?page title="" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Crear Elecciones" border="normal">
+		<vbox>
+			<grid>
+				<rows sclass="narrow">
+					<row>
+						Titulo:
+						<textbox id="nombreElecc" value="" constraint="no empty" />
+					</row>
+					<row>
+						tipo:
+						<textbox id="tipoElecc" value="" constraint="no empty" />
+					</row>
+					<row>
+						Fecha Inicio Elecciones:
+						<datebox constraint="no empty, no past" />
+					</row>
+					<row>
+						Fecha Final Elecciones:
+						<datebox constraint="no empty, no past" />
+					</row>
+
+					<row>
+						Descripcion:
+						<textbox id="descripcion" value="" />
+					</row>
+
+					<row>
+						Cantidad de Votantes :
+						<intbox constraint="no empty id="limite" />
+					</row>
+				</rows>
+			</grid>
+			<hbox>
+				<button label="Crear" id="btnCrear"></button>
+			</hbox>
+		</vbox>
+
+	</window>
+</zk>
+
+

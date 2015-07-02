@@ -1,0 +1,194 @@
+<?page title="Auto Generated index.zul"?>
+<zk>
+	<window title="Sistema de Elecciones En Linea (SEEL) "
+		border="normal" width="1220px" height="1050px">
+
+		<borderlayout height="1050px">
+
+			<north maxsize="300" size="25%" splittable="false"
+				collapsible="true">
+				<include src="/north.zul" align="center"></include>
+			</north>
+
+			<west size="25%" flex="true" maxsize="250" border="0">
+
+				<div>
+					<hlayout>
+
+
+						<window>
+
+							<listbox id="publicidad" width="300px"
+								height="" onSelect="">
+								<listhead>
+									<listheader label="Publicidad"
+										height="10" width="10" />
+
+								</listhead>
+
+								<listitem>
+									<listcell
+										label="Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla" />
+								</listitem>
+
+
+
+							</listbox>
+
+
+
+						</window>
+						<window>
+
+							<listbox id="publicidad" width="200px"
+								height="" onSelect="">
+								<listhead>
+									<listheader label="Publicidad"
+										height="10" width="10" />
+
+								</listhead>
+
+								<listitem>
+									<listcell
+										label="Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla" />
+								</listitem>
+
+
+
+							</listbox>
+
+
+
+						</window>
+					</hlayout>
+					<vlayout>
+
+						<listbox id="publicidad2" width="300px"
+							height="" onSelect="">
+							<listhead>
+								<listheader label="Publicidad"
+									height="10" width="10" />
+
+							</listhead>
+
+							<listitem>
+								<listcell
+									label="Blabla Blabla B Blabla Blabla B Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla" />
+							</listitem>
+
+
+
+						</listbox>
+						<listbox id="publicidad" width="300px" height=""
+							onSelect="">
+							<listhead>
+								<listheader label="Publicidad"
+									height="10" width="10" />
+
+							</listhead>
+
+							<listitem>
+								<listcell
+									label="Blabla Blabla B Blabla Blabla B Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla" />
+							</listitem>
+
+
+
+						</listbox>
+					</vlayout>
+				</div>
+			</west>
+			<center>
+				<window>
+
+					<listbox id="tutorial" width="600px" height=""
+						onSelect="">
+						<listhead>
+							<listheader label="Tutorial" height="20"
+								width="20" />
+
+						</listhead>
+
+						<listitem>
+							<listcell
+								label="1.Blabla Blabla Blabla Blabla Blabla Blabla  Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla BlablaBlabla Bla Blabla Blabla Blabla Blabla Blabla  Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla BlablaBlabla Bla Blabla Blabla Blabla Blabla Blabla" />
+						</listitem>
+
+						<listitem>
+							<listcell
+								label="2.Blabla Blabla Blabla Blabla Blabla Blabla  Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla BlablaBlabla Bla Blabla Blabla Blabla Blabla Blabla  Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla BlablaBlabla Bla Blabla Blabla Blabla Blabla Blabla" />
+						</listitem>
+
+						<listitem>
+							<listcell
+								label="3.Blabla Blabla Blabla Bl Blabla Blabla Blabla Blabla Blabla  Blabla Blabla Blabla Blabla Blabla Blabla  Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla BlablaBlabla Bla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla BlablaBlabla Blaabla Blabla Blabla" />
+						</listitem>
+
+						<listitem>
+							<listcell
+								label="4.Blabla Blabla Blabla Blabla Blabla Blabla  Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla BlablaBlabla Blabla Blabla Blabla Blabla BlablaBlabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla Blabla" />
+						</listitem>
+
+
+					</listbox>
+
+
+
+				</window>
+
+
+
+
+
+
+
+
+			</center>
+
+			<east maxsize="300" size="25%" splittable="false"
+				collapsible="true">
+				<window id="login" title="Usuario Registrado"
+					border="normal" width="300px" height="200px">
+					<vlayout>
+						<grid height="100px">
+							<rows>
+								<row>
+									Username:
+									<textbox id="username"
+										maxlength="12" cols="12" />
+								</row>
+
+								<row>
+									Password:
+									<textbox id="password"
+										type="password" maxlength="12" cols="12" />
+								</row>
+							</rows>
+
+
+						</grid>
+
+
+						<hlayout>
+							<button label="Entrar" onClick=""
+								width="100px" height="25px" />
+
+							<button label="Registrarse" width="100px"
+								height="25px" href="/admin.zul" />
+						</hlayout>
+					</vlayout>
+				</window>
+
+			</east>
+
+			<south>
+
+			</south>
+
+
+
+
+		</borderlayout>
+
+	</window>
+</zk>

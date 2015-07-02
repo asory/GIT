@@ -1,0 +1,26 @@
+<?page title="Auto Generated index.zul"?>
+<zk>
+	<window title="Sistema de Elecciones En Linea (SEEL) "
+		border="normal" width="1220px" height="1050px">
+
+		<borderlayout height="1050px">
+			<north maxsize="300" size="25%" splittable="false"
+				collapsible="true">
+				<include src="/north.zul"></include>
+			</north>
+
+			<west id="west" size="25%" flex="true" maxsize="250" border="0">
+				<div>
+					<include src="/west.zul"></include>
+				</div>
+			</west>
+			<center id="center" autoscroll="true" >
+				<div>
+					<include src="/cregistrar.zul"></include>
+				</div>
+			</center>
+			<east></east>
+			<south></south>
+		</borderlayout>
+	</window>
+</zk>

@@ -1,0 +1,41 @@
+<?page title="" contentType="text/html;charset=UTF-8"?>
+<zk>
+		<panel width="100%" border="none" title="Menu">
+
+			<panelchildren style="padding:5px;">
+				<vbox>
+					<toolbarbutton label="Inicio" />
+					<tree>
+						<treecols>
+							<treecol label="CAmpaña" />
+						</treecols>
+						<treechildren>
+							<treeitem>
+								<treerow label="asdasd">
+									<treecell label="asdasd" />
+								</treerow>
+							</treeitem>
+						</treechildren>
+
+					</tree>
+
+					<listbox draggable="true">
+						<listhead>
+							<listheader label="Campaña" sort="disable" />
+						</listhead>
+						<listitem label="Crear " />
+						<listitem label="Modificar" />
+						<listitem label="Agregar Candidatos" />
+						<listitem label="Modificar Candidatos" />
+					</listbox>
+					<toolbarbutton label="Perfil " />
+					<toolbarbutton label="Votar " />
+					<toolbarbutton label="Salir" />
+				</vbox>
+			</panelchildren>
+		</panel>
+		<navbar>
+			<navitem label="asda" />
+		</navbar>
+
+</zk>
