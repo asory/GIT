@@ -17,15 +17,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 
 import javax.swing.SwingConstants;
-import javax.swing.JDesktopPane;
-import java.awt.BorderLayout;
 import bean.Login3;
 
 @SuppressWarnings("serial")
 public class VistaMenuP extends JFrame {
 
-	private JPanel contentPane ;
-	JMenuItem mpCoop ;
+	private JPanel contentPane;
+	JMenuItem mpCoop;
 	JMenuItem mpRuta;
 	JMenuItem mpChofer;
 	JMenuItem mpSocio;
@@ -36,12 +34,10 @@ public class VistaMenuP extends JFrame {
 	JButton btnAsignar;
 	JButton btnSalir;
 	JButton btnEntrar;
-	Login3 login3_1;
-	
-	
+	Login3 login3;
+	static JMenu mnCargar;
 	// SINGLETON
 	private static VistaMenuP instancia;
-	
 
 	public static VistaMenuP getInstancia() {
 		if (instancia == null) {
@@ -51,8 +47,8 @@ public class VistaMenuP extends JFrame {
 	}
 
 	public VistaMenuP() {
-		Login3.main(null);		
-		
+		Login3.main(null);
+
 		try {
 			setTitle("TERPA");
 			setForeground(Color.WHITE);
@@ -145,16 +141,13 @@ public class VistaMenuP extends JFrame {
 			btnSalir.setBounds(360, 350, 89, 23);
 			panel.add(btnSalir);
 			
-			login3_1 = new Login3();
-			login3_1.setBounds(0, 0, 104, 18);
-			contentPane.add(login3_1);
-			login3_1.setAlwaysOnTop(true);
-			login3_1.setAutoRequestFocus(true);
-			login3_1.setModal(true);
-			login3_1.setUndecorated(false);
-			login3_1.setResizable(false);
-			
-			
+			login3 = new Login3();
+			login3.setUndecorated(false);
+			login3.setAutoRequestFocus(true);
+			login3.setAlwaysOnTop(true);
+			login3.setBounds(0, 0, 104, 18);
+			contentPane.add(login3);
+
 		} catch (Exception e) {
 			// add your error handling code here
 			e.printStackTrace();
@@ -222,29 +215,27 @@ public class VistaMenuP extends JFrame {
 	 * @return the login3_1
 	 */
 	public Login3 getLogin3_1() {
-		return login3_1;
+		return login3;
 	}
 
 	/**
 	 * @return the mnCargar
 	 */
-	public JMenu getMnCargar() {
+	public static JMenu getMnCargar() {
 		return mnCargar;
 	}
 
 	/**
-	 * @param login3_1 the login3_1 to set
+	 * @param login3_1
+	 *            the login3_1 to set
 	 */
 	public void setLogin3_1(Login3 login3_1) {
-		this.login3_1 = login3_1;
+		
+		this.login3 = login3;
 	}
 }
 
-
-
-/*Integrantes:
- * Rosa Piña C.I. 24.166.902
- * Edwin Lucena C.I. 21.256.626
- * Norielsy Freitez C.I. 20.668.899
- * Ana Ruiz  C.I. 21.296.217
+/*
+ * Integrantes: Rosa Piña C.I. 24.166.902 Edwin Lucena C.I. 21.256.626 Norielsy
+ * Freitez C.I. 20.668.899 Ana Ruiz C.I. 21.296.217
  */

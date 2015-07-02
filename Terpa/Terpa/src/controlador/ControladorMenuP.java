@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import proxy.ProxyLogin;
 import vista.*;
 import modelo.*;
 
@@ -23,7 +24,24 @@ public class ControladorMenuP implements ActionListener {
 		vistaMenuP.setVisible(true);
 		vistaMenuP.activarListener(this);
 
-	
+	}
+
+	// ///*************************** PROXY ***********************++
+	public void SeleccionMenu() {
+
+		try {
+
+			String nomb = vistaMenuP.getLogin3_1().getTextField().getText();
+			String pass = vistaMenuP.getLogin3_1().getPasswordField()
+					.toString();
+
+			Usuario usuari = new Usuario(nomb, pass);
+			ProxyLogin proxylogin = new ProxyLogin(usuari); // "El nombre y el usuario son correctos");
+			proxylogin.performOperations(0);
+
+		} catch (Exception e) {
+		}
+
 	}
 
 	@Override

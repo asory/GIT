@@ -1,7 +1,7 @@
 package proxy;
 
+
 public interface Login {
 	
-	public void performOperations();
-
+	public void performOperations(int tipo);
 }

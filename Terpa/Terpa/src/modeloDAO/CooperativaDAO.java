@@ -76,17 +76,16 @@ public class CooperativaDAO extends ConexionDAO {
 				+ cop.getRif() + "'and statusdb='" + a + "'";
 
 		ResultSet rsCooperativa = Conexion.consultar(tiraSQL);
-
+		
 		try {
-			if (rsCooperativa.next()) {
-				seEncuentra = true;
+			rsCooperativa.next();
+			seEncuentra= true;
 
-			}
-			seEncuentra = false;
+			
 		} catch (SQLException e) {
-						e.printStackTrace();
+			seEncuentra= false;
 		}
-
+	
 		return seEncuentra;
 	}
 

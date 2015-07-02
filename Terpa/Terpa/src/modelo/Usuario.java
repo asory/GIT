@@ -19,6 +19,11 @@ public class Usuario {
 		
 	}
 	
+	public Usuario(String nomb, String pass) {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public String getNombre() {
 		return nombre;
 	}

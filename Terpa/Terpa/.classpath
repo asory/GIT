@@ -6,7 +6,6 @@
 	<classpathentry kind="lib" path="lib/postgresql-9.0-801.jdbc3.jar"/>
 	<classpathentry kind="lib" path="lib/Conexion.jar"/>
 	<classpathentry kind="lib" path="lib/Login3.jar"/>
-	<classpathentry kind="lib" path="lib/Login2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
